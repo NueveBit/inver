@@ -9,10 +9,11 @@
         <%= headerInclude %>
         <% _.forEach(scripts, function(script) { %><script type="text/javascript" src="<%- script %>"></script><% }); %>
 
-        <title>inVer 1</title>
+        <title>inVer 2</title>
 
     </head>
     <body>
+        <p>Hola</p>
         <div ng-view></div>
     </body>
 </html>

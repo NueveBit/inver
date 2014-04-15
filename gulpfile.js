@@ -298,8 +298,10 @@ gulp.task("default", function() {
 
     var assetsSources = [
         "src/www/**/*.html",
-        "src/www/js/**.js",
-        "src/www/css/**.css"
+        "src/www/js/**/*.js",
+        "src/www/css/**/*.css",
+        "src/www/partials/**/*.html",
+        "src/www/less/**/*.less"
     ];
     gulp.watch(assetsSources, function(event) {
         server.notify(event);
