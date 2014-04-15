@@ -26,7 +26,6 @@
     "tiny-lr": "0.0.5"
   },
   "scripts": {
-    "postinstall": "bower install && gulp init",
-    "update": "bower update"
+    "postinstall": "bower install"
   }
 }

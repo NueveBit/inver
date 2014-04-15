@@ -17,9 +17,16 @@ Dependencias del sistema necesarias para el proyecto:
 
 La primera vez que se clona este repositorio, es necesario ejecutar los siguientes
 comandos, para descargar las dependencias necesarias para el proyecto (después 
-de ejecutarse, ejecuta automáticamente 'bower install && gulp init'):
+de ejecutarse, ejecuta automáticamente 'bower install'):
 
     npm install
+
+Una vez que se tengan las dependencias instaladas, es necesario
+ejecutar el siguiente comando UNA ÚNICA VEZ para instalar las plataformas
+y plugins de cordova que declaremos en gruntfile.js (también creará el archivo
+index.html para desarrollo):
+
+    gulp init
 
 Para construir el proyecto y generar los paquetes para las plataformas soportadas,
 ejecutar el siguiente comando:
