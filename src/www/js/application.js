@@ -14,6 +14,7 @@ nuevebit.inver.Application = {
         ]);
 
         this._mount();
+        console.log("changed");
         // bind controllers
         //this._addControllers();
     },

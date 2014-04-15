@@ -2,6 +2,10 @@
  * @author emerino
  * 
  * Tareas para el proyecto inVer.
+ * 
+ * Todas las tareas que aquí se definen son cross-platform, lo que quiere
+ * decir que pueden ejecutarse en cualquier Sistema Operativo soportado por las
+ * siguientes plataformas: NodeJS, Apache Cordova, Android SDK.
  */
 
 // sys deps
@@ -19,16 +23,14 @@ var template = require('gulp-template');
 var clean = require('gulp-clean');
 var rename = require("gulp-rename");
 var concat = require("gulp-concat");
-var watch = require("gulp-watch");
-var requirejs = require("gulp-requirejs");
 var uglify = require("gulp-uglify");
 var less = require('gulp-less');
 var minifycss = require("gulp-minify-css");
 
 // local config
 var config = {
-    srcDir: path.join(process.cwd(), "src"),
-    distDir: path.join(process.cwd(), "dist"),
+    srcDir: path.join(__dirname, "src"),
+    distDir: path.join(__dirname, "dist"),
     supportedPlatforms: [
         "android"
     ],
@@ -43,9 +45,42 @@ var config = {
 // cada vez que se ejecuta el script, se crea un nuevo device con la 
 // configuración necesaria para la API de cordova.
 var device = {
-    platforms: (typeof argv.platform !== "undefined")
+    platforms: (argv.platform)
             ? [argv.platform]
             : config.supportedPlatforms
+};
+
+// un servidor express con livereload para que inyecte los cambios directamente
+// al navegador, sin utilizar plugins extras
+var server = {
+    port: 4000,
+    livereloadPort: 35729,
+    basePath: path.join(config.srcDir, "www"),
+    _lr: null,
+    start: function() {
+        var express = require('express');
+        var app = express();
+        app.use(require('connect-livereload')());
+        app.use(express.static(this.basePath));
+        app.listen(this.port);
+    },
+    livereload: function() {
+        this._lr = require('tiny-lr')();
+        this._lr.listen(this.livereloadPort);
+    },
+    livestart: function() {
+        this.start();
+        this.livereload();
+    },
+    notify: function(event) {
+        var fileName = path.relative(this.basePath, event.path);
+
+        this._lr.changed({
+            body: {
+                files: [fileName]
+            }
+        });
+    }
 };
 
 /**
@@ -232,6 +267,14 @@ gulp.task("build", ["build:web", "copy:cordova-resources"], function() {
 });
 
 /**
+ * Inicia un servidor web en el puerto 4000
+ */
+gulp.task("serve", function() {
+    server.start();
+});
+
+
+/**
  * Debe ejecutarse en una terminal mientras se esté trabajando en el proyecto.
  * Se encarga de observar cambios en distintos archivos y al detectarlos
  * regenerar index.html de desarrollo.
@@ -239,17 +282,28 @@ gulp.task("build", ["build:web", "copy:cordova-resources"], function() {
  * Útil para actualizar los scripts js del proyecto y automáticamente regenerar
  * index.html para tomarlos en cuenta, así se evita la tarea manual repetitiva
  * de ejecutar el task build:template-dev.
+ * 
+ * Además, inicializa un servidor web y configura livereload para recargar
+ * el navegador automáticamente cuando se detecta un cambio en los archivos
+ * que observa gulp.
  */
 gulp.task("default", function() {
-    var sources = [
+    server.livestart();
+
+    var templateSource = [
         "src/www/js/scripts.json",
-        "src/www/templates/scripts-include-dev.tpl",
-        "src/www/templates/index.html.tpl"
+        "src/www/template/*.tpl"
     ];
-    gulp.src(sources)
-            .pipe(watch(function() {
-                gulp.start("build:template-dev");
-            }));
+    gulp.watch(templateSource, ["build:template-dev"]);
+
+    var assetsSources = [
+        "src/www/**/*.html",
+        "src/www/js/**.js",
+        "src/www/css/**.css"
+    ];
+    gulp.watch(assetsSources, function(event) {
+        server.notify(event);
+    });
 });
 
 // shortcuts

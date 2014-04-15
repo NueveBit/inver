@@ -9,7 +9,7 @@
         <%= headerInclude %>
         <% _.forEach(scripts, function(script) { %><script type="text/javascript" src="<%- script %>"></script><% }); %>
 
-        <title>inVer</title>
+        <title>inVer 1</title>
 
     </head>
     <body>
