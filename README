@@ -1,0 +1,34 @@
+inVer
+v0.1
+
+Esta aplicación ha sido desarrollada para el concurso TecnoCopa IVAI 2014.
+
+Dependencias del sistema necesarias para el proyecto:
+
+    * Apache Cordova 3.4+: https://cordova.apache.org/ 
+
+    * Android SDK: http://developer.android.com/sdk/index.html
+
+    * Node.JS 0.10+: http://nodejs.org/
+        Dependencias instalables a través de NPM:
+        - Gulp -> npm install -g gulp
+        - Bower -> npm install -g bower
+        - Karma-Cli (para pruebas) -> npm install -g karma-cli
+
+La primera vez que se clona este repositorio, es necesario ejecutar los siguientes
+comandos, para descargar las dependencias necesarias para el proyecto (después 
+de ejecutarse, ejecuta automáticamente 'bower install && gulp init'):
+
+    npm install
+
+Para construir el proyecto y generar los paquetes para las plataformas soportadas,
+ejecutar el siguiente comando:
+
+    gulp build
+
+
+Si se necesita una nueva dependencia js front-end, utilizar el siguiente comando:
+
+    bower -S install <nombre-paquete>
+    
+Una vez agregada, es necesario agregar la ruta en src/www/js/scripts.json.
