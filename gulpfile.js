@@ -216,7 +216,7 @@ gulp.task("emulate", function() {
 gulp.task("init", ["build:template-dev", "build:init-structure"], function() {
     process.env["PWD"] = config.srcDir;
 
-    cordova.raw.platform("add", supportedPlatforms).then(function() {
+    cordova.raw.platform("add", config.supportedPlatforms).then(function() {
         cordova.plugin("add", config.plugins); // agregar plugins después
     });
 });
