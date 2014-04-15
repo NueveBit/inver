@@ -1,0 +1,16 @@
+# dependencias grunt y gulp
+/node_modules/
+
+# directorios src que se generan automáticamente
+/src/platforms/
+/src/plugins/
+/src/merges/
+/src/hooks/
+/src/www/index.html
+/src/www/bower_components/
+
+# directorio destino
+/dist/
+
+# log files
+*.log

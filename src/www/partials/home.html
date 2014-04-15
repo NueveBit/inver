@@ -1,0 +1,6 @@
+Search: <input ng-model="query">
+<ul>
+    <li ng-repeat="phone in phones| filter:query">
+        {{phone.name}}
+    </li>
+</ul>
