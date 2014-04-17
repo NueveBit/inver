@@ -102,7 +102,7 @@ var server = {
  * Clean tasks 
  */
 gulp.task("clean", function() {
-    return gulp.src([config.distDir]).pipe(clean());
+    return gulp.src([config.distDir, "src/www/css/main.css"]).pipe(clean());
 });
 
 gulp.task("clean:init", function() {
@@ -115,7 +115,8 @@ gulp.task("clean:init", function() {
 });
 
 gulp.task("clean:bower", function() {
-    return gulp.src(["src/www/bower_components"]).pipe(clean());
+    return gulp.src(["src/www/bower_components"])
+            .pipe(clean());
 });
 
 gulp.task("clean:all", ["clean", "clean:init", "clean:bower"], function() {
