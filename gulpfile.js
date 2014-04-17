@@ -305,7 +305,11 @@ gulp.task("serve", function() {
  * el navegador automáticamente cuando se detecta un cambio en los archivos
  * que observa gulp.
  */
-gulp.task("default", ["build:template-dev", "build:less"], function() {
+gulp.task("default", ["build:less"], function() {
+    // genera el index.html para desarrollo
+    gulp.start("build:template-dev");
+    
+    // inicializa el servidor web y el servidor livereload
     server.livestart();
 
     gulp.watch([
