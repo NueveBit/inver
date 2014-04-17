@@ -9,6 +9,9 @@
 /src/www/index.html
 /src/www/bower_components/
 
+# main.css se genera al ejecutar gulp, no lo incluimos
+src/www/css/main.css
+
 # directorio destino
 /dist/
 

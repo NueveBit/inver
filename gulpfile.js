@@ -6,7 +6,18 @@
  * Todas las tareas que aquí se definen son cross-platform, lo que quiere
  * decir que pueden ejecutarse en cualquier Sistema Operativo soportado por las
  * siguientes plataformas: NodeJS, Apache Cordova, Android SDK.
+ * 
  */
+
+/**
+ * 
+ * CONSTANTES
+ */
+
+// Todos los fuentes CSS, tanto propios como de terceros.
+var CSS_SOURCES = [
+    "src/www/css/**/*.css"
+];
 
 // sys deps
 var fs = require('fs');
@@ -162,12 +173,19 @@ gulp.task("build:scripts", function() {
             .pipe(gulp.dest("dist/www/js"));
 });
 
-gulp.task("build:style", function() {
-    gulp.src("src/www/less/main.less")
-            .pipe(less().on("error", util.log))
+gulp.task("build:style", ["build:less"], function() {
+    gulp.src(CSS_SOURCES)
             .pipe(minifycss())
             .pipe(rename("inver.css"))
             .pipe(gulp.dest("dist/www/css"));
+});
+
+gulp.task("build:less", function() {
+    var source = path.join(config.srcDir, "www/less/main.less");
+    return gulp.src(source)
+            .pipe(less().on("error", util.log))
+            .pipe(rename("main.css"))
+            .pipe(gulp.dest("src/www/css"));
 });
 
 gulp.task("build:template-dev", function() {
@@ -287,23 +305,22 @@ gulp.task("serve", function() {
  * el navegador automáticamente cuando se detecta un cambio en los archivos
  * que observa gulp.
  */
-gulp.task("default", function() {
+gulp.task("default", ["build:template-dev", "build:less"], function() {
     server.livestart();
 
-    var templateSource = [
+    gulp.watch([
         "src/www/js/scripts.json",
         "src/www/template/*.tpl"
-    ];
-    gulp.watch(templateSource, ["build:template-dev"]);
+    ], ["build:template-dev"]);
 
-    var assetsSources = [
+    gulp.watch(["src/www/less/**/*.less"], ["build:less"]);
+
+    gulp.watch([
         "src/www/**/*.html",
         "src/www/js/**/*.js",
         "src/www/css/**/*.css",
-        "src/www/partials/**/*.html",
-        "src/www/less/**/*.less"
-    ];
-    gulp.watch(assetsSources, function(event) {
+        "src/www/partials/**/*.html"
+    ], function(event) {
         server.notify(event);
     });
 });
