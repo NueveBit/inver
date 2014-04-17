@@ -16,6 +16,10 @@
 
 // Todos los fuentes CSS, tanto propios como de terceros.
 var CSS_SOURCES = [
+    "src/www/bower_components/onsenui/build/css/font_awesome/**/*.css",
+    "src/www/bower_components/onsenui/build/css/polyfill/**/*.css",
+    "src/www/bower_components/onsenui/build/css/onsenui.css",
+    "src/www/bower_components/onsenui/build/css/topcoat-mobile-onsen-blue.css",
     "src/www/css/**/*.css"
 ];
 
@@ -128,7 +132,15 @@ gulp.task("copy:web-resources", ["build:scripts", "build:style"],
                     .pipe(gulp.dest("dist/")),
                     // copia recursos estáticos
                     gulp.src("**", {cwd: "src/www/img/"})
-                    .pipe(gulp.dest("dist/www/img/"))
+                    .pipe(gulp.dest("dist/www/img/")),
+                    // angular templates
+                    gulp.src("**", {cwd: "src/www/partials"})
+                    .pipe(gulp.dest("dist/www/partials")),
+                    // style resources (deberían copiarse en build:style?)
+                    gulp.src("**", {cwd: "src/www/bower_components/onsenui/build/css/font_awesome/fonts"})
+                    .pipe(gulp.dest("dist/www/fonts")),
+                    gulp.src("**", {cwd: "src/www/bower_components/onsenui/build/img"})
+                    .pipe(gulp.dest("dist/www/img"))
                     );
 
         });
@@ -169,14 +181,14 @@ gulp.task("build:scripts", function() {
 
     gulp.src(scripts)
             .pipe(concat("inver.js"))
-            .pipe(uglify())
+            //.pipe(uglify())
             .pipe(gulp.dest("dist/www/js"));
 });
 
 gulp.task("build:style", ["build:less"], function() {
     gulp.src(CSS_SOURCES)
+            .pipe(concat("inver.css"))
             .pipe(minifycss())
-            .pipe(rename("inver.css"))
             .pipe(gulp.dest("dist/www/css"));
 });
 
@@ -250,6 +262,11 @@ gulp.task("build:cordova", function() {
 gulp.task("emulate", function() {
     process.env["PWD"] = config.distDir;
     cordova.emulate(device);
+});
+
+gulp.task("run", function() {
+    process.env["PWD"] = config.distDir;
+    cordova.run(device);
 });
 
 /**
