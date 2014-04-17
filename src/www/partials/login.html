@@ -1,20 +1,26 @@
-<div class="page container-fluid"  ng-controller="LoginController">
-
-    <h2 class="center">inVer</h2>
-    <form class="" role="form">
-        <div class="form-group">
-            <!--i class="fa fa-user"></i-->
+<ons-navigator title="inVer">
+<ons-page>
+  <ons-scroller>
+    <div class="container"  ng-controller="LoginController">
+      <form class="form-horizontal">
+        <div class="form-group ">
+          <div class="col-md-6 col-md-offset-3">
             <ons-text-input placeholder="Nombre de usuario" ng-model="nombreUsuario" class="topcoat-text-input form-control"></ons-text-input>
+          </div>
         </div>
         <div class="form-group">
-            <input type="password" placeholder="Contraseña" ng-model="password" class="topcoat-text-input form-control">
-        </div>
-
-        <div class="center">
+          <div class="col-md-6 col-md-offset-3">
+            <input type="password" placeholder="Contraseña" ng-model="password" class="topcoat-text-input form-control ">
+            </div>
+          </div>
+          <div class="center">
             <ons-button ng-click="login(nombreUsuario, password)" class="topcoat-button boton">Iniciar sesión</ons-button>
-        </div>
-        <div class="center">
+          </div>
+          <div class="center">
             <ons-button ng-click="registro()" class="topcoat-button--quiet boton">Regístrate en inVer </ons-button>
-        </div>
-    </form>
-</div>
+          </div>
+        </form>
+      </div>
+    </ons-scroller>
+  </ons-page>
+</ons-navigator>

@@ -1,15 +1,10 @@
 <div class="page">
 	<ons-navigator 
 		title="inVer" 
-		left-button-icon="fa fa-bars" 
-		on-left-button-click="ons.navigator.pushPage(
-			'templates/listaSolicitudesPage.html')" 
 		right-button-icon="fa fa-gear" 
 		on-right-button-click="ons.navigator.pushPage(
-			'templates/perfilPage.html', { 
-				title: 'inVer - Mi perfil'
-			})"
-	>
-	<ons-button ng-click="ons.navigator.pushPage('templates/nuevaSolicitudPage.html',{title: 'inVer - Solicitud de Información'})" type="quiet">Nueva solicitud de Información </ons-button>
-</ons-navigator> 
+		'partials/perfil.html', { 
+		title: 'Perfil'})">
+		<ons-button ng-click="ons.navigator.pushPage('partials/solicitudInformacion.html', {title:'Solicitud de Información'})" type="quiet">Nueva solicitud de Información </ons-button>
+	</ons-navigator> 
 </div>

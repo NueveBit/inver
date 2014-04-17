@@ -1,0 +1,193 @@
+<ons-page>
+	<ons-scroller>
+		<div class="container" ng-controller="PerfilController">
+			<div>
+				<small class="required">Indica que el campo es obligatorio.</small>		
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>Información de cuenta</legend>
+					<div class="form-group">
+						<label for="nombreUsuario" class="col-sm-3 required"> Nombre de usuario:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="nombreUsuario" id="nombreUsuario" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-sm-3 required">
+							Contraseña:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input type="password" ng-model="password" id="password"f class="topcoat-text-input form-control"></ons-text-input>
+						</div>						
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-4">						
+							<ons-text-input type="password" ng-model="passwordConfirmada" class="topcoat-text-input form-control" placeholder="Confirmar contraseña"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="preguntaSecreta" class="col-sm-3 required">
+							Pregunta secreta:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">    
+								<option value="" ng-model="pregunta" id="preguntaSecreta" selected="selected" disabled>Seleccionar pregunta secreta</option>
+								<option value="Pregunta1">¿Lugar de nacimiento de mi Mamá?</option>
+								<option value="Pregunta2">¿Mi mejor amigo de la infancia?</option>
+								<option value="Pregunta3">¿Nombre de mi mascota?</option>
+								<option value="Pregunta4">¿Profesor favorito?</option>
+								<option value="Pregunta5">¿Personaje histórico favorito?</option>
+								<option value="Pregunta6">¿Ocupación de mi abuelo?</option>
+							</ons-select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="respuestaSecreta" class="col-sm-3 required">
+							Respuesta a pregunta secreta:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input type="password" ng-model="respuestaSecreta" id="respuestaSecreta" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Información personal</legend>
+					<div class="form-group">
+						<label for="pesonalidadJuridica" class="col-sm-3 required">
+							Personalidad jurídica:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">    
+								<option value="" ng-model="pesonalidadJuridica" id="pesonalidadJuridica" selected="selected" disabled>Seleccionar personalidad jurídica</option>
+								<option value="Física">Física</option>
+								<option value="Moral">Moral</option>
+							</ons-select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="nombre" class="col-sm-3 required">
+							Nombre (s):
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="nombre" id="nombre" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="apellidoPaterno" class="col-sm-3 required">
+							Apellido paterno:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="apellidoPaterno" id="apellidoPaterno" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="apellidoMaterno" class="col-sm-3 required">
+							Apellido Materno:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="apellidoMaterno" id="apellidoMaterno" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="fechaNacimiento" class="col-sm-3">
+							Fecha de nacimiento:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input type="date" ng-model="fechaNacimiento" id="fechaNacimiento" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email" class="col-sm-3 required">
+							Correo electrónico:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input type="email" ng-model="email" id="email" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="estado" class="col-sm-3 required">
+							Estado:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">    
+								<option value="" ng-model="estado" id="estado" selected="selected" disabled>Seleccionar estado</option>
+							</ons-select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="municipio" class="col-sm-3 required">
+							Municipio:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">    
+								<option value="" ng-model="municipio" id="municipio" selected="selected" disabled>Seleccionar municipio</option>
+							</ons-select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="codigoPostal" class="col-sm-3 required">
+							Código postal:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="codigoPostal" id="codigoPostal" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="colonia" class="col-sm-3 required">
+							Colonia:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="colonia" id="colonia" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="calle" class="col-sm-3 required">
+							Calle:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="calle" id="calle" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="numeroInterior" class="col-sm-3 required">
+							Numero interior:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="numeroInterior" id="numeroInterior" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="numeroExterior" class="col-sm-3">
+							Número exterior:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="numeroExterior" id="numeroExterior" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="telefono" class="col-sm-3">
+							Teléfono:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="telefono" id="telefono" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="fax" class="col-sm-3">
+							Fax:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="fax" id="fax" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="center">
+						<ons-button ng-click="aceptar()" class="topcoat-button boton">Crear cuenta</ons-button>
+						<ons-button ng-click="cancelar()" class="topcoat-button--quiet">Cancelar</ons-button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</ons-scroller>
+</ons-page>

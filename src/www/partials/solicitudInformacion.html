@@ -1,0 +1,86 @@
+<ons-page>
+	<ons-scroller>
+		<div class="container" ng-controller="SolicitudInformacionController">
+			<div>
+				<small class="required">Indica que el campo es obligatorio.</small>	
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>Datos solicitud</legend>
+					<div class="form-group">
+						<label for="tiposolicitud" class="col-sm-3 required">
+							Tipo de solicitud:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">    
+								<option value="" ng-model="tiposolicitud" id="tiposolicitud" selected="selected" disabled>Seleccionar tipo de solicitud</option>
+								<option value="Información pública">Información pública</option>
+				                <option value="Datos personales">Datos personales</option>
+				                <option value="Corrección de datos personales">Corrección de datos personales</option>
+							</ons-select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="tipoGestion" class="col-sm-3 required">
+							Tipo de gestión:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">  
+								<option value="" ng-model="tipoGestion" id="tipoGestion" selected="selected" disabled>Seleccionar tipo de gestión</option>
+								<option value="Acceso">Acceso</option>
+				                <option value="Actualización">Actualización</option>
+				                <option value="Rectificación">Rectificación</option>
+				                <option value="Supresión">Supresión</option>
+				                <option value="Mantener confidencialidad">Mantener confidencialidad</option>
+							</ons-select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="descripcionSolicitud" class="col-sm-3 required">Descripción de la solicitud:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-area ng-model="descripcionSolicitud" id="descripcionSolicitud" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>																		
+					<div class="form-group">
+						<label for="tipoSujeto" class="col-sm-3 required">
+							Tipo de sujeto obligado:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">  
+								<option value="" ng-model="tipoSujeto" id="tipoSujeto" selected="selected" disabled>Seleccionar tipo de sujeto obligado</option>
+								<option value="Asociaciones Politicas">Asociaciones Politicas</option>
+				                <option value="Ayuntamientos">Ayuntamientos</option>
+				                <option value="Entidades paraestatales">Entidades paraestatales</option>
+				                <option value="Entidades paramunicipales">Entidades paramunicipales</option>
+				                <option value="Organismos autónomos">Organismos autónomos</option>
+				                <option value="Organismos descentralizados">Organismos descentralizados</option>
+				                <option value="Partidos políticos">Partidos políticos</option>
+				                <option value="Poder ejecutivo - Administración Pública Centralizada">Poder ejecutivo - Administración Pública Centralizada</option>
+				                <option value="Poder judicial">Poder judicial</option>
+				                <option value="Poder legislativo">Poder legislativo</option>
+							</ons-select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="sujetoObligado" class="col-sm-3 required">
+							Sujeto obligado:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">    
+								<option value="" ng-model="sujetoObligado" id="sujetoObligado" selected="selected" disabled>Seleccionar sujeto obligado</option>
+								<option value="">1</option>
+							</ons-select>
+						</div>
+					</div>
+					
+					<div>
+						<ons-button ng-click="enviar()" class="topcoat-button boton">Enviar solicitud</ons-button>
+						<ons-button ng-click="cancelar()" class="topcoat-button--quiet">Cancelar</ons-button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</ons-scroller>
+</ons-page>
