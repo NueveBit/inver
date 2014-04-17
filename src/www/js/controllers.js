@@ -21,8 +21,18 @@ nuevebit.inver.controllers.MainController.prototype = {
         ]
     }
 };
+nuevebit.inver.controllers.LoginController = function($scope){
+	$scope.login= function(nombreUsuario, password){
+		$scope.ons.screen.presentPage("partials/home.html");
+	}
+    $scope.registro = function(){
+        $scope.ons.screen.presentPage("partials/registro.html");
+    }
+}
 
 // registrar controladores con angular
 var inverControllers = angular.module("inverControllers", []);
 inverControllers.controller("MainController",
         ["$scope", nuevebit.inver.controllers.MainController]);
+inverControllers.controller('LoginController', 
+	['$scope', nuevebit.inver.controllers.LoginController])

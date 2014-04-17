@@ -1,0 +1,87 @@
+<ons-navigator title="inVer - Registro">
+	<ons-page>
+		<ons-scroller>
+			<div class="container">
+					<span class="requerido"> Indica que el campo es obligatorio.</span>		
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>Información de cuenta</legend>
+						<div class="form-group">
+						<label for="nombreUsuario" class="col-sm-3 requerido"> Nombre de usuario:
+						</label>
+						<div class="col-sm-4">						
+							<ons-text-input ng-model="nombreUsuario" id="nombreUsuario" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-sm-3 requerido">
+							Contraseña:
+						</label>
+						<div class="col-sm-9">						
+							<ons-text-input type="password" ng-model="password" id="password" class="topcoat-text-input form-control"></ons-text-input>
+						</div>						
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-9">						
+							<ons-text-input type="password" ng-model="passwordConfirmada" class="topcoat-text-input form-control" placeholder="Confirmar contraseña"></ons-text-input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="preguntaSecreta" class="col-sm-3">
+							Pregunta secreta:
+						</label>
+						<div class="col-sm-9">						
+							<ons-select class="topcoat-text-input form-control">    
+			                    <option value="" ng-model="pregunta" id="preguntaSecreta" selected="selected" disabled>Seleccionar pregunta secreta</option>
+			                    <option value="Pregunta1">¿Lugar de nacimiento de mi Mamá?</option>
+			                    <option value="Pregunta2">¿Mi mejor amigo de la infancia?</option>
+			                    <option value="Pregunta3">¿Nombre de mi mascota?</option>
+			                    <option value="Pregunta4">¿Profesor favorito?</option>
+			                    <option value="Pregunta5">¿Personaje histórico favorito?</option>
+			                    <option value="Pregunta6">¿Ocupación de mi abuelo?</option>
+			                </ons-select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="respuestaSecreta" class="col-sm-3">
+							Respuesta a pregunta secreta:
+						</label>
+						<div class="col-sm-9">						
+							<ons-text-input type="password" ng-model="respuestaSecreta" id="respuestaSecreta" class="topcoat-text-input form-control"></ons-text-input>
+						</div>
+					</div>
+
+					</fieldset>
+					<fieldset>
+						<legend>Información personal</legend>
+						<div class="form-group">
+						<label for="pesonalidadJuridica" class="col-sm-3">
+							Personalidad jurídica:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control">    
+		                    <option value="" ng-model="pesonalidadJuridica" id="pesonalidadJuridica" selected="selected" disabled>Seleccionar personalidad jurídica</option>
+		                    <option value="Física">Física</option>
+		                    <option value="Moral">Moral</option>
+		                </ons-select>
+						</div>
+					</div>
+					</fieldset>
+				</form>
+			</div>
+		</ons-scroller>
+	</ons-page>
+</ons-navigator>
+
+<!--
+			<div class="form-group">
+				<label for="" class="col-sm-3">
+					<span class="red">* </span> 
+					:
+				</label>
+				<div class="col-sm-9">						
+					<ons-text-input ng-model="" id="" class="topcoat-text-input form-control"></ons-text-input>
+				</div>
+			</div>
+
+		-->

@@ -10,7 +10,8 @@ nuevebit.inver.Application = {
     _init: function() {
         this._angularApp = angular.module("inverApp", [
             "ngRoute",
-            "inverControllers"
+            "inverControllers",
+            "onsen.directives"
         ]);
 
         this._mount();
