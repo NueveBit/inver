@@ -18,16 +18,14 @@ nuevebit.inver.controllers.MainController.prototype = {
             {name: "uno"},
             {name: "dos"},
             {name: "tres"}
-        ]
+        ];
+        $rootScope.url = "";
     }
 };
 nuevebit.inver.controllers.LoginController = function($scope){
 	$scope.login= function(nombreUsuario, password){
-		$scope.ons.screen.presentPage("partials/home.html");
+		$scope.ons.navigator.pushPage("partials/home.html");
 	}
-    $scope.registro = function(){
-        $scope.ons.screen.presentPage("partials/registro.html");
-    }
 }
 nuevebit.inver.controllers.RegistroController = function($scope){
     $scope.aceptar = function(){

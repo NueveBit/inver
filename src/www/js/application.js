@@ -15,20 +15,21 @@ nuevebit.inver.Application = {
         ]);
 
         this._mount();
-        console.log("changed");
+        //console.log("changed");
         // bind controllers
         //this._addControllers();
     },
     _mount: function() {
         this._angularApp.config(['$routeProvider',
             function($routeProvider) {
-                $routeProvider.
-                        when('/home', {
-                            templateUrl: 'partials/home.html',
-                            controller: 'MainController'
+                $routeProvider.                        
+                        when('/login', {
+                            templateUrl: 'partials/login.html',
+                            //controller: 'MainController'
                         })
+
                         .otherwise({
-                            redirectTo: '/home'
+                            redirectTo: '/login'
                         });
             }]);
     },

@@ -1,9 +1,7 @@
-<ons-navigator title="Registro"
-	left-button-icon="fa fa-lg fa-angle-left" 
-	on-left-button-click="ons.navigator.pushPage(
-	'partials/login.html')" 
-	>
 	<ons-page>
+		<ons-navigator-toolbar     
+		title="Registro">      
+  </ons-navigator-toolbar>
 		<ons-scroller>
 			<div class="container" ng-controller="RegistroController">
 				<div>
@@ -188,12 +186,11 @@
 							</div>
 						</div>
 						<div>
-							<ons-button ng-click="aceptar()" class="topcoat-button boton">Crear cuenta</ons-button>
-							<ons-button ng-click="cancelar()" class="topcoat-button--quiet">Cancelar</ons-button>
+							<ons-button ng-click="ons.navigator.resetToPage('partials/home.html')" class="topcoat-button boton">Crear cuenta</ons-button>
+							<ons-button ng-click="ons.navigator.popPage()" class="topcoat-button--quiet">Cancelar</ons-button>
 						</div>
 					</fieldset>
 				</form>
 			</div>
 		</ons-scroller>
 	</ons-page>
-</ons-navigator>

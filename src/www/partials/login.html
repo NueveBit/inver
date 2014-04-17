@@ -1,5 +1,7 @@
-<ons-navigator title="inVer">
 <ons-page>
+  <ons-navigator-toolbar     
+    title="inVer">      
+  </ons-navigator-toolbar>
   <ons-scroller>
     <div class="container"  ng-controller="LoginController">
       <form class="form-horizontal">
@@ -13,14 +15,13 @@
             <input type="password" placeholder="Contraseña" ng-model="password" class="topcoat-text-input form-control ">
             </div>
           </div>
-          <div class="center">
+          <div class="form-group center">
             <ons-button ng-click="login(nombreUsuario, password)" class="topcoat-button boton">Iniciar sesión</ons-button>
           </div>
-          <div class="center">
-            <ons-button ng-click="registro()" class="topcoat-button--quiet boton">Regístrate en inVer </ons-button>
+          <div class="form-group center">
+            <ons-button ng-click="ons.navigator.pushPage('partials/registro.html')" class="topcoat-button--quiet">Regístrate en inVer </ons-button>
           </div>
         </form>
       </div>
     </ons-scroller>
   </ons-page>
-</ons-navigator>
