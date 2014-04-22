@@ -2,17 +2,19 @@
  * inVer Application Module 
  */
 
-var nuevebit = nuevebit || {};
-nuevebit.inver = nuevebit.inver || {}
+ var nuevebit = nuevebit || {};
+ nuevebit.inver = nuevebit.inver || {}
 
-nuevebit.inver.Application = {
+ nuevebit.inver.Application = {
     _angularApp: null,
     _init: function() {
         this._angularApp = angular.module("inverApp", [
             "ngRoute",
             "inverControllers",
-            "onsen.directives"
-        ]);
+            "inverServices",
+            "onsen.directives",
+            "LocalStorageModule"
+            ]);
 
         this._mount();
         //console.log("changed");
@@ -23,24 +25,43 @@ nuevebit.inver.Application = {
         this._angularApp.config(['$routeProvider',
             function($routeProvider) {
                 $routeProvider.                        
-                        when('/login', {
-                            templateUrl: 'partials/login.html',
-                            //controller: 'MainController'
-                        })
-
-                        .otherwise({
-                            redirectTo: '/login'
-                        });
+                when('/login', {
+                    templateUrl: 'partials/login.html',
+                    //controller: 'MainController'
+                }).
+                when('/contenedor', {
+                    templateUrl: 'partials/contenedor.html',
+                    //controller: 'MainController'
+                    }).
+                when('/home', {
+                    templateUrl: 'partials/home.html',
+                }).
+                when('/perfil', {
+                    templateUrl: 'partials/perfil.html',
+                    controller: 'PerfilController'
+                })
+                
+                .otherwise({
+                    redirectTo: '/login'
+                });
             }]);
-    },
-    _addControllers: function() {
-        var controllers = nuevebit.inver.controllers;
+        /*this._angularApp.run(function(Authentication, $rootScope, $location) {
+          $rootScope.$on('$routeChangeStart', function(evt) {
+            if(!Authentication.isAuthenticated){ 
+              $location.url("/login");
+          }
+          event.preventDefault();
+      });
+});*/
+},
+_addControllers: function() {
+    var controllers = nuevebit.inver.controllers;
 
-        this._angularApp.controller("MainController", ["$scope",
-            controllers.MainController]);
-    },
-    start: function() {
-        this._init();
+    this._angularApp.controller("MainController", ["$scope",
+        controllers.MainController]);
+},
+start: function() {
+    this._init();
 
         // cordova requiere la variable global 'app', aquí inicializamos
         if (typeof (app) !== "undefined") {

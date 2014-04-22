@@ -3,25 +3,29 @@
     title="inVer">      
   </ons-navigator-toolbar>
   <ons-scroller>
-    <div class="container"  ng-controller="LoginController">
-      <form class="form-horizontal">
+    <div class="container"  ng-controller="loginController">
+      <form class="form-horizontal" name="loginForm">
         <div class="form-group ">
           <div class="col-md-6 col-md-offset-3">
-            <ons-text-input placeholder="Nombre de usuario" ng-model="nombreUsuario" class="topcoat-text-input form-control"></ons-text-input>
+            <ons-text-input placeholder="Nombre de usuario" id="nombreUsuario" ng-model="usuario.nombreUsuario" class="topcoat-text-input form-control"></ons-text-input>
           </div>
         </div>
         <div class="form-group">
           <div class="col-md-6 col-md-offset-3">
-            <input type="password" placeholder="Contraseña" ng-model="password" class="topcoat-text-input form-control ">
-            </div>
-          </div>
-          <div class="form-group center">
-            <ons-button ng-click="login(nombreUsuario, password)" class="topcoat-button boton">Iniciar sesión</ons-button>
-          </div>
-          <div class="form-group center">
-            <ons-button ng-click="ons.navigator.pushPage('partials/registro.html')" class="topcoat-button--quiet">Regístrate en inVer </ons-button>
-          </div>
-        </form>
-      </div>
-    </ons-scroller>
-  </ons-page>
+            <input type="password" placeholder="Contraseña" id="password"
+             ng-model="usuario.password" class="topcoat-text-input form-control ">
+           </div>
+         </div>
+         <div class="form-group center">
+          <button type="submit" ng-click="iniciarSesion()" class="topcoat-button boton">Iniciar sesión</button>
+        </div>
+        <div class="form-group center">
+          <ons-button ng-click="ons.navigator.pushPage('partials/registro.html')" class="topcoat-button--quiet">Regístrate en inVer </ons-button>
+        </div>
+        <div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
+      </form>
+    </div>
+    <div>Pruebas</div>
+    <ons-button ng-click="ons.navigator.pushPage('partials/solicitudInformacion.html')" class="topcoat-button--quiet">Prueba Solicitud de Información</ons-button>
+  </ons-scroller>
+</ons-page>

@@ -1,0 +1,12 @@
+<ons-page ng-controller="menuController">
+	<ul class="topcoat-list">
+		<li ng-repeat="page in pagesList"
+			class="topcoat-list__item--tappable topcoat-list__item__line-height"
+			ng-class="{ 'isSelected': $index == selectedIndex }"
+			ng-click="itemClicked($index); ons.splitView.toggle();
+			ons.splitView.setMainPage(page.url)"> 
+			<i class="fa fa-{{page.icon}} fa-lg" style="color: #666"></i> &nbsp;
+			{{ page.nombre }} 
+		</li>
+	</ul>
+</ons-page>

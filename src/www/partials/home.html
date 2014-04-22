@@ -1,11 +1,8 @@
 <ons-page>
 	<ons-navigator-toolbar     
 		title="inVer" 
-		left-button-icon="fa fa-angle" 
-		right-button-icon="fa fa-gear" 
-		on-right-button-click="ons.navigator.pushPage(
-		'partials/perfil.html', { 
-		title: 'Perfil'})">      
-  </ons-navigator-toolbar>
-  <ons-button ng-click="ons.navigator.pushPage('partials/solicitudInformacion.html', {title:'Solicitud de Información'})" type="quiet">Nueva solicitud de Información </ons-button>
+		left-button-icon="fa fa-bars" 
+		on-left-button-click="ons.splitView.toggle()">      
+  	</ons-navigator-toolbar>
+  	<ons-button ng-click="ons.navigator.pushPage('partials/solicitudInformacion.html', {title:'Solicitud de Información'})" type="quiet">Nueva solicitud de Información </ons-button>
 </ons-page>

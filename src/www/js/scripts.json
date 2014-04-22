@@ -3,7 +3,9 @@
     "bower_components/angular-route/angular-route.js",
     "bower_components/angular-resource/angular-resource.js",
     "bower_components/angular-animate/angular-animate.js",
+    "bower_components/angular-local-storage/angular-local-storage.js",
     "bower_components/onsenui/build/js/onsenui.js",
     "js/controllers.js",
-    "js/application.js"
+    "js/application.js",
+    "js/services.js"
 ]
