@@ -137,7 +137,7 @@ gulp.task("copy:web-resources", ["build:scripts", "build:style"],
                     // angular templates
                     gulp.src("**", {cwd: "src/www/partials"})
                     .pipe(gulp.dest("dist/www/partials")),
-                    // style resources (deberían copiarse en build:style?)
+                    // onsenui resources 
                     gulp.src("**", {cwd: "src/www/bower_components/onsenui/build/css/font_awesome/fonts"})
                     .pipe(gulp.dest("dist/www/fonts")),
                     gulp.src("**", {cwd: "src/www/bower_components/onsenui/build/img"})
