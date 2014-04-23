@@ -1,0 +1,11 @@
+En este apartado se encuentra una implementación simulada
+del sistema infoMEX, a través del cual se conectara nuestra
+aplicación móvil para obtener la información que necesite
+sobre las solicitudes de información y sujetos obligados.
+
+Se realizó un esquema de BD para organizar la información que
+se encuentra en los datasets disponibles en la página del
+IVAI. A través de un script, se automatizó la captura de
+los datos de indicadores que se encontraba en formato
+excel para almacenarlos en la base de datos y contar con
+información precargada para realizar pruebas.
