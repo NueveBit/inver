@@ -24,6 +24,7 @@ create table Indicador (
     observaciones blob null,
     fechaSupervision date null,
     idSujetoObligado bigint(20) not null,
+    tipo varchar(255) not null,
 
     constraint fk_Indicador_idSujetoObligado foreign key (idSujetoObligado)
         references SujetoObligado(id)
@@ -39,6 +40,64 @@ create table SolicitudRecibida (
 
     constraint fk_SolicitudRecibida_idSujetoObligado foreign key (idSujetoObligado)
         references SujetoObligado(id)
+        ON DELETE CASCADE,
+    primary key(id)
+) engine=INNODB collate utf8_unicode_ci;
+
+create table Usuario(
+    id bigint(20) auto_increment,
+    username varchar(255) not null,
+    password varchar(255) not null,
+    preguntaSecreta varchar(255) not null,
+    respuestaSecreta varchar(255) not null,
+    personalidadJuridica varchar(255) not null,
+    nombre varchar(255) not null,
+    apellidoPaterno varchar(255) not null,
+    apellidoMaterno varchar(255) not null,
+    fechaNacimiento date null,
+    email varchar(255) not null,
+    estado varchar(255) not null,
+    municipio varchar(255) not null,
+    codigoPostal varchar(255) not null,
+    colonia varchar(255) not null,
+    calle varchar(255) not null,
+    numeroExterior varchar(255) not null,
+    numeroInterior varchar(255) null,
+    telefono varchar(20) null,
+    fax varchar(20) null,
+
+    primary key(id)
+) engine=INNODB collate utf8_unicode_ci;
+
+create table SolicitudInformacion(
+    id bigint(20) not null auto_increment,
+    tipo varchar (255) not null,
+    tipoGestion varchar (255) null,
+    descripcion blob not null,
+    status varchar(255) not null,
+    formaNotificacion varchar(255) not null,
+    fechaInicio date not null,
+    fechaNotificacion date null,
+    fechaLimite date not null,
+    idSujetoObligado bigint(20) not null,
+    idUsuario bigint(20) not null,
+
+    constraint fk_SolicitudInformacion_idSujetoObligado foreign key (idSujetoObligado)
+        references SujetoObligado(id)
+        ON DELETE CASCADE,
+    constraint fk_SolicitudInformacion_idUsuario foreign key (idUsuario)
+        references Usuario(id)
+        ON DELETE CASCADE,
+    primary key(id)
+) engine=INNODB collate utf8_unicode_ci;
+
+create table RecursoRevision(
+    id bigint(20) not null,
+    actoRecurrido blob not null,
+    idSolicitudInformacion bigint(20) not null,
+
+    constraint fk_RecursoRevision_idSolicitudInformacion foreign key (idSolicitudInformacion)
+        references SolicitudInformacion(id)
         ON DELETE CASCADE,
     primary key(id)
 ) engine=INNODB collate utf8_unicode_ci;

@@ -10,6 +10,7 @@
     _init: function() {
         this._angularApp = angular.module("inverApp", [
             "ngRoute",
+            'ngResource',
             "inverControllers",
             "inverServices",
             "onsen.directives",
