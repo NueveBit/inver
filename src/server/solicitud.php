@@ -8,7 +8,8 @@ if (isset($request["tipo"]) && isset($request["tipoGestion"])){
 header("Content-Type: application/json; charset=utf-8");
 
 $db = mysqli_connect("localhost", "blanca", "blanca123", "inver") or die("No hay conexión");
-mysqli_set_charset("utf8");
+mysqli_set_charset($db, "utf8");
+
 getTiposSolicitud($db);
 
 function getTiposSolicitud($db){
@@ -18,7 +19,7 @@ function getTiposSolicitud($db){
 	$stmt->execute();
 	$stmt->bind_result($id, $nombre);
 	while ($stmt->fetch()) {
-		$datos[] = array($id, $nombre);
+		$datos[] = array("id" => $id, "nombre" => $nombre);
 	}
 	var_dump($datos);
 	$tiposSujetos = json_encode($datos);

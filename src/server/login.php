@@ -4,7 +4,7 @@ session_start();
 header("Content-Type: application/json; charset=utf-8");
 
 $db = mysqli_connect("localhost", "blanca", "blanca123", "inver") or die("No hay conexión");
-mysqli_set_charset("utf8");
+mysqli_set_charset($db, "utf8");
 
 if (isset($_GET["username"]) && isset($_GET["password"])) {
 	$resultado = login($_GET["username"], $_GET["password"], $db);
