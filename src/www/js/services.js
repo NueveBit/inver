@@ -61,12 +61,7 @@ nuevebit.inver.services.ServicioSolicitud = function($http) {
                 method: "POST",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             });
-        }
-    };
-};
-
-nuevebit.inver.services.ServicioDatosSolicitud = function($http){
-    return {
+        },
         getTiposSolicitud: function() {
             return [
             {id: 1, tipo: "Información Pública"},
@@ -77,46 +72,24 @@ nuevebit.inver.services.ServicioDatosSolicitud = function($http){
         getTiposGestion: function() {
             return ["Acceso", "Actualización", "Rectificación", "Supresión", "Mantener confidencialidad"];
         },
-        getTiposSujetosObligados: function(){
-            /*return[
-            {id:1, tipoSujeto: "Asociaciones Políticas"},
-            {id:2, tipoSujeto: "Ayuntamientos"},
-            {id:3, tipoSujeto: "Entidades Paraestatales"},
-            {id:4, tipoSujeto: "Entidades Paramunicipales"},
-            {id:5, tipoSujeto: "Organismos Autónomos"},
-            {id:6, tipoSujeto: "Organismos Descentralizados"},
-            {id:7, tipoSujeto: "Partidos Políticos"},
-            {id:8, tipoSujeto: "Poder Ejecutivo - Administración Pública Centralizada"},
-            {id:9, tipoSujeto: "Poder Judicial"},
-            {id:10, tipoSujeto: "Poder Legislativo"}
-            ] */
+        getTiposSujetosObligados: function(){ 
             return $http({
                 url:URL_SERVICE+"/solicitud.php",
-                method:"POST"
-            });           
+                method:"POST",
+                params:{"tiposSujetos":true}
+            });
         }
-    }
-};
-/*
-nuevebit.inver.services.ServicioLogin = function($rootScope, $resource){
-    var service = {
-        login: function(usuario){
-            //este debera usar $resource
-        }
-    }
-    return service;
-}
-*/
+    };
 
-nuevebit.inver.services.Authentication = function(){
- return{
-  isAuthenticated: false,
-  user:null
-}
+    nuevebit.inver.services.Authentication = function(){
+       return{
+          isAuthenticated: false,
+          user:null
+      }
+  }
 }
 var inverServices = angular.module("inverServices", ['ngResource']);
 inverServices.factory('servicioRegistro',['$rootScope', nuevebit.inver.services.ServicioRegistro]);
 inverServices.factory('servicioSolicitud',['$http', nuevebit.inver.services.ServicioSolicitud]);
-inverServices.factory('servicioDatosSolicitud',['$http', nuevebit.inver.services.ServicioDatosSolicitud]);
 inverServices.factory('Authentication',[nuevebit.inver.services.Authentication]);
 inverServices.factory('servicioUsuario', ['$http', nuevebit.inver.services.ServicioUsuario]);

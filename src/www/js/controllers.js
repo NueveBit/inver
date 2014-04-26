@@ -70,21 +70,28 @@ nuevebit.inver.controllers.PerfilController = function($scope, servicioRegistro)
     }
 };
 
-nuevebit.inver.controllers.SolicitudInformacionController = function($scope, $rootScope, servicioSolicitud, servicioDatosSolicitud){
+nuevebit.inver.controllers.SolicitudInformacionController = function($scope, $rootScope, servicioSolicitud){
     var ayuntamientos= [];
-    $scope.tiposSolicitud = servicioDatosSolicitud.getTiposSolicitud();
+    $scope.tiposSolicitud = servicioSolicitud.getTiposSolicitud();
     $scope.tiposGestion = [];
-    $scope.tiposSujetosObligados = servicioDatosSolicitud.getTiposSujetosObligados();
-    $scope.sujetosObligados = [];
-    $scope.solicitudChanged = function(solicitud) {
-       if (solicitud.tipoSolicitud.id != 1) {
-        $scope.tiposGestion = servicioDatosSolicitud.getTiposGestion();    
-    } else {
-        $scope.tiposGestion = []
-    }
-};  
-$scope.tipoSujetoChanged = function(solicitud) {
-        //$scope.sujetosObligados = servicioDatosSolicitud.getSujetosObligados(solicitud.tipoSujeto.id);
+    $scope.tiposSujetosObligados = servicioSolicitud.getTiposSujetosObligados()
+            .success(function(data){
+                data.tiposSujetos;
+            }).error(function(error){
+                $scope.mensaje = "Error inesperado";
+            });
+   $scope.sujetosObligados = [];
+
+   $scope.solicitudChanged = function(solicitud) {
+        if (solicitud.tipoSolicitud.id != 1) {
+            $scope.tiposGestion = servicioSolicitud.getTiposGestion();    
+        } else {
+            $scope.tiposGestion = []
+        }
+    };  
+    $scope.tipoSujetoChanged = function(solicitud) {
+
+
     };    
     $scope.enviarSolicitud = function(solicitud){
         servicioSolicitud.guardarSolicitud(solicitud);
@@ -120,7 +127,7 @@ inverControllers.controller('registroController',
     ['$scope', '$location','servicioRegistro',nuevebit.inver.controllers.RegistroController]);
 //solicitudInformacionController
 inverControllers.controller('solicitudInformacionController', 
-    ['$scope', '$rootScope', 'servicioSolicitud', 'servicioDatosSolicitud', nuevebit.inver.controllers.SolicitudInformacionController]);
+    ['$scope', '$rootScope', 'servicioSolicitud', nuevebit.inver.controllers.SolicitudInformacionController]);
 //perfilController
 inverControllers.controller('perfilController', 
     ['$scope', 'servicioRegistro',nuevebit.inver.controllers.PerfilController]);

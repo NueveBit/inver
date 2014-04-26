@@ -41,4 +41,4 @@ La configuración anterior es necesaria para que pueda utilizarse la API REST
 adecuadamente, ya que es necesario mod_rewrite para utilizar "pretty urls",
 además de eliminar la dependencia a PHP, ya que así se puede utilizar con
 cualquier plataforma de backend siempre y cuando los recursos (urls) se
-encuentren en el formato esperado (e.g. /solicitudes/pendietes).
+encuentren en el formato esperado (e.g. /solicitudes/pendientes).

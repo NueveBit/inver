@@ -1,30 +1,33 @@
 <?php
-/*
-$request = json_decode(file_get_contents("php://input"), true);
-var_dump($request);
-if (isset($request["tipo"]) && isset($request["tipoGestion"])){
+
+$data = json_decode(file_get_contents("php://input"), true);
+if (isset($data["tipo"]) && isset($data["tipoGestion"])){
 	echo "Bien muy bien";
-}*/
+}
 header("Content-Type: application/json; charset=utf-8");
 
 $db = require_once dirname(__FILE__) . "/db.php";
 
 mysqli_set_charset($db, "utf8");
 
-getTiposSolicitud($db);
+$resultado = getTiposSolicitudes($db);
+	echo json_encode($resultado);
 
-function getTiposSolicitud($db){
-	$datos = array();
+if (isset($data["tiposSujetos"])){
+	$resultado = getTiposSolicitudes($db);
+	echo json_encode($resultado);
+}
+
+function getTiposSolicitudes($db){
+	$tiposSujetos = array();
 	$sql=  "select id, nombre from TipoSujeto";
 	$stmt= $db->prepare($sql);
 	$stmt->execute();
 	$stmt->bind_result($id, $nombre);
 	while ($stmt->fetch()) {
-		$datos[] = array("id" => $id, "nombre" => $nombre);
+		$tiposSujetos[] = array("id" => $id, "tipoSujeto" => $nombre);
 	}
-	var_dump($datos);
-	$tiposSujetos = json_encode($datos);
-	echo $tiposSujetos;
+	return $tiposSujetos;
 }
 
 
