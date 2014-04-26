@@ -1,3 +1,5 @@
+** Simulación plataforma infoMEX
+
 En este apartado se encuentra una implementación simulada
 del sistema infoMEX, a través del cual se conectara nuestra
 aplicación móvil para obtener la información que necesite
@@ -9,3 +11,34 @@ IVAI. A través de un script, se automatizó la captura de
 los datos de indicadores que se encontraba en formato
 excel para almacenarlos en la base de datos y contar con
 información precargada para realizar pruebas.
+
+Para utilizar la plataforma, se necesita lo siguiente:
+MySQL 5+ (importar db.sql y especificar los datos de conexión en db.php)
+PHP 5+
+    Módulos PHP: mysqli
+Apache Web Server 2+ 
+    Módulo apache: mod_rewrite
+
+Una vez que se tengan las dependencias, es necesario crear un VirtualHost de
+Apache Web Server que apunte a este directorio. Ejemplo de VirtualHost:
+
+ <VirtualHost *:8080>
+    ServerName inver.inet
+    ErrorLog "/var/log/httpd/inver.inet-error_log"
+    CustomLog "/var/log/httpd/inver.inet-access_log" common
+    DocumentRoot "/home/emerino/public_html/inver/src/server"
+  
+    <Directory "/home/emerino/public_html/inver/src/server">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+    </Directory>
+  </VirtualHost>
+
+Después de configurar el VirtualHost, agregar el dominio "inver.inet"
+al archivo hosts del sistema (e.g. /etc/hosts).
+
+La configuración anterior es necesaria para que pueda utilizarse la API REST
+adecuadamente, ya que es necesario mod_rewrite para utilizar "pretty urls",
+además de eliminar la dependencia a PHP, ya que así se puede utilizar con
+cualquier plataforma de backend siempre y cuando los recursos (urls) se
+encuentren en el formato esperado (e.g. /solicitudes/pendietes).
