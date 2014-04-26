@@ -7,7 +7,8 @@ if (isset($request["tipo"]) && isset($request["tipoGestion"])){
 }*/
 header("Content-Type: application/json; charset=utf-8");
 
-$db = mysqli_connect("localhost", "blanca", "blanca123", "inver") or die("No hay conexión");
+$db = require_once dirname(__FILE__) . "/db.php";
+
 mysqli_set_charset($db, "utf8");
 
 getTiposSolicitud($db);
