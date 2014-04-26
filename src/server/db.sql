@@ -47,6 +47,70 @@ INSERT INTO `Indicador` VALUES (1,'A1',5,NULL,'0000-00-00',1,'ACCESO'),(2,'A2',5
 UNLOCK TABLES;
 
 --
+-- Table structure for table `RecursoRevision`
+--
+
+DROP TABLE IF EXISTS `RecursoRevision`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `RecursoRevision` (
+  `id` bigint(20) NOT NULL,
+  `actoRecurrido` blob NOT NULL,
+  `idSolicitudInformacion` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_RecursoRevision_idSolicitudInformacion` (`idSolicitudInformacion`),
+  CONSTRAINT `fk_RecursoRevision_idSolicitudInformacion` FOREIGN KEY (`idSolicitudInformacion`) REFERENCES `SolicitudInformacion` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `RecursoRevision`
+--
+
+LOCK TABLES `RecursoRevision` WRITE;
+/*!40000 ALTER TABLE `RecursoRevision` DISABLE KEYS */;
+/*!40000 ALTER TABLE `RecursoRevision` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SolicitudInformacion`
+--
+
+DROP TABLE IF EXISTS `SolicitudInformacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SolicitudInformacion` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `tipoGestion` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `descripcion` blob NOT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `formaNotificacion` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fechaInicio` date NOT NULL,
+  `fechaNotificacion` date DEFAULT NULL,
+  `fechaLimite` date NOT NULL,
+  `fechaCompletado` date DEFAULT NULL,
+  `idSujetoObligado` bigint(20) NOT NULL,
+  `idUsuario` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_SolicitudInformacion_idSujetoObligado` (`idSujetoObligado`),
+  KEY `fk_SolicitudInformacion_idUsuario` (`idUsuario`),
+  CONSTRAINT `fk_SolicitudInformacion_idSujetoObligado` FOREIGN KEY (`idSujetoObligado`) REFERENCES `SujetoObligado` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_SolicitudInformacion_idUsuario` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SolicitudInformacion`
+--
+
+LOCK TABLES `SolicitudInformacion` WRITE;
+/*!40000 ALTER TABLE `SolicitudInformacion` DISABLE KEYS */;
+INSERT INTO `SolicitudInformacion` VALUES (1,'Información Pública',NULL,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et condimentum leo. Pellentesque faucibus sem sit amet porta pellentesque. Fusce dolor orci, ullamcorper non pulvinar ullamcorper, porta vitae nulla. Integer sed ligula tellus. Morbi vitae pellentesque leo. Mauris sit amet interdum nisi. Nam et facilisis ipsum. Sed molestie est lacinia orci malesuada commodo. Quisque consectetur felis et urna vulputate, et laoreet nulla sodales. Aenean blandit iaculis volutpat. Mauris luctus neque vitae mi egestas tempus. Aenean erat quam, vehicula id tincidunt eget, semper id ante. Pellentesque fringilla ultricies quam, ac tempor ante sodales a. ','En proceso','Consulta vía Infomex - Sin costo','2014-04-24',NULL,'2014-05-04',NULL,1,1),(2,'Datos Personales','Actualización','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et condimentum leo. Pellentesque faucibus sem sit amet porta pellentesque. Fusce dolor orci, ullamcorper non pulvinar ullamcorper, porta vitae nulla. Integer sed ligula tellus. Morbi vitae pellentesque leo. Mauris sit amet interdum nisi. Nam et facilisis ipsum. Sed molestie est lacinia orci malesuada commodo. Quisque consectetur felis et urna vulputate, et laoreet nulla sodales. Aenean blandit iaculis volutpat. Mauris luctus neque vitae mi egestas tempus. Aenean erat quam, vehicula id tincidunt eget, semper id ante. Pellentesque fringilla ultricies quam, ac tempor ante sodales a. ','Terminada','Consulta física o directamente - Sin costo','2014-04-14',NULL,'2014-04-24','2014-04-21',92,1);
+/*!40000 ALTER TABLE `SolicitudInformacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `SolicitudRecibida`
 --
 
@@ -124,6 +188,48 @@ LOCK TABLES `TipoSujeto` WRITE;
 INSERT INTO `TipoSujeto` VALUES (1,'Asociaciones Políticas'),(2,'Ayuntamientos'),(3,'Entidades Paraestatales'),(4,'Entidades Paramunicipales'),(5,'Organismos Autónomos'),(6,'Organismos Descentralizados'),(7,'Partidos Políticos'),(8,'Poder Ejecutivo - Administración Pública Centralizada'),(9,'Poder Judicial'),(10,'Poder Legislativo');
 /*!40000 ALTER TABLE `TipoSujeto` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `Usuario`
+--
+
+DROP TABLE IF EXISTS `Usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Usuario` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `preguntaSecreta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `respuestaSecreta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `personalidadJuridica` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `apellidoPaterno` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `apellidoMaterno` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fechaNacimiento` date DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `municipio` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `codigoPostal` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `colonia` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `calle` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `numeroExterior` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `numeroInterior` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `telefono` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fax` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Usuario`
+--
+
+LOCK TABLES `Usuario` WRITE;
+/*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
+INSERT INTO `Usuario` VALUES (1,'sagiblank','jbna','¿Nombre de mi mascota?','Loky','Física','Blanca','Díaz','Contreras','1990-09-16','sagiblank@gmail.com','Veracruz','Xalapa','91119','La Lagunilla','Priv. Unión','111',NULL,'2288249356',NULL);
+/*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -134,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-23 21:35:22
+-- Dump completed on 2014-04-26 15:23:59

@@ -1,6 +1,7 @@
 var nuevebit = nuevebit || {};
 nuevebit.inver = nuevebit.inver || {};
 nuevebit.inver.services = {};
+var URL_SERVICE = "http://localhost:8080/~bdiaz/inver/src/server";
 
 nuevebit.inver.services.ServicioRegistro = function($rootScope) {
 	var servicio = {
@@ -17,31 +18,55 @@ nuevebit.inver.services.ServicioRegistro = function($rootScope) {
             servicio.usuario = angular.fromJson(localStorage.servicioRegistro);
         }
     }
-    $rootScope.$on("guardarUsuario", servicio.guardarUsuario);
-    $rootScope.$on("obtenerPerfil", servicio.obtenerPerfil);
-    $rootScope.$on("restaurarEstadoLocalStorage", servicio.restaurarEstadoLocalStorage);
     return servicio;
 }
 
-nuevebit.inver.services.ServicioSolicitud = function($rootScope) {
-    $rootScope.numeroSolicitud = 1;
-    $rootScope.estadoSolicitud = "Pendiente";
-    var servicio = {
-        solicitud:{},        
-        guardarSolicitud: function(solicitud){
-            solicitud.numeroSolicitud = $rootScope.numeroSolicitud;
-            solicitud.estadoSolicitud = $rootScope.estadoSolicitud;
-            servicio.solicitud = solicitud;
-            localStorage.servicioSolicitud = angular.toJson(servicio.solicitud);
-            $rootScope.numeroSolicitud++;
+nuevebit.inver.services.ServicioUsuario = function($http){
+    return{
+        isLoggedIn: function(){
+            return $http({
+                url: URL_SERVICE+"/login.php",
+                params: {isLoggedIn:true},
+                method: "GET"
+            });
+        },
+
+        login: function(usuario){
+            return $http({
+                url: URL_SERVICE+"/login.php",
+                params: {username:usuario.nombreUsuario, password: usuario.password},
+                method: "GET"
+            });
+        },
+
+        logout: function(){
+            return $http({
+                url: URL_SERVICE+"/login.php",
+                method:"POST"
+            });
         }
-    }
-    $rootScope.$on("guardarSolicitud", servicio.guardarSolicitud);
-    return servicio;
+    };
+}
+
+nuevebit.inver.services.ServicioSolicitud = function($http) {
+    return{
+        guardarSolicitud: function(solicitud){
+            var datos={
+                "tipo":solicitud.tipoSolicitud["tipo"], 
+                "tipoGestion":solicitud.tipoGestion
+            }
+            return $http({
+                url: URL_SERVICE+"/solicitud.php",
+                data: datos,
+                method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            });
+        }
+    };
 };
 
-nuevebit.inver.services.ServicioDatosSolicitud = function($rootScope, $resource){
-    var service = {
+nuevebit.inver.services.ServicioDatosSolicitud = function($http){
+    return {
         getTiposSolicitud: function() {
             return [
             {id: 1, tipo: "Información Pública"},
@@ -52,12 +77,8 @@ nuevebit.inver.services.ServicioDatosSolicitud = function($rootScope, $resource)
         getTiposGestion: function() {
             return ["Acceso", "Actualización", "Rectificación", "Supresión", "Mantener confidencialidad"];
         },
-        getFormasNotificaciones: function() {
-            return ["Consulta física o directamente - Sin costo", "Consulta vía Infomex - Sin costo", "Copia certificada - Con costo", "Copia simple - Con costo", "Otro medio"];
-        },
-
         getTiposSujetosObligados: function(){
-            return[
+            /*return[
             {id:1, tipoSujeto: "Asociaciones Políticas"},
             {id:2, tipoSujeto: "Ayuntamientos"},
             {id:3, tipoSujeto: "Entidades Paraestatales"},
@@ -68,16 +89,19 @@ nuevebit.inver.services.ServicioDatosSolicitud = function($rootScope, $resource)
             {id:8, tipoSujeto: "Poder Ejecutivo - Administración Pública Centralizada"},
             {id:9, tipoSujeto: "Poder Judicial"},
             {id:10, tipoSujeto: "Poder Legislativo"}
-            ]            
+            ] */
+            return $http({
+                url:URL_SERVICE+"/solicitud.php",
+                method:"POST"
+            });           
         }
     }
-    return service;
 };
 /*
 nuevebit.inver.services.ServicioLogin = function($rootScope, $resource){
     var service = {
         login: function(usuario){
-        //este debera usar $resource
+            //este debera usar $resource
         }
     }
     return service;
@@ -85,14 +109,14 @@ nuevebit.inver.services.ServicioLogin = function($rootScope, $resource){
 */
 
 nuevebit.inver.services.Authentication = function(){
-   return{
-      isAuthenticated: false,
-      user:null
-  }
+ return{
+  isAuthenticated: false,
+  user:null
+}
 }
 var inverServices = angular.module("inverServices", ['ngResource']);
 inverServices.factory('servicioRegistro',['$rootScope', nuevebit.inver.services.ServicioRegistro]);
-inverServices.factory('servicioSolicitud',['$rootScope', nuevebit.inver.services.ServicioSolicitud]);
-inverServices.factory('servicioDatosSolicitud',['$rootScope', '$resource', nuevebit.inver.services.ServicioDatosSolicitud]);
-//inverServices.factory('servicioLogin',['$rootScope', '$resource', nuevebit.inver.services.servicioLogin]);
+inverServices.factory('servicioSolicitud',['$http', nuevebit.inver.services.ServicioSolicitud]);
+inverServices.factory('servicioDatosSolicitud',['$http', nuevebit.inver.services.ServicioDatosSolicitud]);
 inverServices.factory('Authentication',[nuevebit.inver.services.Authentication]);
+inverServices.factory('servicioUsuario', ['$http', nuevebit.inver.services.ServicioUsuario]);

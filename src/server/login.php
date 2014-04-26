@@ -1,18 +1,8 @@
 <?php
-//ini_set("display_errors", 0);
 
 session_start();
 header("Content-Type: application/json; charset=utf-8");
-/*
-if (array_key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
-	echo "Existe";
-}
-else{
-	echo "No existe";
-	$_SESSION["loggedIn"]=true;
-}
-exit(0);
-*/
+
 $db = mysqli_connect("localhost", "blanca", "blanca123", "inver") or die("No hay conexión");
 mysqli_set_charset("utf8");
 

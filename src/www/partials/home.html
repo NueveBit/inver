@@ -2,7 +2,8 @@
 	<ons-navigator-toolbar     
 		title="inVer" 
 		left-button-icon="fa fa-bars" 
-		on-left-button-click="ons.splitView.toggle()">      
+		on-left-button-click="ons.splitView.toggle()">		   
   	</ons-navigator-toolbar>
   	<ons-button ng-click="ons.navigator.pushPage('partials/solicitudInformacion.html', {title:'Solicitud de Información'})" type="quiet">Nueva solicitud de Información </ons-button>
+  	<ons-button ng-controller="loginController" ng-click="logout()" type="quiet">Cerrar sesión</ons-button>
 </ons-page>

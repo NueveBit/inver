@@ -1,79 +1,87 @@
 <ons-navigator-toolbar     
-title="Solicitud de información">      
+	title="Solicitud de información">      
 </ons-navigator-toolbar>
 <ons-scroller>
-<div class="container" ng-controller="solicitudInformacionController">
-	<div>
-		<small class="required">Indica que el campo es obligatorio.</small>	
-	</div>
-	<form class="form-horizontal">
-		<fieldset>
-			<legend>Datos solicitud</legend>
-			<div class="form-group">
-				<label for="tipoSolicitud" class="col-sm-3 required">
-					Tipo de solicitud:
-				</label>
-				<div class="col-sm-4">						
-					<ons-select class="topcoat-text-input form-control" ng-model="solicitud.tipoSolicitud" ng-options="s.tipo for s in tiposSolicitud" ng-change="solicitudChanged(solicitud)">
-					<option value="">Seleccionar tipo de solicitud</option>
-				</ons-select>				
-			</div>
+	<div class="container" ng-controller="solicitudInformacionController">
+		<div>
+			<small class="required">Indica que el campo es obligatorio.</small>	
 		</div>
-		<div class="form-group">
-			<label for="tipoGestion" class="col-sm-3 required">
-				Tipo de gestión:
-			</label>
-			<div class="col-sm-4">						
-				<ons-select class="topcoat-text-input form-control" ng-model="solicitud.tipoGestion" id="tipoGestion" ng-options="t for t in tiposGestion">  
-				<option value="" disabled>Seleccionar tipo de gestión</option>
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Datos solicitud</legend>
+				<div class="form-group">
+					<label for="tipoSolicitud" class="col-sm-3 required">
+						Tipo de solicitud:
+					</label>
+					<div class="col-sm-4">						
+						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.tipoSolicitud" ng-options="s.tipo for s in tiposSolicitud" ng-change="solicitudChanged(solicitud)">
+							<option value="">Seleccionar tipo de solicitud</option>
+						</ons-select>				
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="tipoGestion" class="col-sm-3 required">
+						Tipo de gestión:
+					</label>
+					<div class="col-sm-4">						
+						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.tipoGestion" id="tipoGestion" ng-options="t for t in tiposGestion">  
+							<option value="" disabled>Seleccionar tipo de gestión</option>
 
-			</ons-select>
-		</div>
-	</div>
+						</ons-select>
+					</div>
+				</div>
 
-	<div class="form-group">
-		<label for="descripcionSolicitud" class="col-sm-3 required">Descripción de la solicitud:
-		</label>
-		<div class="col-sm-4">						
-			<ons-text-area ng-model="solicitud.descripcionSolicitud" id="descripcionSolicitud" class="topcoat-text-input form-control"></ons-text-input>
-		</div>
-	</div>																		
-	<div class="form-group">
-		<label for="tipoSujeto" class="col-sm-3 required">
-			Tipo de sujeto obligado:
-		</label>
-		<div class="col-sm-4">						
-			<ons-select class="topcoat-text-input form-control"  ng-model="solicitud.tipoSujeto" id="tipoSujeto" ng-options="s.tipoSujeto for s in tiposSujetosObligados" ng-change="tipoSujetoChanged(solicitud)">  		
-			<option value="" disabled>Seleccionar tipo de sujeto obligado</option>
-		</ons-select>		
-	</div>
-</div>
-<div class="form-group">
-	<label for="sujetoObligado" class="col-sm-3 required">
-		Sujeto obligado:
-	</label>
-	<div class="col-sm-4">						
-		<ons-select class="topcoat-text-input form-control" ng-model="solicitud.sujetoObligado" id="sujetoObligado" ng-options="o for o in sujetosObligados">    
-			<option value="" disabled>Seleccionar sujeto obligado</option>
-		</ons-select>
-	</div>
-</div>
-<div class="form-group">
-			<label for="tipoGestion" class="col-sm-3 required">
-				Forma de notificación:
-			</label>
-			<div class="col-sm-4">						
-				<ons-select class="topcoat-text-input form-control" ng-model="solicitud.formaNotificacion" id="tipoGestion" ng-options="t for t in formasNotificaciones">  
-				<option value="" disabled>Seleccionar forma de notificación</option>
+				<div class="form-group">
+					<label for="descripcionSolicitud" class="col-sm-3 required">Descripción de la solicitud:
+					</label>
+					<div class="col-sm-4">						
+						<ons-text-area ng-model="solicitud.descripcionSolicitud" id="descripcionSolicitud" class="topcoat-text-input form-control"></ons-text-input>
+					</div>
+				</div>																		
+				<div class="form-group">
+					<label for="tipoSujeto" class="col-sm-3 required">
+						Tipo de sujeto obligado:
+					</label>
+					<div class="col-sm-4">						
+						<ons-select class="topcoat-text-input form-control"  ng-model="solicitud.tipoSujeto" id="tipoSujeto" ng-options="s.tipoSujeto for s in tiposSujetosObligados" ng-change="tipoSujetoChanged(solicitud)">  		
+							<option value="" disabled>Seleccionar tipo de sujeto obligado</option>
+						</ons-select>		
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="sujetoObligado" class="col-sm-3 required">
+						Sujeto obligado:
+					</label>
+					<div class="col-sm-4">						
+						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.sujetoObligado" id="sujetoObligado" ng-options="o for o in sujetosObligados">    
+							<option value="" disabled>Seleccionar sujeto obligado</option>
+						</ons-select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="tipoGestion" class="col-sm-3 required">
+						Forma de notificación:
+					</label>
+					<div class="col-sm-4">						
+						<ons-radio-button ng-model="solicitud.formaNotificacion" value="Consulta física o directamente - Sin costo" right-label="Consulta física o directamente - Sin costo" name="solicitud.formaNotificacion">
+						</ons-radio-button>
+						<ons-radio-button ng-model="solicitud.formaNotificacion" value="Consulta vía Infomex - Sin costo" right-label="Consulta vía Infomex - Sin costo" name="solicitud.formaNotificacion">
+						</ons-radio-button>
+						<ons-radio-button ng-model="solicitud.formaNotificacion" value="Copia certificada - Con costo" right-label="Copia certificada - Con costo" name="solicitud.formaNotificacion">
+						</ons-radio-button>
+						<ons-radio-button ng-model="solicitud.formaNotificacion" value="Copia simple - Con costo" right-label="Copia simple - Con costo" name="solicitud.formaNotificacion">
+						</ons-radio-button>
+						<ons-radio-button ng-model="solicitud.otro" value="Otro medio" right-label="Otro medio" name="solicitud.formaNotificacion">
+						</ons-radio-button>		
+						<ons-text-input ng-show="solicitud.otro" id="formaNotificacion" ng-model="solicitud.otraFormaNotificacion" class="topcoat-text-input form-control" ></ons-text-input>
+					</div>
 
-			</ons-select>
-		</div>
-</div>
-<div>
-	<ons-button type="submit" ng-click="enviarSolicitud(solicitud)" class="topcoat-button boton">Enviar solicitud</ons-button>
-	<ons-button ng-click="ons.navigator.resetToPage('partials/contenedor.html')" class="topcoat-button--quiet">Cancelar</ons-button>
-</div>
-</fieldset>
-</form>
-</div>
+				</div>
+				<div>
+					<ons-button type="submit" ng-click="enviarSolicitud(solicitud)" class="topcoat-button boton">Enviar solicitud</ons-button>
+					<ons-button ng-click="ons.navigator.resetToPage('partials/contenedor.html')" class="topcoat-button--quiet">Cancelar</ons-button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 </ons-scroller>

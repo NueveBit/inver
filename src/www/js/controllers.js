@@ -22,13 +22,11 @@ nuevebit.inver.controllers.MainController.prototype = {
         ];
     }
 };
-nuevebit.inver.controllers.LoginController = function($scope, $http){
+nuevebit.inver.controllers.LoginController = function($scope, servicioUsuario ){
     $scope.iniciarSesion= function(usuario){
-        $http.get(URL_SERVICE + "/service/login.php?username="
-            + $scope.usuario.nombreUsuario + "&password=" + $scope.usuario.password)
-        
+        servicioUsuario.login(usuario)
         .success(function(data){
-            if (data.isLoggedIn) {
+            if (data.loggedIn) {
                 $scope.ons.navigator.resetToPage('partials/contenedor.html');
             }
             else{
@@ -36,19 +34,18 @@ nuevebit.inver.controllers.LoginController = function($scope, $http){
             }
         })
         .error(function(error, status, headers, config){
-          $scope.mensaje ="Error inesperado"; 
+            $scope.mensaje ="Error inesperado";
         });
-
     }
-    /*$scope.iniciarSesion= function(usuario) {
-        var user = servicioRegistro.obtenerPerfil();
-        if ($scope.usuario.nombreUsuario === user.nombreUsuario && $scope.usuario.password === user.password) {          
-          $scope.ons.navigator.resetToPage('partials/contenedor.html');
-      } else {
-          $scope.mensaje = "Nombre de usuario o contraseña invalido";
-      };
-      $scope.usuario = null
-  }*/
+    $scope.logout=function(){
+        servicioUsuario.logout()
+        .success(function(data){
+            $scope.ons.navigator.resetToPage('partials/login.html');
+        })
+        .error(function(){
+            $scope.mensaje ="Error inesperado"; 
+        });
+    }
 };
 nuevebit.inver.controllers.RegistroController = function($scope, $location, servicioRegistro){    
     $scope.crearCuenta = function(usuario){
@@ -79,16 +76,15 @@ nuevebit.inver.controllers.SolicitudInformacionController = function($scope, $ro
     $scope.tiposGestion = [];
     $scope.tiposSujetosObligados = servicioDatosSolicitud.getTiposSujetosObligados();
     $scope.sujetosObligados = [];
-    $scope.formasNotificaciones = servicioDatosSolicitud.getFormasNotificaciones();
     $scope.solicitudChanged = function(solicitud) {
-      /*  if (solicitud.tipoSolicitud.id == 2) {
-          //  $scope.tiposGestion = servicioDatosSolicitud.getTiposGestion();    
-        } else {
-            $scope.tiposGestion = []
-        }*/
-    };  
-    $scope.tipoSujetoChanged = function(solicitud) {
-        $scope.sujetosObligados = servicioDatosSolicitud.getSujetosObligados(solicitud.tipoSujeto.id);
+       if (solicitud.tipoSolicitud.id != 1) {
+        $scope.tiposGestion = servicioDatosSolicitud.getTiposGestion();    
+    } else {
+        $scope.tiposGestion = []
+    }
+};  
+$scope.tipoSujetoChanged = function(solicitud) {
+        //$scope.sujetosObligados = servicioDatosSolicitud.getSujetosObligados(solicitud.tipoSujeto.id);
     };    
     $scope.enviarSolicitud = function(solicitud){
         servicioSolicitud.guardarSolicitud(solicitud);
@@ -118,7 +114,7 @@ inverControllers.controller("MainController",
     ["$scope", nuevebit.inver.controllers.MainController]);
 //loginController
 inverControllers.controller('loginController', 
-	['$scope', '$http', nuevebit.inver.controllers.LoginController]);
+	['$scope', 'servicioUsuario', nuevebit.inver.controllers.LoginController]);
 //registroController
 inverControllers.controller('registroController', 
     ['$scope', '$location','servicioRegistro',nuevebit.inver.controllers.RegistroController]);
