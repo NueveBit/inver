@@ -1,7 +1,6 @@
 var nuevebit = nuevebit || {};
 nuevebit.inver = nuevebit.inver || {};
-nuevebit.inver.services = {};
-var URL_SERVICE = "http://localhost:8080/~emerino/inver/src/server";
+nuevebit.inver.services = nuevebit.inver.services || {};
 
 nuevebit.inver.services.ServicioRegistro = function($rootScope) {
     var servicio = {
@@ -104,8 +103,14 @@ nuevebit.inver.services.Authentication = function() {
 };
 
 var inverServices = angular.module("inverServices", ['ngResource']);
+
 inverServices.factory('servicioRegistro', ['$rootScope', nuevebit.inver.services.ServicioRegistro]);
 inverServices.factory('servicioSolicitud', ['$http', "$resource", nuevebit.inver.services.ServicioSolicitud]);
 inverServices.factory('Authentication', [nuevebit.inver.services.Authentication]);
 inverServices.factory('servicioUsuario', ['$http', nuevebit.inver.services.ServicioUsuario]);
 inverServices.factory("solicitudService", ["$resource", nuevebit.inver.services.SolicitudService]);
+
+// servicio de estadísticas
+inverServices.factory("estadisticasService", [
+    "$http", 
+    nuevebit.inver.services.EstadisticasService]);

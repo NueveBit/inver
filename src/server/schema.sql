@@ -24,11 +24,15 @@ create table Indicador (
     observaciones blob null,
     fechaSupervision date null,
     idSujetoObligado bigint(20) not null,
-    tipo varchar(255) not null,
+    tipoId smallint not null,
 
     constraint fk_Indicador_idSujetoObligado foreign key (idSujetoObligado)
         references SujetoObligado(id)
         ON DELETE CASCADE,
+    constraint fk_Indicador_tipoId foreign key (tipoId)
+        references TipoIndicador(id)
+        ON DELETE CASCADE,
+
     primary key(id)
 ) engine=INNODB collate utf8_unicode_ci;
 
@@ -99,5 +103,11 @@ create table RecursoRevision(
     constraint fk_RecursoRevision_idSolicitudInformacion foreign key (idSolicitudInformacion)
         references SolicitudInformacion(id)
         ON DELETE CASCADE,
+    primary key(id)
+) engine=INNODB collate utf8_unicode_ci;
+
+create table TipoIndicador (
+    id smallint not null,
+    nombre varchar(255) not null,
     primary key(id)
 ) engine=INNODB collate utf8_unicode_ci;

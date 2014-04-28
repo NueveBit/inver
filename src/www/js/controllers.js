@@ -6,22 +6,8 @@
 
 var nuevebit = nuevebit || {};
 nuevebit.inver = nuevebit.inver || {};
-nuevebit.inver.controllers = {};
-var URL_SERVICE = "http://localhost:8080/~bdiaz";
+nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
-nuevebit.inver.controllers.MainController = function($scope) {
-    this._init($scope);
-};
-
-nuevebit.inver.controllers.MainController.prototype = {
-    _init: function($scope) {
-        $scope.phones = [
-            {name: "uno"},
-            {name: "dos"},
-            {name: "tres"}
-        ];
-    }
-};
 nuevebit.inver.controllers.LoginController = function($scope, servicioUsuario) {
     $scope.iniciarSesion = function(usuario) {
         servicioUsuario.login(usuario)
@@ -103,7 +89,8 @@ nuevebit.inver.controllers.MenuController = function($scope) {
     $scope.pagesList = [
         {"nombre": "Home", "url": "partials/home.html", "icon": "home", "isSelected": ""},
         {"nombre": "Perfil", "url": "partials/perfil.html", "icon": "gear", "isSelected": ""},
-        {"nombre": "Solicitud de información", "url": "partials/solicitudInformacion.html", "icon": "book", "isSelected": ""}
+        {"nombre": "Solicitud de información", "url": "partials/solicitudInformacion.html", "icon": "book", "isSelected": ""},
+        {nombre: "Estadísticas", url: "partials/estadisticas.html", "icon": "book", "isSelected": ""}
     ]
     $scope.selectedIndex = 0;
     $scope.itemClicked = function($index) {
@@ -130,3 +117,10 @@ inverControllers.controller('perfilController',
 //menucontroller
 inverControllers.controller('menuController',
         ['$scope', nuevebit.inver.controllers.MenuController]);
+
+// estadísticas controllers
+inverControllers.controller("estadisticasController", [
+    "$scope",
+    "estadisticasService",
+    nuevebit.inver.controllers.EstadisticasController
+]);

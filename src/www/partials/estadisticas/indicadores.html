@@ -1,0 +1,22 @@
+<ons-page>
+    <ons-navigator-toolbar     
+        title="Estadísticas" 
+        left-button-icon="fa fa-bars" 
+        on-left-button-click="ons.splitView.toggle()">		   
+    </ons-navigator-toolbar>
+    <div class="container"  ng-controller="estadisticasController">
+        <ons-tabbar>
+            <ons-tabbar-item 
+                icon="tasks"
+                label="Resumen"
+                page="partials/estadisticas/resumen.html"
+                active="true"></ons-tabbar-item> 
+            <ons-tabbar-item 
+                icon="bar-chart-o"
+                label="Indicadores"      
+                page="partials/estadisticas/indicadores.html"></ons-tabbar-item> 
+        </ons-tabbar>
+
+
+    </div>
+</ons-page>
