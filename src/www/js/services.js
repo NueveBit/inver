@@ -1,5 +1,6 @@
 var nuevebit = nuevebit || {};
 nuevebit.inver = nuevebit.inver || {};
+
 nuevebit.inver.services = nuevebit.inver.services || {};
 
 nuevebit.inver.services.ServicioRegistro = function($rootScope) {
@@ -45,9 +46,17 @@ nuevebit.inver.services.ServicioUsuario = function($http) {
     };
 }
 
-nuevebit.inver.services.SolicitudService = function($resource) {
+nuevebit.inver.services.SolicitudService = function($resource, $routeParams) {
     return $resource(URL_SERVICE + "/solicitud.php", {}, {
-        getTiposSujetos: {method: "GET", params: {tiposSujetos: true}, isArray: true}
+        getTiposSujetos: {method: "GET", params: {tiposSujetos: true}, isArray: true},
+        getSujetosObligados: {method:"GET", params: {idTipoSujeto:$routeParams.idTipoSujeto}, isArray:true},
+        guardarSolicitud: {method:"POST", 
+            params:{solicitud:$routeParams.solicitud}, 
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}, isArray:false},
+        getListaByFecha: {method:"GET", params:{fechaInicio:$routeParams.fechaInicio, idUsuario: $routeParams.idUsuario}, isArray:true},
+        getListaByStatus: {method:"GET", params:{status:$routeParams.estado, idUsuario: $routeParams.idUsuario}, isArray:true},
+        getListaByTipo: {method:"GET", params:{tipo:$routeParams.tipo, idUsuario: $routeParams.idUsuario}, isArray:true},
+        getDetalle:{method:"GET", params:{idSolicitud:$routeParams.idSolicitud, idUsuario: $routeParams.idUsuario}, isArray:true}
     });
 };
 
@@ -70,7 +79,7 @@ nuevebit.inver.services.ServicioSolicitud = function($http, $resource) {
             return [
                 {id: 1, tipo: "Información Pública"},
                 {id: 2, tipo: "Datos Personales"},
-                {id: 3, tipo: "Corrección de Datos Personales"}
+                {id: 3, tipo: "Corrección de Datos Personales"} 
             ];
         },
         getTiposGestion: function() {
@@ -81,15 +90,6 @@ nuevebit.inver.services.ServicioSolicitud = function($http, $resource) {
                 "Supresión",
                 "Mantener confidencialidad"
             ];
-        },
-        getTiposSujetosObligados: function() {
-            return $resource({
-            });
-            return $http({
-                url: URL_SERVICE + "/solicitud.php",
-                method: "POST",
-                params: {"tiposSujetos": true}
-            });
         }
     };
 
@@ -108,8 +108,7 @@ inverServices.factory('servicioRegistro', ['$rootScope', nuevebit.inver.services
 inverServices.factory('servicioSolicitud', ['$http', "$resource", nuevebit.inver.services.ServicioSolicitud]);
 inverServices.factory('Authentication', [nuevebit.inver.services.Authentication]);
 inverServices.factory('servicioUsuario', ['$http', nuevebit.inver.services.ServicioUsuario]);
-inverServices.factory("solicitudService", ["$resource", nuevebit.inver.services.SolicitudService]);
-
+inverServices.factory("solicitudService", ["$resource", "$routeParams", nuevebit.inver.services.SolicitudService]);
 // servicio de estadísticas
 inverServices.factory("estadisticasService", [
     "$http", 

@@ -40,20 +40,11 @@
                 when('/perfil', {
                     templateUrl: 'partials/perfil.html',
                     controller: 'PerfilController'
-                })
-                
+                })                
                 .otherwise({
                     redirectTo: '/login'
                 });
             }]);
-        /*this._angularApp.run(function(Authentication, $rootScope, $location) {
-          $rootScope.$on('$routeChangeStart', function(evt) {
-            if(!Authentication.isAuthenticated){ 
-              $location.url("/login");
-          }
-          event.preventDefault();
-      });
-});*/
 },
 _addControllers: function() {
     var controllers = nuevebit.inver.controllers;

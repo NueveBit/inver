@@ -1,0 +1,68 @@
+<ons-navigator-toolbar     
+title="Lista solicitudes">      
+</ons-navigator-toolbar>
+<ons-scroller>
+<div class="container" ng-controller="listaSolicitudesController">
+	<div>
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Buscar solicitud</legend>
+				<div class="form-group">
+					<label for="fecha" class="col-sm-3">
+						Fecha de inicio:
+					</label>
+					<div class="col-sm-4">						
+						<ons-text-input type="date" ng-model="dato.fecha" id="fecha" ng-change="buscar(dato)" class="topcoat-text-input form-control"></ons-text-input>
+					</div>
+				</div>
+					<div class="form-group">
+						<label for="estado" class="col-sm-3">
+							Estado de la solicitud:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control" ng-model="dato.estado" id="estado" ng-options="e for e in tiposEstados" ng-change="buscar(dato)">
+								<option value="">Seleccionar...</option>
+							</ons-select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="tipo" class="col-sm-3">
+							Tipo de solicitud:
+						</label>
+						<div class="col-sm-4">						
+							<ons-select class="topcoat-text-input form-control" ng-model="dato.tipo" id="tipo" ng-options="t.tipo for t in tiposSolicitud" ng-change="buscar(dato)">
+								<option value="">Seleccionar...</option>
+							</ons-select>
+						</div>
+					</div>
+					<div>
+						<div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
+					</div>
+				</fieldset>
+
+			</form>
+			<span id="tipoBusqueda" class="alert alert-success" data-ng-show="tipoBusqueda" data-ng-bind="tipoBusqueda"></span>
+			<table>
+				<thead>
+					<tr>
+						<th custom-sort order="'solicitud.id'" sort="sort">Folio&nbsp;</th>
+						<th custom-sort order="'solicitud.tipo'" sort="sort">Tipo&nbsp;</th>
+						<th  custom-sort order="'solicitud.fechaInicio'" sort="sort">Fecha inicio&nbsp;</th>
+						<th custom-sort order="'solicitud.status'" sort="sort">Estado&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="solicitud in solicitudes">
+						<td>
+							<a href ng-click="verDetalle(solicitud)">{{solicitud.id}}</a>	
+						</td>
+						<td>{{solicitud.tipo}}</td>
+						<td>{{solicitud.fechaInicio}}</td>
+						<td>{{solicitud.status}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</ons-scroller>

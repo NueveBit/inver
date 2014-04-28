@@ -10,11 +10,11 @@
 			<fieldset>
 				<legend>Datos solicitud</legend>
 				<div class="form-group">
-					<label for="tipoSolicitud" class="col-sm-3 required">
+					<label for="tipo" class="col-sm-3 required">
 						Tipo de solicitud:
 					</label>
 					<div class="col-sm-4">						
-						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.tipoSolicitud" ng-options="s.tipo for s in tiposSolicitud" ng-change="solicitudChanged(solicitud)">
+						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.tipo" ng-options="s.tipo for s in tiposSolicitud" ng-change="solicitudChanged(solicitud)">
 							<option value="">Seleccionar tipo de solicitud</option>
 						</ons-select>				
 					</div>
@@ -32,10 +32,10 @@
 				</div>
 
 				<div class="form-group">
-					<label for="descripcionSolicitud" class="col-sm-3 required">Descripción de la solicitud:
+					<label for="descripcion" class="col-sm-3 required">Descripción de la solicitud:
 					</label>
 					<div class="col-sm-4">						
-						<ons-text-area ng-model="solicitud.descripcionSolicitud" id="descripcionSolicitud" class="topcoat-text-input form-control"></ons-text-input>
+						<ons-text-area ng-model="solicitud.descripcion" id="descripcion" class="topcoat-text-input form-control"></ons-text-input>
 					</div>
 				</div>																		
 				<div class="form-group">
@@ -53,7 +53,7 @@
 						Sujeto obligado:
 					</label>
 					<div class="col-sm-4">						
-						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.sujetoObligado" id="sujetoObligado" ng-options="o for o in sujetosObligados">    
+						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.sujetoObligado" id="sujetoObligado" ng-options="o.sujeto for o in sujetosObligados">    
 							<option value="" disabled>Seleccionar sujeto obligado</option>
 						</ons-select>
 					</div>
@@ -71,12 +71,13 @@
 						</ons-radio-button>
 						<ons-radio-button ng-model="solicitud.formaNotificacion" value="Copia simple - Con costo" right-label="Copia simple - Con costo" name="solicitud.formaNotificacion">
 						</ons-radio-button>
-						<ons-radio-button ng-model="solicitud.otro" value="Otro medio" right-label="Otro medio" name="solicitud.formaNotificacion">
+						<ons-radio-button ng-model="solicitud.otraFormaNotificacion" value="Otro medio" right-label="Otro medio" name="solicitud.formaNotificacion">
 						</ons-radio-button>		
-						<ons-text-input ng-show="solicitud.otro" id="formaNotificacion" ng-model="solicitud.otraFormaNotificacion" class="topcoat-text-input form-control" ></ons-text-input>
+						<ons-text-input ng-show="solicitud.otraFormaNotificacion" id="formaNotificacion" ng-model="solicitud.otraFormaNotificacion" class="topcoat-text-input form-control" ></ons-text-input>
 					</div>
 
 				</div>
+				<div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
 				<div>
 					<ons-button type="submit" ng-click="enviarSolicitud(solicitud)" class="topcoat-button boton">Enviar solicitud</ons-button>
 					<ons-button ng-click="ons.navigator.resetToPage('partials/contenedor.html')" class="topcoat-button--quiet">Cancelar</ons-button>
