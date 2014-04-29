@@ -6,4 +6,9 @@ RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteRule ^log/([\w]+)/([\w]+)/?$ login.php?username=$1&password=$2 [QSA,L]
+RewriteRule ^sujetos/tipos/?$ solicitud.php?tiposSujetos=true [QSA,L]
+RewriteRule ^sujetos/([0-9]+)/?$ solicitud.php?idTipoSujeto=$1 [QSA,L]
+RewriteRule ^indicadores/tipos/?$ estadisticas.php?tiposIndicadores=true [QSA,L]
+RewriteRule ^indicadores/?$ estadisticas.php [QSA,L]
+RewriteRule ^solicitudes/([0-9]+)/?$ solicitud.php?idSolicitud=$1 [QSA,L]
+RewriteRule ^solicitudes/?$ solicitud.php [QSA,L]

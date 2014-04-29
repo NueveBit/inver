@@ -131,56 +131,72 @@ nuevebit.inver.services.ServicioSolicitud = function($http, $resource) {
         },
         getTiposSolicitud: function() {
             return [
-            {id: 1, tipo: "Información Pública"},
-            {id: 2, tipo: "Datos Personales"},
-            {id: 3, tipo: "Corrección de Datos Personales"} 
+                {id: 1, tipo: "Información Pública"},
+                {id: 2, tipo: "Datos Personales"},
+                {id: 3, tipo: "Corrección de Datos Personales"}
             ];
         },
         getTiposGestion: function() {
             return [
-            "Acceso",
-            "Actualización",
-            "Rectificación",
-            "Supresión",
-            "Mantener confidencialidad"
+                "Acceso",
+                "Actualización",
+                "Rectificación",
+                "Supresión",
+                "Mantener confidencialidad"
             ];
         }
     };
 
 };
 
-var inverServices = angular.module("inverServices", ['ngResource']);
+nuevebit.inver.services.Authentication = function() {
+    return{
+        isAuthenticated: false,
+        user: null
+    };
+};
+
+var inverServices = angular.module("inverServices");
 
 // servicio de registro
 inverServices.factory('servicioRegistro', [
-    '$rootScope', 
+    '$rootScope',
     nuevebit.inver.services.ServicioRegistro
-    ]);
+]);
 // servicio de solicitud
 inverServices.factory('servicioSolicitud', [
-    '$http', 
-    "$resource", 
+    '$http',
+    "$resource",
     nuevebit.inver.services.ServicioSolicitud
-    ]);
+]);
 // servicio de usuario
 inverServices.factory('servicioUsuario', [
-    '$http', 
+    '$http',
     nuevebit.inver.services.ServicioUsuario
-    ]);
+]);
 // servicio de solicitudes con $resource
 inverServices.factory("solicitudService", [
-    "$resource", 
-    "$routeParams", 
+    "$resource",
+    "$routeParams",
     nuevebit.inver.services.SolicitudService
-    ]);
+]);
 // servicio de estadísticas
-inverServices.factory("estadisticasService", [
-    "$http", 
-    nuevebit.inver.services.EstadisticasService
-    ]);
-// servicio de usuarios con $resource
-inverServices.factory("usuarioService", [
-    "$resource", 
-    "$routeParams", 
-    nuevebit.inver.services.UsuarioService
-    ]);
+/*
+ inverServices.factory("estadisticasService", [
+ "$http", 
+ nuevebit.inver.services.EstadisticasService]);
+ */
+
+inverServices.factory("services", [
+    "$resource",
+    function($resource) {
+        return {
+            TipoSujeto: $resource(URL_SERVICE + "/sujetos/tipos/:tipoId"),
+            Sujeto: $resource(URL_SERVICE + "/sujetos/:tipoId"),
+            TipoIndicador: $resource(URL_SERVICE + "/indicadores/tipos/:tipoIndicadorId"),
+            Indicador: $resource(URL_SERVICE + "/indicadores/:indicadorId"),
+            Solicitud: $resource(URL_SERVICE + "/solicitudes/:solicitudId"),
+            Usuario: $resource(URL_SERVICE + "/usuarios/:usuarioId")
+        };
+    }
+]);

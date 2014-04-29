@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
- var nuevebit = nuevebit || {};
- nuevebit.inver = nuevebit.inver || {};
- nuevebit.inver.controllers = nuevebit.inver.controllers || {};
+var nuevebit = nuevebit || {};
+nuevebit.inver = nuevebit.inver || {};
+nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
  nuevebit.inver.controllers.LoginController = function($scope, servicioUsuario, localStorageService) {
     $scope.iniciarSesion = function(usuario) {
@@ -35,12 +35,12 @@
     }
     $scope.logout = function() {
         servicioUsuario.logout()
-        .success(function(data) {
-            $scope.ons.navigator.resetToPage('views/login.html');
-        })
-        .error(function() {
-            $scope.mensaje = "Error inesperado";
-        });
+                .success(function(data) {
+                    $scope.ons.navigator.resetToPage('views/login.html');
+                })
+                .error(function() {
+                    $scope.mensaje = "Error inesperado";
+                });
     }
 };
 nuevebit.inver.controllers.RegistroController = function($scope, $location, servicioRegistro) {
@@ -70,7 +70,8 @@ nuevebit.inver.controllers.PerfilController = function($scope, usuarioService, l
 nuevebit.inver.controllers.SolicitudInformacionController = function($scope, servicioSolicitud, solicitudService, localStorageService) {    
     $scope.tiposSolicitud = servicioSolicitud.getTiposSolicitud();
     $scope.tiposGestion = [];
-    $scope.tiposSujetosObligados = solicitudService.getTiposSujetos();
+    //$scope.tiposSujetosObligados = solicitudService.getTiposSujetos();
+    $scope.tiposSujetosObligados = services.TipoSujeto.query();
 
     $scope.sujetosObligados = [];
     document.getElementById("tipoGestion").disabled = true;
@@ -82,19 +83,21 @@ nuevebit.inver.controllers.SolicitudInformacionController = function($scope, ser
             $scope.tiposGestion = []
         }
     };
-    $scope.tipoSujetoChanged = function(solicitud) {        
-        $scope.sujetosObligados = solicitudService.getSujetosObligados({"idTipoSujeto": solicitud.tipoSujeto.id});
+    $scope.tipoSujetoChanged = function(solicitud) {
+        $scope.sujetosObligados = services.Sujeto.get({
+            tipoId: solicitud.tipoSujeto.id
+        });
     };
     $scope.enviarSolicitud = function(solicitud){
         if (angular.isUndefined(solicitud)){
             $scope.mensaje="Falta proporcionar información requerida";
         }
-        else{
+        else {
             if (angular.isUndefined(solicitud.tipo) ||
-                angular.isUndefined(solicitud.descripcion) ||                
-                angular.isUndefined(solicitud.tipoSujeto)||
-                angular.isUndefined(solicitud.sujetoObligado) ||
-                angular.isUndefined(solicitud.formaNotificacion))
+                    angular.isUndefined(solicitud.descripcion) ||
+                    angular.isUndefined(solicitud.tipoSujeto) ||
+                    angular.isUndefined(solicitud.sujetoObligado) ||
+                    angular.isUndefined(solicitud.formaNotificacion))
             {
                 $scope.mensaje="Falta proporcionar información requerida";
             }
@@ -128,9 +131,9 @@ nuevebit.inver.controllers.ListaSolicitudesController = function($scope, servici
             $scope.solicitudes = solicitudService.getListaByTipo({tipo:$scope.dato.tipo.tipo, idUsuario:$scope.idUsuario});
         } 
     },
-    $scope.verDetalle = function(solicitud){
-        $scope.ons.navigator.pushPage('views/detalleSolicitud.html', {id: solicitud.id});
-    }
+            $scope.verDetalle = function(solicitud) {
+                $scope.ons.navigator.pushPage('views/detalleSolicitud.html', {id: solicitud.id});
+            }
 };
 nuevebit.inver.controllers.DetalleSolicitudController = function($scope, solicitudService, localStorageService){
     $scope.idUsuario =localStorageService.get("idUsuario");
@@ -139,11 +142,11 @@ nuevebit.inver.controllers.DetalleSolicitudController = function($scope, solicit
 }
 nuevebit.inver.controllers.MenuController = function($scope) {
     $scope.pagesList = [
-    {nombre: "Home", url: "views/home.html", "icon": "home", "isSelected": ""},
-    {nombre: "Perfil", url: "views/perfil.html", "icon": "gear", "isSelected": ""},
-    {nombre: "Solicitud de información", url: "views/solicitudInformacion.html", "icon": "book", "isSelected": ""},
-    {nombre: "Ver Solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
-    {nombre: "Estadísticas", url: "partials/estadisticas.html", "icon": "book", "isSelected": ""}
+        {nombre: "Home", url: "views/home.html", "icon": "home", "isSelected": ""},
+        {nombre: "Perfil", url: "views/perfil.html", "icon": "gear", "isSelected": ""},
+        {nombre: "Solicitud de información", url: "views/solicitudInformacion.html", "icon": "book", "isSelected": ""},
+        {nombre: "Ver Solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
+        {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""}
     ]
     $scope.selectedIndex = 0;
     $scope.itemClicked = function($index) {
@@ -158,14 +161,14 @@ inverControllers.controller('loginController', [
     "servicioUsuario", 
     "localStorageService",
     nuevebit.inver.controllers.LoginController
-    ]);
+]);
 //registroController
 inverControllers.controller('registroController', [
-    "$scope", 
-    "$location", 
-    "servicioRegistro", 
+    "$scope",
+    "$location",
+    "servicioRegistro",
     nuevebit.inver.controllers.RegistroController
-    ]);
+]);
 //solicitudInformacionController
 inverControllers.controller('solicitudInformacionController', [
     "$scope", 
@@ -173,24 +176,26 @@ inverControllers.controller('solicitudInformacionController', [
     "solicitudService", 
     "localStorageService",
     nuevebit.inver.controllers.SolicitudInformacionController
-    ]);
+]);
 //perfilController
 inverControllers.controller('perfilController', [
     '$scope', 
     'usuarioService', 
     "localStorageService",
     nuevebit.inver.controllers.PerfilController
-    ]);
+]);
 //menucontroller
 inverControllers.controller('menuController', [
-    '$scope', 
+    '$scope',
     nuevebit.inver.controllers.MenuController]);
 // estadísticas controllers
-inverControllers.controller("estadisticasController", [
-    "$scope",
-    "estadisticasService",
-    nuevebit.inver.controllers.EstadisticasController
-    ]);
+/*
+ inverControllers.controller("estadisticasController", [
+ "$scope",
+ "estadisticasService",
+ nuevebit.inver.controllers.EstadisticasController
+ ]);
+ */
 //listaSolicitudesController
 inverControllers.controller('listaSolicitudesController', [
     '$scope', 
@@ -198,11 +203,11 @@ inverControllers.controller('listaSolicitudesController', [
     "solicitudService", 
     "localStorageService",
     nuevebit.inver.controllers.ListaSolicitudesController
-    ]);
+]);
 //detalleSolicitudController
 inverControllers.controller('detalleSolicitudController', [
     "$scope", 
     "solicitudService", 
     "localStorageService",
     nuevebit.inver.controllers.DetalleSolicitudController
-    ]);
+]);

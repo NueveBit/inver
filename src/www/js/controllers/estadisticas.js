@@ -8,54 +8,93 @@ var nuevebit = nuevebit || {};
 nuevebit.inver = nuevebit.inver || {};
 nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
-nuevebit.inver.controllers.EstadisticasController = function(
-        $scope,
-        estadisticasService) {
+(function(controllers) {
+    /**
+     * 
+     * @param {!angular.scope} $scope 
+     * @ngInject
+     */
+    controllers.ResumenEstadisticasController = function(
+            $scope,
+            services) {
 
-    this._init($scope, estadisticasService);
-};
+        this.services = services;
+        this.scope = $scope;
 
-nuevebit.inver.controllers.EstadisticasController.prototype = {
-    // construct
-    _init: function($scope, estadisticasService) {
-        this._scope = $scope;
-        this._estadisticasService = estadisticasService;
+        services.Indicador.query({resumenIndicadores: true}, function(data) {
 
-        var that = this;
+            var nombres = [];
+            var valores = [];
+            angular.forEach(data, function(indicador) {
+                valores.push(indicador.promedio);
+                nombres.push(indicador.promedio.toFixed(2) + " - " + indicador.nombre);
+            });
 
-        //this._searchCriteria = {};
-        $scope.resumenIndicadores = estadisticasService.getResumenIndicadores()
-                .success(function(data) {
-                    that._newResumenIndicadoresChart(data);
-                });
-    },
-    _newResumenIndicadoresChart: function(data) {
-        var nombres = [];
-        var valores = [];
-        for (var i in data) {
-            var indicador = data[i];
-            valores.push(indicador.promedio);
-            nombres.push(indicador.promedio.toFixed(2)+ " - " + indicador.nombre);
-        }
-        
-        var r = Raphael("holder"),
-                pie = r.piechart(320, 240, 100, valores, {legend: nombres, legendpos: "west"});
-        r.text(320, 100, "Resumen indicadores").attr({font: "20px sans-serif"});
-        pie.hover(function() {
-            this.sector.stop();
-            this.sector.scale(1.1, 1.1, this.cx, this.cy);
-            if (this.label) {
-                this.label[0].stop();
-                this.label[0].attr({r: 7.5});
-                this.label[1].attr({"font-weight": 800});
-            }
-        }, function() {
-            this.sector.animate({transform: 's1 1 ' + this.cx + ' ' + this.cy}, 500, "bounce");
-            if (this.label) {
-                this.label[0].animate({r: 5}, 500, "bounce");
-                this.label[1].attr({"font-weight": 400});
-            }
+            $scope.labels = nombres;
+            $scope.values = valores;
         });
-    }
-};
+    };
+
+    controllers.ResumenEstadisticasController.prototype = {
+    };
+
+    controllers.IndicadoresEstadisticasController = function(
+            $scope,
+            services) {
+
+        this.scope = $scope;
+        this.scope.tiposSujetos
+                = services.TipoSujeto.query(angular.bind(this, function(data) {
+                    $scope.tipoSujeto = data[1];
+
+                    var Sujeto = services.Sujeto;
+                    $scope.sujetosObligados = Sujeto.get({tipoId: $scope.tipoSujeto.id});
+
+                    // retrasa hasta este punto la carga de indicadores para
+                    // mostrar sólo las estadísticas de 1 tipo de indicador a la vez
+                    this.scope.tiposIndicadores = services.TipoIndicador.query(
+                            angular.bind(this, function(data) {
+                                $scope.indicador = data[0];
+                                this.updateChart();
+                            }));
+                }));
+        this.scope.sujetosObligados = [];
+
+        this.services = services;
+    };
+
+    controllers.IndicadoresEstadisticasController.prototype = {
+        tipoSujetoChanged: function(tipoSujeto) {
+            var Sujeto = this.services.Sujeto;
+            this.scope.sujetosObligados = Sujeto.query({tipoId: tipoSujeto.id});
+
+            this.updateChart();
+        },
+        updateChart: function() {
+            var Indicador = this.services.Indicador;
+            var scope = this.scope;
+            var params = {
+                tipoSujeto: scope.tipoSujeto.id,
+                indicador: scope.indicador.id
+            };
+            if (scope.sujetoObligado) {
+                params.sujetoObligado = scope.sujetoObligado.id;
+            }
+
+            Indicador.query(params, function(data) {
+                var labels = [];
+                var values = [];
+
+                var indicadores = data[0]["indicadores"];
+                angular.forEach(indicadores, function(indicador) {
+                    labels.push(indicador.valor.toFixed(2) + " - " + indicador.nombre);
+                    values.push(indicador.valor);
+                });
+
+                scope.chartLabels = labels;
+                scope.chartValues = values;
+            });
+        },
+    };
+})(nuevebit.inver.controllers);
 

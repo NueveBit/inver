@@ -46,12 +46,12 @@ elseif (isset($_GET["status"])&&isset($_GET["idUsuario"])) {
 	$resultado = getListaSolicitudesByStatus($db, $_GET["status"], $_GET["idUsuario"]);
 	echo json_encode($resultado);
 }
-elseif (isset($_GET["tipo"])&&isset($_GET["idUsuario"])) {
-	$resultado = getListaSolicitudesByTipo($db, $_GET["tipo"], $_GET["idUsuario"]);
+elseif (isset($_GET["tipo"])) {
+	$resultado = getListaSolicitudesByTipo($db, $_GET["tipo"]);
 	echo json_encode($resultado);
 }
-elseif (isset($_GET["idSolicitud"]) && isset($_GET["idUsuario"])) {
-	$resultado = getDetalleSolicitud($db, $_GET["idSolicitud"], $_GET["idUsuario"]);
+elseif (isset($_GET["idSolicitud"])) {
+	$resultado = getDetalleSolicitud($db, $_GET["idSolicitud"]);
 	echo json_encode($resultado);
 }
 
@@ -191,17 +191,16 @@ function getListaSolicitudesByFechaStatus($db, $fechaInicial, $fechaFinal, $stat
 	return $solicitudes;
 }
 
-function getListaSolicitudesByTipo($db, $tipo, $idUsuario){
+function getListaSolicitudesByTipo($db, $tipo){
+	$sujetosObligados = array();
 	$sql= "select SolicitudInformacion.id as id, 
 	SolicitudInformacion.tipo as tipo, 
 	SolicitudInformacion.fechaInicio as fechaInicio, 
 	SolicitudInformacion.status as status
-	from SolicitudInformacion, Usuario
-	where SolicitudInformacion.tipo = ? and
-	SolicitudInformacion.idUsuario=? and 	
-	SolicitudInformacion.idUsuario=Usuario.id";
+	from SolicitudInformacion
+	where SolicitudInformacion.tipo = ?";
 	$stmt= $db->prepare($sql);
-	$stmt->bind_param("ss", $tipo, $idUsuario);
+	$stmt->bind_param("s", $tipo);
 	$stmt->execute();
 	$stmt->bind_result($id, $tipo, $fechaInicio, $status);
 	while ($stmt->fetch()) {
@@ -210,7 +209,8 @@ function getListaSolicitudesByTipo($db, $tipo, $idUsuario){
 	return $solicitudes;
 }
 
-function getDetalleSolicitud($db, $idSolicitud, $idUsuario){
+function getDetalleSolicitud($db, $idSolicitud){
+	$sujetosObligados = array();
 	$sql= "select SolicitudInformacion.id as id, 
 	SolicitudInformacion.tipo as tipo, 
 	SolicitudInformacion.tipoGestion as tipoGestion, 
@@ -222,13 +222,11 @@ function getDetalleSolicitud($db, $idSolicitud, $idUsuario){
 	SolicitudInformacion.fechaLimite as fechaLimite,
 	SolicitudInformacion.fechaCompletado as fechaCompletado,
 	SujetoObligado.nombre as sujetoObligado
-	from SolicitudInformacion, Usuario, SujetoObligado 
+	from SolicitudInformacion, SujetoObligado 
 	where SolicitudInformacion.id=? and 
-	SolicitudInformacion.idUsuario=? and
-	SolicitudInformacion.idUsuario=Usuario.id and 
 	SolicitudInformacion.idSujetoObligado=SujetoObligado.id";
 	$stmt= $db->prepare($sql);
-	$stmt->bind_param("ss", $idSolicitud, $idUsuario);
+	$stmt->bind_param("d", $idSolicitud);
 	$stmt->execute();
 	$stmt->bind_result($id, $tipo, $tipoGestion, $descripcion, $status, 
 		$formaNotificacion, $fechaInicio, $fechaNotificacion, $fechaLimite,

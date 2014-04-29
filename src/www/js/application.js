@@ -2,20 +2,24 @@
  * inVer Application Module 
  */
 
- var nuevebit = nuevebit || {};
- nuevebit.inver = nuevebit.inver || {}
+var nuevebit = nuevebit || {};
+nuevebit.inver = nuevebit.inver || {}
 
- nuevebit.inver.Application = {
+nuevebit.inver.Application = {
     _angularApp: null,
     _init: function() {
+        angular.module("inverServices", ["ngResource"]);
+        angular.module("nuevebit.directives", []); // TODO: Debería estar en otro script
+        
         this._angularApp = angular.module("inverApp", [
             "ngRoute",
             'ngResource',
             "inverControllers",
             "inverServices",
+            "nuevebit.directives",
             "onsen.directives",
             "LocalStorageModule"
-            ]);
+        ]);
 
         this._mount();
         //console.log("changed");
@@ -49,11 +53,11 @@
 _addControllers: function() {
     var controllers = nuevebit.inver.controllers;
 
-    this._angularApp.controller("MainController", ["$scope",
-        controllers.MainController]);
-},
-start: function() {
-    this._init();
+        this._angularApp.controller("MainController", ["$scope",
+            controllers.MainController]);
+    },
+    start: function() {
+        this._init();
 
         // cordova requiere la variable global 'app', aquí inicializamos
         if (typeof (app) !== "undefined") {

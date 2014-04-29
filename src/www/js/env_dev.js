@@ -3,4 +3,4 @@
  * 
  */
 
-var URL_SERVICE = "http://localhost:8080/~emerino/inver/src/server";
+var URL_SERVICE = "http://inver.inet:8080";

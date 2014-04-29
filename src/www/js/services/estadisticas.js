@@ -8,24 +8,33 @@ var nuevebit = nuevebit || {};
 nuevebit.inver = nuevebit.inver || {};
 nuevebit.inver.services = nuevebit.inver.services || {};
 
-nuevebit.inver.services.EstadisticasService = function($http) {
-    return {
+(function(services) {
+    services.EstadisticasService = function($http) {
+        this._init($http);
+    };
+
+    services.EstadisticasService.prototype = {
+        _init: function($http) {
+            this._http = $http;
+        },
         getResumenIndicadores: function() {
-            return $http({
+            return this._http({
                 url: URL_SERVICE + "/estadisticas.php",
                 method: "GET",
                 params: {resumenIndicadores: true}
             });
+        },
+        getIndicadores: function(searchCriteria) {
+            return this._http({
+                url: URL_SERVICE + "/estadisticas.php",
+                method: "GET",
+                params: searchCriteria
+            });
         }
     };
-    /*
-    return $resource(URL_SERVICE + "/estadisticas.php", {}, {
-        getResumenIndicadores: {
-            method: "GET", 
-            params: {resumenIndicadores: true}, 
-            isArray: true
-        }
-    });
-    */
-};
+})(nuevebit.inver.services);
 
+angular.module("inverServices").service("estadisticasService", [
+    "$http",
+    nuevebit.inver.services.EstadisticasService
+]);

@@ -2,14 +2,18 @@
 // Generated on Mon Apr 14 2014 01:43:52 GMT-0500 (CDT)
 
 var fs = require("fs");
+var path = require('path');
+
+var basePath = path.join(__dirname, '../www/');
 
 // reusamos el archivo scripts.json, para no repetir aquí los scripts
-var files = JSON.parse(fs.readFileSync("../www/js/scripts.json"));
+var files = JSON.parse(fs.readFileSync(path.join(basePath, "js/scripts.json")));
+
 
 module.exports = function(config) {
     config.set({
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '../www/',
+        basePath: basePath,
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['jasmine'],
@@ -28,7 +32,7 @@ module.exports = function(config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
+        reporters: ["dots"],
         // web server port
         port: 9876,
         // enable / disable colors in the output (reporters and logs)

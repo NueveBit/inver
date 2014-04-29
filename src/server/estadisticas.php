@@ -17,6 +17,25 @@ if (isset($_GET["resumenIndicadores"])) {
     }
 
     echo json_encode(findIndicadores($db, $searchCriteria));
+} else if (isset($_GET["tiposIndicadores"])) {
+    echo json_encode(findTiposIndicadores($db));
+}
+
+function findTiposIndicadores($db) {
+    $sql = "select t.id, t.nombre from TipoIndicador as t";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $stmt->bind_result($id, $nombre);
+    
+    $tipos = array();
+    while ($stmt->fetch()) {
+        $tipos[] = array(
+            "id" => $id,
+            "nombre" => $nombre
+        );
+    }
+
+    return $tipos;
 }
 
 function findResumenIndicadores($db) {
