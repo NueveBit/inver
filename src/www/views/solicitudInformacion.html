@@ -14,8 +14,7 @@
 						Tipo de solicitud:
 					</label>
 					<div class="col-sm-4">						
-						<ons-select required class="topcoat-text-input form-control" ng-model="solicitud.tipo" ng-options="s.tipo for s in tiposSolicitud" ng-change="solicitudChanged(solicitud)">
-						<option ng-repeat="s in s.tipo" selected>{{s.tipo}}</option>
+						<ons-select required class="topcoat-text-input form-control" ng-model="solicitud.tipo" ng-options="s.tipo for s in tiposSolicitud" ng-change="solicitudChanged(solicitud)" id="tipo">
 						</ons-select>									
 					</div>
 				</div>
@@ -24,42 +23,38 @@
 						Tipo de gestión:
 					</label>
 					<div class="col-sm-4">						
-						<ons-select ng-model="solicitud.tipoGestion" id="tipoGestion" ng-options="t for t in tiposGestion">  
-							<option value="">Seleccionar tipo de gestión</option>
-
+						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.tipoGestion" id="tipoGestion" ng-options="t for t in tiposGestion">  
 						</ons-select>
 					</div>
 				</div>
-
 				<div class="form-group">
-					<label for="descripcion" class="col-sm-3 required">Descripción de la solicitud:
+					<label for="descripcion" class="col-sm-3 required">
+						Descripción de la solicitud:
 					</label>
 					<div class="col-sm-4">						
 						<ons-text-area required ng-model="solicitud.descripcion" id="descripcion" class="topcoat-text-input form-control"></ons-text-input>
 					</div>
 				</div>																		
-				<div class="form-group nullable">
+				<div class="form-group">
 					<label for="tipoSujeto" class="col-sm-3 required">
 						Tipo de sujeto obligado:
 					</label>
 					<div class="col-sm-4">						
-						<select class="topcoat-text-input form-control"  ng-model="solicitud.tipoSujeto" id="tipoSujeto" ng-options="s.tipoSujeto for s in tiposSujetosObligados" ng-change="tipoSujetoChanged(solicitud)">  		
-							<option value="">Seleccionar tipo de sujeto obligado</option>
+						<ons-select class="topcoat-text-input form-control"  ng-model="solicitud.tipoSujeto" id="tipoSujeto" ng-options="s.tipoSujeto for s in tiposSujetosObligados" ng-change="tipoSujetoChanged(solicitud)">
 						</select>		
 					</div>
 				</div>
-				<div class="form-group nullable">
+				<div class="form-group">
 					<label for="sujetoObligado" class="col-sm-3 required">
 						Sujeto obligado:
 					</label>
 					<div class="col-sm-4">						
-						<select class="topcoat-text-input form-control" ng-model="solicitud.sujetoObligado" id="sujetoObligado" ng-options="o.sujeto for o in sujetosObligados">    
-							<option value="">Seleccionar sujeto obligado</option>
+						<select class="topcoat-text-input form-control" ng-model="solicitud.sujetoObligado" id="sujetoObligado" ng-options="o.sujeto for o in sujetosObligados">
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="tipoGestion" class="col-sm-3 required">
+					<label class="col-sm-3 required">
 						Forma de notificación:
 					</label>
 					<div class="col-sm-4">						
@@ -79,7 +74,7 @@
 				</div>
 				<div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
 				<div>
-					<ons-button type="submit" ng-click="verificarDatos(solicitud)" class="topcoat-button boton">Enviar solicitud</ons-button>
+					<ons-button type="submit" ng-click="enviarSolicitud(solicitud)" class="topcoat-button boton">Enviar solicitud</ons-button>
 					<ons-button ng-click="ons.navigator.resetToPage('views/contenedor.html')" class="topcoat-button--quiet">Cancelar</ons-button>
 				</div>
 			</fieldset>

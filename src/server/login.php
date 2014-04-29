@@ -26,21 +26,21 @@ function isLoggedIn (){
 }
 
 function login($usuario, $password, $db){
-	$sql=  "select username from Usuario where username=? and password=?";
+	$sql=  "select id from Usuario where username=? and password=?";
 	$stmt= $db->prepare($sql);
 	$stmt->bind_param("ss", $usuario, $password);
 	$stmt->execute();
-	$stmt->bind_result($user);
+	$stmt->bind_result($id);
 	$stmt->fetch();
 	
-	if ($user){
+	if ($id){
 		$_SESSION["loggedIn"]=true;
 		$loggedIn = true;
 	}
 	else{
 		$loggedIn = false;
 	}
-	$isLoggedIn=array("loggedIn"=>$loggedIn);
+	$isLoggedIn=array("idUsuario"=>$id);
 	return $isLoggedIn;
 }
 

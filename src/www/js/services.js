@@ -48,14 +48,69 @@ nuevebit.inver.services.ServicioUsuario = function($http) {
 
 nuevebit.inver.services.SolicitudService = function($resource, $routeParams) {
     return $resource(URL_SERVICE + "/solicitud.php", {}, {
-        getTiposSujetos: {method: "GET", params: {tiposSujetos: true}, isArray: true},
-        getSujetosObligados: {method:"GET", params: {idTipoSujeto:$routeParams.idTipoSujeto}, isArray:true},
-        guardarSolicitud: {method:"POST", params:{solicitud:$routeParams.solicitud}, 
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}, isArray:false},
-        getListaByFecha: {method:"GET", params:{fechaInicio:$routeParams.fechaInicio, idUsuario: $routeParams.idUsuario}, isArray:true},
-        getListaByStatus: {method:"GET", params:{status:$routeParams.estado, idUsuario: $routeParams.idUsuario}, isArray:true},
-        getListaByTipo: {method:"GET", params:{tipo:$routeParams.tipo, idUsuario: $routeParams.idUsuario}, isArray:true},
-        getDetalle:{method:"GET", params:{idSolicitud:$routeParams.idSolicitud, idUsuario: $routeParams.idUsuario}, isArray:true}
+        getTiposSujetos: {
+            method: "GET", 
+            params: {tiposSujetos: true}, 
+            isArray: true
+        },
+        getSujetosObligados: {
+            method:"GET", 
+            params: {idTipoSujeto:$routeParams.idTipoSujeto}, 
+            isArray:true
+        },
+        guardarSolicitud: {
+            method:"POST", 
+            params:{solicitud:$routeParams.solicitud},
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+            isArray:false
+        },
+        getListaSolicitudesByFechaStatus: {
+            method:"GET", 
+            params:{
+                fechaRangoInicio:$routeParams.fechaRangoInicio, 
+                fechaRangoFin:$routeParams.fechaRangoFin, 
+                status:$routeParams.estado,
+                idUsuario: $routeParams.idUsuario
+            },
+            isArray:true
+        },
+        getListaByRangoFecha: {
+            method:"GET", 
+            params:{
+                fechaRangoInicio:$routeParams.fechaRangoInicio, 
+                fechaRangoFin:$routeParams.fechaRangoFin, 
+                idUsuario: $routeParams.idUsuario
+            }, 
+            isArray:true
+        },
+        getListaByStatus: {
+            method:"GET", 
+            params:{status:$routeParams.estado, 
+                idUsuario: $routeParams.idUsuario
+            }, 
+            isArray:true
+        },
+        getListaByTipo: {
+            method:"GET", 
+            params:{tipo:$routeParams.tipo, idUsuario: $routeParams.idUsuario}, 
+            isArray:true
+        },
+        getDetalle:{
+            method:"GET", 
+            params:{idSolicitud:$routeParams.idSolicitud, idUsuario: $routeParams.idUsuario}, 
+            isArray:true
+        }
+
+    });
+};
+
+nuevebit.inver.services.UsuarioService = function($resource, $routeParams) {
+    return $resource(URL_SERVICE + "/usuario.php", {}, {
+        getPerfil: {
+            method: "GET", 
+            params: {idUsuario: $routeParams.idUsuario}, 
+            isArray: true
+        },
     });
 };
 
@@ -122,4 +177,10 @@ inverServices.factory("solicitudService", [
 inverServices.factory("estadisticasService", [
     "$http", 
     nuevebit.inver.services.EstadisticasService
+    ]);
+// servicio de usuarios con $resource
+inverServices.factory("usuarioService", [
+    "$resource", 
+    "$routeParams", 
+    nuevebit.inver.services.UsuarioService
     ]);
