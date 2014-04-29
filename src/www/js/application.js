@@ -27,18 +27,18 @@
             function($routeProvider) {
                 $routeProvider.                        
                 when('/login', {
-                    templateUrl: 'partials/login.html',
+                    templateUrl: 'views/login.html',
                     //controller: 'MainController'
                 }).
                 when('/contenedor', {
-                    templateUrl: 'partials/contenedor.html',
+                    templateUrl: 'views/contenedor.html',
                     //controller: 'MainController'
                     }).
                 when('/home', {
-                    templateUrl: 'partials/home.html',
+                    templateUrl: 'views/home.html',
                 }).
                 when('/perfil', {
-                    templateUrl: 'partials/perfil.html',
+                    templateUrl: 'views/perfil.html',
                     controller: 'PerfilController'
                 })                
                 .otherwise({

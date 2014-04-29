@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 
-var nuevebit = nuevebit || {};
-nuevebit.inver = nuevebit.inver || {};
-nuevebit.inver.controllers = nuevebit.inver.controllers || {};
+ var nuevebit = nuevebit || {};
+ nuevebit.inver = nuevebit.inver || {};
+ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
-nuevebit.inver.controllers.LoginController = function($scope, servicioUsuario) {
+ nuevebit.inver.controllers.LoginController = function($scope, servicioUsuario) {
+
+
+    angular.isUndefinedOrNull = function(usuario){ return angular.isUndefined(usuario) || usuario === null}
+
     $scope.iniciarSesion = function(usuario) {
         servicioUsuario.login(usuario)
         .success(function(data) {
@@ -56,7 +60,7 @@ nuevebit.inver.controllers.PerfilController = function($scope, servicioRegistro)
     }
 };
 
-nuevebit.inver.controllers.SolicitudInformacionController = function($scope, servicioSolicitud, solicitudService) {
+nuevebit.inver.controllers.SolicitudInformacionController = function($scope, servicioSolicitud, solicitudService) {    
     $scope.tiposSolicitud = servicioSolicitud.getTiposSolicitud();
     $scope.tiposGestion = [];
     $scope.tiposSujetosObligados = solicitudService.getTiposSujetos();
@@ -73,18 +77,37 @@ nuevebit.inver.controllers.SolicitudInformacionController = function($scope, ser
     $scope.tipoSujetoChanged = function(solicitud) {        
         $scope.sujetosObligados = solicitudService.getSujetosObligados({"idTipoSujeto": solicitud.tipoSujeto.id});
     };
+    $scope.verificarDatos = function(solicitud){
+        if (angular.isUndefined(solicitud)){
+            $scope.mensaje="Falta proporcionar información requerida";
+            console.log(solicitud);
+        }
+        else{
+            if (angular.isUndefined(solicitud.tipo) ||
+                angular.isUndefined(solicitud.descripcion) ||                
+                angular.isUndefined(solicitud.tipoSujeto)||
+                angular.isUndefined(solicitud.sujetoObligado) ||
+                angular.isUndefined(solicitud.formaNotificacion))
+            {
+                $scope.mensaje="Falta proporcionar información requerida";
+                console.log(solicitud);
+            }
+            else{
+                $scope.resultado = solicitudService.guardarSolicitud({"solicitud":solicitud});
+                if ($scope.resultado){
+                    $scope.ons.navigator.resetToPage('views/contenedor.html');
+                }
+                $scope.mensaje="La solicitud ha sido registrada";
+                console.log(solicitud);
+            }
+        }
+    }
     $scope.enviarSolicitud = function(solicitud) {
-        if (solicitud.otraFormaNotificacion!=null){
-                solicitud.formaNotificacion = solicitud.otraFormaNotificacion;
-            }
-            if (solicitud.tipoGestion==null){
-                solicitud.tipoGestion = "";
-            }
-            solicitud.idUsuario=1
-            $scope.resultado = solicitudService.guardarSolicitud({"solicitud":solicitud});
-            if ($scope.resultado){
-                $scope.ons.navigator.resetToPage('views/contenedor.html');
-            }     
+        solicitud.idUsuario=1
+        $scope.resultado = solicitudService.guardarSolicitud({"solicitud":solicitud});
+        if ($scope.resultado){
+            $scope.ons.navigator.resetToPage('views/contenedor.html');
+        } 
     };
 };
 
@@ -118,11 +141,11 @@ nuevebit.inver.controllers.DetalleSolicitudController = function($scope, solicit
 }
 nuevebit.inver.controllers.MenuController = function($scope) {
     $scope.pagesList = [
-        {"nombre": "Home", "url": "views/home.html", "icon": "home", "isSelected": ""},
-        {"nombre": "Perfil", "url": "views/perfil.html", "icon": "gear", "isSelected": ""},
-        {"nombre": "Solicitud de información", "url": "views/solicitudInformacion.html", "icon": "book", "isSelected": ""},
-        {"nombre": "Ver Solicitudes", "url": "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
-        {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""}
+    {nombre: "Home", url: "views/home.html", "icon": "home", "isSelected": ""},
+    {nombre: "Perfil", url: "views/perfil.html", "icon": "gear", "isSelected": ""},
+    {nombre: "Solicitud de información", url: "views/solicitudInformacion.html", "icon": "book", "isSelected": ""},
+    {nombre: "Ver Solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
+    {nombre: "Estadísticas", url: "partials/estadisticas.html", "icon": "book", "isSelected": ""}
     ]
     $scope.selectedIndex = 0;
     $scope.itemClicked = function($index) {
@@ -132,29 +155,51 @@ nuevebit.inver.controllers.MenuController = function($scope) {
 // registrar controladores con angular
 var inverControllers = angular.module("inverControllers", []);
 //loginController
-inverControllers.controller('loginController',
-    ['$scope', 'servicioUsuario', nuevebit.inver.controllers.LoginController]);
+inverControllers.controller('loginController', [
+    "$scope", 
+    "servicioUsuario", 
+    nuevebit.inver.controllers.LoginController
+    ]);
 //registroController
-inverControllers.controller('registroController',
-    ['$scope', '$location', 'servicioRegistro', nuevebit.inver.controllers.RegistroController]);
+inverControllers.controller('registroController', [
+    "$scope", 
+    "$location", 
+    "servicioRegistro", 
+    nuevebit.inver.controllers.RegistroController
+    ]);
 //solicitudInformacionController
-inverControllers.controller('solicitudInformacionController',
-    ['$scope', 'servicioSolicitud', "solicitudService", nuevebit.inver.controllers.SolicitudInformacionController]);
+inverControllers.controller('solicitudInformacionController', [
+    "$scope", 
+    'servicioSolicitud', 
+    "solicitudService", 
+    nuevebit.inver.controllers.SolicitudInformacionController
+    ]);
 //perfilController
-inverControllers.controller('perfilController',
-    ['$scope', 'servicioRegistro', nuevebit.inver.controllers.PerfilController]);
+inverControllers.controller('perfilController', [
+    '$scope', 
+    'servicioRegistro', 
+    nuevebit.inver.controllers.PerfilController
+    ]);
 //menucontroller
-inverControllers.controller('menuController',
-    ['$scope', nuevebit.inver.controllers.MenuController]);
+inverControllers.controller('menuController', [
+    '$scope', 
+    nuevebit.inver.controllers.MenuController]);
 // estadísticas controllers
 inverControllers.controller("estadisticasController", [
     "$scope",
     "estadisticasService",
     nuevebit.inver.controllers.EstadisticasController
-]);
+    ]);
 //listaSolicitudesController
-inverControllers.controller('listaSolicitudesController',
-    ['$scope', "servicioSolicitud", "solicitudService", nuevebit.inver.controllers.ListaSolicitudesController]);
+inverControllers.controller('listaSolicitudesController', [
+    '$scope', 
+    "servicioSolicitud", 
+    "solicitudService", 
+    nuevebit.inver.controllers.ListaSolicitudesController
+    ]);
 //detalleSolicitudController
-inverControllers.controller('detalleSolicitudController',
-    ['$scope', "solicitudService", nuevebit.inver.controllers.DetalleSolicitudController]);
+inverControllers.controller('detalleSolicitudController', [
+    '$scope', 
+    "solicitudService", 
+    nuevebit.inver.controllers.DetalleSolicitudController
+    ]);
