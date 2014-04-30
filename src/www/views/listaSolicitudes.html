@@ -1,53 +1,58 @@
-<ons-page>
-    <ons-navigator-toolbar     
-        title="Lista solicitudes">      
-    </ons-navigator-toolbar>
-    <div class="container" ng-controller="nuevebit.inver.controllers.ListaSolicitudesController as controller">
-        <form class="form-horizontal">
-            <fieldset>
-                <div class="form-group">					
-                    <label for="fecha" class="col-xs-2 col-sm-3 col-md-3">						
-                        Fecha:
-                    </label>
-                    <div class="col-xs-5 col-sm-3 col-md-2">						
-                        <ons-text-input type="date" ng-model="criteria.fechaInicio" id="fechaInicio" ng-change="controller.buscar(criteria)" class="form-control" placeholder="inicio"></ons-text-input>
+<ons-navigator 
+    ng-controller="nuevebit.inver.controllers.ListaSolicitudesController as controller"
+    title="Solicitudes de información"
+    left-button-icon="fa fa-bars" 
+    right-button-icon="fa fa-plus"
+    on-right-button-click="controller.nuevaSolicitud()"
+    on-left-button-click="ons.splitView.toggle()">		   
+    <ons-page>
+        <div class="container" >
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="form-group">					
+                        <label for="fecha" class="col-xs-2 col-sm-3 col-md-3">						
+                            Fecha:
+                        </label>
+                        <div class="col-xs-5 col-sm-3 col-md-2">						
+                            <ons-text-input type="date" ng-model="criteria.fechaInicio" id="fechaInicio" ng-change="controller.buscar(criteria)" class="form-control" placeholder="inicio"></ons-text-input>
+                        </div>
+                        <div class="col-xs-5 col-sm-3 col-md-2">						
+                            <ons-text-input type="date" ng-model="criteria.fechaFin" id="fechaFin" ng-change="controller.buscar(criteria)" class="form-control" placeholder="fin"></ons-text-input>
+                        </div>
                     </div>
-                    <div class="col-xs-5 col-sm-3 col-md-2">						
-                        <ons-text-input type="date" ng-model="criteria.fechaFin" id="fechaFin" ng-change="controller.buscar(criteria)" class="form-control" placeholder="fin"></ons-text-input>
+                    <div class="form-group">
+                        <label for="estado" class="col-lg-3">
+                            Estado de la solicitud:
+                        </label>
+                        <div class="col-lg-6">						
+                            <ons-select class="form-control" ng-model="criteria.status" id="estado" ng-options="e for e in tiposEstados" ng-change="controller.buscar(criteria)">
+                            </ons-select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="estado" class="col-lg-3">
-                        Estado de la solicitud:
-                    </label>
-                    <div class="col-lg-6">						
-                        <ons-select class="form-control" ng-model="criteria.status" id="estado" ng-options="e for e in tiposEstados" ng-change="controller.buscar(criteria)">
-                        </ons-select>
+                    <div class="form-group">
+                        <label for="tipo" class="col-lg-3">
+                            Tipo de solicitud:
+                        </label>
+                        <div class="col-lg-6">						
+                            <ons-select class="form-control" ng-model="criteria.tipo" id="tipo" ng-options="t.nombre for t in tiposSolicitud" ng-change="controller.buscar(criteria)">
+                            </ons-select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="tipo" class="col-lg-3">
-                        Tipo de solicitud:
-                    </label>
-                    <div class="col-lg-6">						
-                        <ons-select class="form-control" ng-model="criteria.tipo" id="tipo" ng-options="t.nombre for t in tiposSolicitud" ng-change="controller.buscar(criteria)">
-                        </ons-select>
+                    <div>
+                        <div id="mensaje" class="alert alert-success" ng-show="mensaje" ></div>
                     </div>
-                </div>
-                <div>
-                    <div id="mensaje" class="alert alert-success" ng-show="mensaje" ></div>
-                </div>
-            </fieldset>
-        </form>
+                </fieldset>
+            </form>
 
-        <div>
-            <ons-list-item ng-repeat="solicitud in solicitudes"
-                           ng-click="controller.verDetalle(solicitud)"> 
-                Folio: {{solicitud.id}}
-                Fecha: {{solicitud.fechaInicio}}
-                Tipo: {{solicitud.tipo}}
-                {{solicitud.status}}
-            </ons-list-item>
+            <ul class="topcoat-list">
+                <ons-list-item ng-repeat="solicitud in solicitudes"
+                               ng-click="controller.verDetalle(solicitud)"> 
+                    Folio: {{solicitud.id}}
+                    Fecha: {{solicitud.fechaInicio}}
+                    Tipo: {{solicitud.tipo}}
+                    {{solicitud.status}}
+                </ons-list-item>
+            </ul>
         </div>
-    </div>
-</ons-page>
+    </ons-page>
+</ons-navigator>

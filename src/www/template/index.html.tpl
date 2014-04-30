@@ -13,11 +13,7 @@
 
     </head>
     <body>
-    <ons-screen>
-        <ons-navigator title="inVer">
-            <div ng-view></div>
-        </ons-navigator>
+        <div ng-view></div>
 
-    </ons-screen>
-</body>
+    </body>
 </html>

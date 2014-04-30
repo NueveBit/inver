@@ -66,9 +66,12 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
     controllers.IndicadoresEstadisticasController.prototype = {
         tipoSujetoChanged: function(tipoSujeto) {
             var Sujeto = this.services.Sujeto;
-            this.scope.sujetosObligados = Sujeto.query({tipoId: tipoSujeto.id});
+            this.scope.sujetosObligados = Sujeto.query({tipoId: tipoSujeto.id},
+            angular.bind(this, function() {
+                this.scope.sujetoObligado = null;
+                this.updateChart();
+            }));
 
-            this.updateChart();
         },
         updateChart: function() {
             var Indicador = this.services.Indicador;

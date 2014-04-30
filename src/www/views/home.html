@@ -1,9 +1,9 @@
-<ons-page>
-	<ons-navigator-toolbar     
-		title="inVer" 
-		left-button-icon="fa fa-bars" 
-		on-left-button-click="ons.splitView.toggle()">		   
-  	</ons-navigator-toolbar>
-  	<ons-button ng-controller="nuevebit.inver.controllers.LoginController as controller" ng-click="controller.logout()" type="quiet">Cerrar sesión</ons-button>
-  	<div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
-</ons-page>
+<ons-navigator
+    title="inVer" 
+    left-button-icon="fa fa-bars" 
+    on-left-button-click="ons.splitView.toggle()">		   
+    <ons-page>
+        <ons-button ng-controller="nuevebit.inver.controllers.LoginController as controller" ng-click="controller.logout()" type="quiet">Cerrar sesión</ons-button>
+        <div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
+    </ons-page>
+</ons-navigator>

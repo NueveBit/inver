@@ -26,8 +26,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         
         $scope.pages = [
             {nombre: "Perfil", url: "views/perfil.html", "icon": "gear", "isSelected": ""},
-            {nombre: "Solicitud de información", url: "views/solicitudInformacion.html", "icon": "book", "isSelected": ""},
-            {nombre: "Ver Solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
+            {nombre: "Solicitudes de información", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
             {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""}
         ]
 
@@ -37,10 +36,10 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
     controllers.MenuController.prototype = {
         itemClicked: function(index) {
             this.scope.selectedIndex = index;
-            this.scope.ons.splitView.toggle()
 
             var page = this.scope.pages[index];
-            this.scope.ons.splitView.setMainPage(page.url)
+            this.scope.ons.splitView.toggle()
+            this.scope.ons.splitView.setMainPage(page.url);
         }
     };
 })(nuevebit.inver.controllers);

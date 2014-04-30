@@ -95,6 +95,9 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
     };
 
     controllers.ListaSolicitudesController.prototype = {
+        nuevaSolicitud: function() {
+            this.scope.ons.navigator.pushPage("views/solicitudes/nueva.html");
+        },
         buscar: function(criteria) {
             if (criteria.tipo) {
                 criteria.tipoId = criteria.tipo.id;
@@ -104,7 +107,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
             this.scope.solicitudes = Solicitud.search(criteria);
         },
         verDetalle: function(solicitud) {
-            this.scope.ons.navigator.pushPage("views/detalleSolicitud.html", {id: solicitud.id});
+            this.scope.ons.navigator.pushPage("views/solicitudes/detalles.html", {id: solicitud.id});
         }
     };
 
