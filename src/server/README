@@ -47,4 +47,7 @@ encuentren en el formato esperado (e.g. /solicitudes/tipos).
 NOTA DE IMPLEMENTACIÓN: Por ser una implementación de referencia, únicamente
 se tomaron las medidas de seguridad necesarias para evitar ataques de inyección
 de SQL, pero no se sanitizan ni realizan muchas validaciones sobre los datos
-recibidos. En una implementación real, esto debe ser tomado en cuenta.
+recibidos. En una implementación real, esto debe ser tomado en cuenta. Además,
+la estructura actual del código de la implementación no es la adecuada, se optó
+por utilizar la API de mysqli en lugar de una abstracción como PDO por simplicidad,
+pero esto debería cambiarse para organizar mejor el código.

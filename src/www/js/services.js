@@ -219,6 +219,7 @@ inverServices.factory("services", [
              * Servicio para solicitudes de información.
              */
             Solicitud: $resource(URL_SERVICE + "/solicitudes/:solicitudId", {}, {
+                search: {method: "GET", params: {search: true}, isArray: true},
                 save: {method: "POST", headers: postHeaders, params: {token: localStorageService.get("token"), save: true}}
             }),
             /**

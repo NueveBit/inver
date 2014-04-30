@@ -1,22 +1,18 @@
 <ons-navigator-toolbar     
-	title="Detalle Solicitud">      
+    title="Detalle Solicitud">      
 </ons-navigator-toolbar>
 <ons-scroller>
-	<div class="container" ng-controller="detalleSolicitudController">
-		<ul>
-			<li ng-repeat="datos in detalle">
-				<p>Follio: {{ datos.id }}</p>
-				<p>Tipo: {{datos.tipo}}</p> 
-				<p>TipoGestion: {{datos.tipoGestion}}</p>
-				<p>SujetoObligado: {{datos.sujetoObligado}}</p>
-				<p>Descripcion: {{datos.descripcion}}</p>
-				<p>Estado: {{datos.estado}}</p>
-				<p>Forma de Notificación: {{datos.formaNotificacion}}</p>
-				<p>Fecha inicio: {{datos.fechaInicio}}</p>
-				<p>Fecha límite: {{datos.fechaLimite}}</p>
-				<p>Fecha notificación: {{datos.fechaNotificacionn}}</p>
-				<p>Fecha completado: {{datos.fechaCompletado}}</p>
-			</li>
-		</ul>
-	</div>
+    <div class="container" ng-controller="nuevebit.inver.controllers.DetallesSolicitudController as controller">
+        <p>Folio: {{ solicitud.id}}</p>
+        <p>Tipo: {{solicitud.tipo}}</p> 
+        <p ng-show="solicitud.tipoGestion">TipoGestion: {{solicitud.tipoGestion}}</p>
+        <p>SujetoObligado: {{solicitud.sujetoObligado}}</p>
+        <p>Descripcion: {{solicitud.descripcion}}</p>
+        <p>Estado: {{solicitud.estado}}</p>
+        <p>Forma de Notificación: {{solicitud.formaNotificacion}}</p>
+        <p>Fecha inicio: {{solicitud.fechaInicio}}</p>
+        <p>Fecha límite: {{solicitud.fechaLimite}}</p>
+        <p>Fecha notificación: {{solicitud.fechaNotificacionn}}</p>
+        <p>Fecha completado: {{solicitud.fechaCompletado}}</p>
+    </div>
 </ons-scroller>

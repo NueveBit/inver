@@ -73,4 +73,56 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
             });
         }
     };
+
+    /**
+     * 
+     * @param {!angular.scope} $scope
+     */
+    controllers.ListaSolicitudesController = function(
+            $scope,
+            services,
+            localStorageService) {
+
+        this.scope = $scope;
+        this.services = services;
+        var token = localStorageService.get("token");
+
+        $scope.tiposEstados = ["En proceso", "Completado"];
+        $scope.tiposSolicitud = services.TipoSolicitud.query();
+
+        $scope.criteria = {usuarioId: token};
+        this.buscar({usuarioId: token});
+    };
+
+    controllers.ListaSolicitudesController.prototype = {
+        buscar: function(criteria) {
+            if (criteria.tipo) {
+                criteria.tipoId = criteria.tipo.id;
+            }
+
+            var Solicitud = this.services.Solicitud;
+            this.scope.solicitudes = Solicitud.search(criteria);
+        },
+        verDetalle: function(solicitud) {
+            this.scope.ons.navigator.pushPage("views/detalleSolicitud.html", {id: solicitud.id});
+        }
+    };
+
+    /**
+     * 
+     * @param {!angular.scope} $scope
+     * @param {type} services
+     * @param {type} localStorageService
+     */
+    controllers.DetallesSolicitudController = function(
+            $scope,
+            services) {
+
+        var solicitudId = $scope.ons.navigator.getCurrentPage().options.id;
+
+        $scope.solicitud = services.Solicitud.get({solicitudId: solicitudId});
+    };
+
+    controllers.DetallesSolicitudController.prototype = {
+    };
 })(nuevebit.inver.controllers);

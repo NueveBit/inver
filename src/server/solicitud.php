@@ -8,7 +8,10 @@ $data = json_decode(file_get_contents("php://input"), true);
 $db = require_once dirname(__FILE__) . "/db.php";
 mysqli_set_charset($db, "utf8");
 
-if (isset($_GET["mediosNotificacion"])) {
+if (isset($_GET["completar"])) {
+    $folio = intval($_GET["idSolicitud"]);
+    completarSolicitud($db, $folio);
+} else if (isset($_GET["mediosNotificacion"])) {
     echo json_encode(array(
         array("medio" => "Consulta física o directamente - Sin costo"),
         array("medio" => "Consulta vía Infomex - Sin costo"),
@@ -42,41 +45,69 @@ if (isset($_GET["mediosNotificacion"])) {
 
     // $data == solicitud en json, si no tiene id, es nueva solicitud   
     echo json_encode(saveSolicitud($db, $data));
-} elseif (isset($data["solicitud"])) {
-    $tipoSolicitud = $data["solicitud"]["tipo"];
-    $tipo = $tipoSolicitud["tipo"];
-    $tipoGestion = $data["solicitud"]["tipoGestion"];
-    $descripcion = $data["solicitud"]["descripcion"];
-    $fechaInicio = date('Y-m-j');
-    $fechaLimite = date('Y-m-j', strtotime('+10 day', strtotime($fechaInicio)));
-    $status = "En proceso";
-    $sujetoObligado = $data["solicitud"]["sujetoObligado"];
-    $idSujetoObligado = $sujetoObligado["id"];
-    $idUsuario = $data["solicitud"]["idUsuario"];
-    $formaNotificacion = $data["solicitud"]["formaNotificacion"];
-    $resultado = guardarSolicitud($db, $tipo, $tipoGestion, $descripcion, $formaNotificacion, $fechaInicio, $fechaLimite, $status, $idSujetoObligado, $idUsuario);
-    echo json_encode($resultado);
-} elseif (isset($_GET["fechaRangoInicio"]) && isset($_GET["fechaRangoFin"]) && isset($_GET["status"]) && isset($_GET["idUsuario"])) {
-    $resultado = getListaSolicitudesByFechaStatus($db, $_GET["fechaRangoInicio"], $_GET["fechaRangoFin"], isset($_GET["status"]), $_GET["idUsuario"]);
-    echo json_encode($resultado);
-} elseif (isset($_GET["fechaInicio"]) && isset($_GET["idUsuario"])) {
-    $resultado = getListaSolicitudesByFecha($db, $_GET["fechaInicio"], $_GET["idUsuario"]);
-    echo json_encode($resultado);
-} elseif (isset($_GET["fechaRangoInicio"]) && isset($_GET["fechaRangoFin"]) && isset($_GET["idUsuario"])) {
-    $resultado = getListaSolicitudesByRangoFecha($db, $_GET["fechaRangoInicio"], $_GET["fechaRangoFin"], $_GET["idUsuario"]);
-    echo json_encode($resultado);
-} elseif (isset($_GET["status"]) && isset($_GET["idUsuario"])) {
-    $resultado = getListaSolicitudesByStatus($db, $_GET["status"], $_GET["idUsuario"]);
-    echo json_encode($resultado);
-} elseif (isset($_GET["tipo"])) {
-    $resultado = getListaSolicitudesByTipo($db, $_GET["tipo"]);
-    echo json_encode($resultado);
 } elseif (isset($_GET["idSolicitud"])) {
     $resultado = getDetalleSolicitud($db, $_GET["idSolicitud"]);
     echo json_encode($resultado);
+} else if (isset($_GET["search"])) {
+
+    if (!isset($_GET["usuarioId"])) { // usuario id necesario (token)
+        die("Not authorized");
+    }
+
+    $searchCriteria = array("idUsuario" => intval($_GET["usuarioId"]));
+    $dateRange = array();
+    
+    if (isset($_GET["fechaInicio"])) {
+        $dateRange["fechaInicio"] = $_GET["fechaInicio"];
+    }
+
+    if (isset($_GET["fechaFin"])) {
+        $dateRange["fechaFin"] = $_GET["fechaFin"];
+    }
+
+    if (isset($_GET["status"])) {
+        $searchCriteria["status"] = $_GET["status"];
+    }
+
+    if (isset($_GET["tipo"])) {
+        $searchCriteria["tipoId"] = intval($_GET["tipoId"]);
+    }
+
+    echo json_encode(find($db, $searchCriteria));
 }
 
-$db->close();
+function find($db, $searchCriteria) {
+    $sql = "select s.id, t.nombre, s.fechaInicio, s.status from SolicitudInformacion as s, Usuario as u, TipoSolicitud as t where s.idUsuario = u.id and s.tipoId = t.id ";
+    $types = "";
+
+    foreach ($searchCriteria as $key => $criteria) {
+        if (!$criteria) {
+            continue;
+        }
+        $sql .= "and s." . $key . "=? ";
+        $types .= "s";
+        $params[] = &$searchCriteria[$key];
+    }
+
+    if (isset($dateRange["fechaInicio"]) && isset($dateRange["fechaFin"])) {
+        $sql .= "and (s.fechaInicio between ? and ? )";
+        $params[] =&$dateRange["fechaInicio"];
+        $params[] =&$dateRange["fechaFin"];
+        $types .= "ss";
+    } 
+
+    $stmt = $db->prepare($sql);
+    $params = array_merge(array($types), $params);
+    call_user_func_array(array($stmt, "bind_param"), $params);
+    $stmt->execute();
+    
+    $stmt->bind_result($id, $tipo, $fechaInicio, $status);
+    $solicitudes = array();
+    while ($stmt->fetch()) {
+        $solicitudes[] = array("id" => $id, "tipo" => $tipo, "fechaInicio" => $fechaInicio, "status" => $status);
+    }
+    return $solicitudes;
+}
 
 function getTiposSolicitudes($db) {
     $sql = "select id, nombre from TipoSolicitud";
@@ -153,7 +184,7 @@ function saveSolicitud($db, $solicitud) {
 
     $sql = substr($sql, 0, strlen($sql) - 1);
     $sql .= ")";
-    
+
     $stmt = $db->prepare($sql);
     $params = array_merge(array($types), $params);
     call_user_func_array(array($stmt, "bind_param"), $params);
@@ -167,156 +198,29 @@ function saveSolicitud($db, $solicitud) {
     return $estado;
 }
 
-function guardarSolicitud($db, $tipo, $tipoGestion, $descripcion, $formaNotificacion, $fechaInicio, $fechaLimite, $status, $idSujetoObligado, $idUsuario) {
-    $sql = "insert into SolicitudInformacion (tipo, tipoGestion, descripcion, status, formaNotificacion, 
-		fechaInicio, fechaLimite,  idSujetoObligado, idUsuario) values (?,?,?,?,?,?,?,?,?)";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("sssssssss", $tipo, $tipoGestion, $descripcion, $status, $formaNotificacion, $fechaInicio, $fechaLimite, $idSujetoObligado, $idUsuario);
-    $stmt->execute();
-    if ($stmt->affected_rows > 0) {
-        $id = $stmt->insert_id;
-        $estado = array("estado" => "Registro guardado", "id" => $id);
-    } else {
-        $estado = array("estado" => "Error al guardar el registro");
-    }
-    return $estado;
-}
-
-function getListaSolicitudesByUsuario($db, $idUsuario) {
-    $sql = "select SolicitudInformacion.id as id, 
-	SolicitudInformacion.tipo as tipo, 
-	SolicitudInformacion.fechaInicio as fechaInicio, 
-	SolicitudInformacion.status as status
-	from SolicitudInformacion, Usuario
-	where SolicitudInformacion.idUsuario=? and 
-	SolicitudInformacion.idUsuario=Usuario.id";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("d", $idUsuario);
-    $stmt->execute();
-    $stmt->bind_result($id, $tipo, $fechaInicio, $status);
-    while ($stmt->fetch()) {
-        $solicitudes[] = array("id" => $id, "tipo" => $tipo, "fechaInicio" => $fechaInicio, "estado" => $status);
-    }
-    return $solicitudes;
-}
-
-function getListaSolicitudesByFecha($db, $fechaInicio, $idUsuario) {
-    $sql = "select SolicitudInformacion.id as id, 
-	SolicitudInformacion.tipo as tipo, 
-	SolicitudInformacion.fechaInicio as fechaInicio, 
-	SolicitudInformacion.status as status
-	from SolicitudInformacion, Usuario
-	where SolicitudInformacion.fechaInicio = ? and
-	SolicitudInformacion.idUsuario=? and 
-	SolicitudInformacion.idUsuario=Usuario.id";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("ss", $fechaInicio, $idUsuario);
-    $stmt->execute();
-    $stmt->bind_result($id, $tipo, $fechaInicio, $status);
-    while ($stmt->fetch()) {
-        $solicitudes[] = array("id" => $id, "tipo" => $tipo, "fechaInicio" => $fechaInicio, "status" => $status);
-    }
-    return $solicitudes;
-}
-
-function getListaSolicitudesByRangoFecha($db, $fechaInicial, $fechaFinal, $idUsuario) {
-    $sql = "select SolicitudInformacion.id as id, 
-	SolicitudInformacion.tipo as tipo, 
-	SolicitudInformacion.fechaInicio as fechaInicio, 
-	SolicitudInformacion.status as status
-	from SolicitudInformacion, Usuario
-	where SolicitudInformacion.fechaInicio between ? and ? and
-	SolicitudInformacion.idUsuario=? and 
-	SolicitudInformacion.idUsuario=Usuario.id";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("sss", $fechaInicial, $fechaFinal, $idUsuario);
-    $stmt->execute();
-    $stmt->bind_result($id, $tipo, $fechaInicio, $status);
-    while ($stmt->fetch()) {
-        $solicitudes[] = array("id" => $id, "tipo" => $tipo, "fechaInicio" => $fechaInicio, "status" => $status);
-    }
-    return $solicitudes;
-}
-
-function getListaSolicitudesByStatus($db, $status, $idUsuario) {
-    $sql = "select SolicitudInformacion.id as id, 
-	SolicitudInformacion.tipo as tipo, 
-	SolicitudInformacion.fechaInicio as fechaInicio, 
-	SolicitudInformacion.status as status
-	from SolicitudInformacion, Usuario
-	where SolicitudInformacion.status = ? and
-	SolicitudInformacion.idUsuario=? and 	
-	SolicitudInformacion.idUsuario=Usuario.id";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("ss", $status, $idUsuario);
-    $stmt->execute();
-    $stmt->bind_result($id, $tipo, $fechaInicio, $status);
-    while ($stmt->fetch()) {
-        $solicitudes[] = array("id" => $id, "tipo" => $tipo, "fechaInicio" => $fechaInicio, "status" => $status);
-    }
-    return $solicitudes;
-}
-
-function getListaSolicitudesByFechaStatus($db, $fechaInicial, $fechaFinal, $status, $idUsuario) {
-    $sql = "select SolicitudInformacion.id as id, 
-	SolicitudInformacion.tipo as tipo, 
-	SolicitudInformacion.fechaInicio as fechaInicio, 
-	SolicitudInformacion.status as status
-	from SolicitudInformacion, Usuario
-	where SolicitudInformacion.fechaInicio between ? and ? and
-	SolicitudInformacion.status= ? and 
-	SolicitudInformacion.idUsuario=? and
-	SolicitudInformacion.idUsuario=Usuario.id";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("ssss", $fechaInicial, $fechaFinal, $status, $idUsuario);
-    $stmt->execute();
-    $stmt->bind_result($id, $tipo, $fechaInicio, $status);
-    while ($stmt->fetch()) {
-        $solicitudes[] = array("id" => $id, "tipo" => $tipo, "fechaInicio" => $fechaInicio, "status" => $status);
-    }
-    return $solicitudes;
-}
-
-function getListaSolicitudesByTipo($db, $tipo) {
-    $sujetosObligados = array();
-    $sql = "select SolicitudInformacion.id as id, 
-	SolicitudInformacion.tipo as tipo, 
-	SolicitudInformacion.fechaInicio as fechaInicio, 
-	SolicitudInformacion.status as status
-	from SolicitudInformacion
-	where SolicitudInformacion.tipo = ?";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("s", $tipo);
-    $stmt->execute();
-    $stmt->bind_result($id, $tipo, $fechaInicio, $status);
-    while ($stmt->fetch()) {
-        $solicitudes[] = array("id" => $id, "tipo" => $tipo, "fechaInicio" => $fechaInicio, "status" => $status);
-    }
-    return $solicitudes;
-}
 
 function getDetalleSolicitud($db, $idSolicitud) {
     $sujetosObligados = array();
-    $sql = "select SolicitudInformacion.id as id, 
-	SolicitudInformacion.tipo as tipo, 
-	SolicitudInformacion.tipoGestion as tipoGestion, 
-	SolicitudInformacion.descripcion as descripcion, 
-	SolicitudInformacion.status as status,
-	SolicitudInformacion.formaNotificacion as formaNotificacion,
-	SolicitudInformacion.fechaInicio as fechaInicio,
-	SolicitudInformacion.fechaNotificacion as fechaNotificacion,
-	SolicitudInformacion.fechaLimite as fechaLimite,
-	SolicitudInformacion.fechaCompletado as fechaCompletado,
-	SujetoObligado.nombre as sujetoObligado
-	from SolicitudInformacion, SujetoObligado 
-	where SolicitudInformacion.id=? and 
-	SolicitudInformacion.idSujetoObligado=SujetoObligado.id";
+    $sql = "select s.id as id, 
+	t.nombre as tipo, 
+	s.tipoGestion as tipoGestion, 
+	s.descripcion as descripcion, 
+	s.status as status,
+	s.formaNotificacion as formaNotificacion,
+	s.fechaInicio as fechaInicio,
+	s.fechaNotificacion as fechaNotificacion,
+	s.fechaLimite as fechaLimite,
+	s.fechaCompletado as fechaCompletado,
+	o.nombre as sujetoObligado
+	from SolicitudInformacion as s, SujetoObligado as o, TipoSolicitud as t
+	where s.id=? and 
+	s.idSujetoObligado=o.id and s.tipoId = t.id";
     $stmt = $db->prepare($sql);
     $stmt->bind_param("d", $idSolicitud);
     $stmt->execute();
     $stmt->bind_result($id, $tipo, $tipoGestion, $descripcion, $status, $formaNotificacion, $fechaInicio, $fechaNotificacion, $fechaLimite, $fechaCompletado, $sujetoObligado);
     while ($stmt->fetch()) {
-        $detalle[] = array("id" => $id, "tipo" => $tipo,
+        $detalle = array("id" => $id, "tipo" => $tipo,
             "tipoGestion" => $tipoGestion, "descripcion" => $descripcion,
             "estado" => $status, "formaNotificacion" => $formaNotificacion,
             "fechaInicio" => $fechaInicio, "fechaLimite" => $fechaLimite,
@@ -324,6 +228,17 @@ function getDetalleSolicitud($db, $idSolicitud) {
             "sujetoObligado" => $sujetoObligado);
     }
     return $detalle;
+}
+
+function completarSolicitud($db, $folio) {
+    $sql = "update SolicitudInformacion set status = ?, fechaCompletado = NOW() where id = ?";
+
+    $status = "Completado";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("si", $status, $folio);
+    $stmt->execute();
+
+    echo "Completada solicitud: " . $folio;
 }
 
 ?>
