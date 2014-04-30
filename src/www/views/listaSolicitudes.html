@@ -41,18 +41,20 @@
                     <div>
                         <div id="mensaje" class="alert alert-success" ng-show="mensaje" ></div>
                     </div>
-                </fieldset>
-            </form>
-
+                </div>
+            </fieldset>
+        </form>
+        <div>
+            <span class="titulo">Resultdos</span>
             <ul class="topcoat-list">
                 <ons-list-item ng-repeat="solicitud in solicitudes"
-                               ng-click="controller.verDetalle(solicitud)"> 
-                    Folio: {{solicitud.id}}
-                    Fecha: {{solicitud.fechaInicio}}
-                    Tipo: {{solicitud.tipo}}
-                    {{solicitud.status}}
-                </ons-list-item>
-            </ul>
-        </div>
-    </ons-page>
+                   ng-click="controller.verDetalle(solicitud)"> 
+                   Folio: {{solicitud.id}}
+                   Fecha: {{solicitud.fechaInicio}}
+                   Tipo: {{solicitud.tipo}}
+                   {{solicitud.status}}
+               </ons-list-item>
+           </ul>
+       </div>
+   </ons-page>
 </ons-navigator>

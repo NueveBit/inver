@@ -46,7 +46,7 @@ nuevebit.inver.Application = {
                     controller: 'PerfilController'
                 })                
                 .otherwise({
-                    redirectTo: '/contenedor'
+                    redirectTo: '/login '
                 });
             }]);
 },

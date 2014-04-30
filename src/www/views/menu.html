@@ -3,8 +3,8 @@
 		<ons-list-item ng-repeat="page in pages"
 			ng-class="{ 'selected': $index == selectedIndex }"
             ng-click="controller.itemClicked($index)"> 
-			<i class="fa fa-{{page.icon}} fa-lg"></i> &nbsp;
-			{{ page.nombre }} 
+			<i class="fa fa-{{page.icon}} fa-lg"></i>
+			<div>{{ page.nombre }}</div> 
 		</ons-list-item>
 	</ons-list>
 </ons-page>
