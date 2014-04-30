@@ -12,8 +12,7 @@
         <title>inVer</title>
 
     </head>
-    <body>
-        <div ng-view></div>
+    <body ng-view>
 
     </body>
 </html>
