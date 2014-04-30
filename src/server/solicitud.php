@@ -109,6 +109,8 @@ function find($db, $searchCriteria) {
     return $solicitudes;
 }
 
+mysqli_close($db);
+
 function getTiposSolicitudes($db) {
     $sql = "select id, nombre from TipoSolicitud";
     $stmt = $db->prepare($sql);

@@ -11,59 +11,59 @@
             <fieldset>
                 <legend>Datos solicitud</legend>
                 <div class="form-group">
-                    <label for="tipo" class="col-sm-3 required">
+                    <label for="tipo" class="col-xs-12 col-sm-3 required">
                         Tipo de solicitud:
                     </label>
-                    <div class="col-sm-4">						
+                    <div class="col-xs-12 col-sm-5">						
                         <ons-select name="tipo" required class="topcoat-text-input form-control" ng-model="solicitud.tipo" ng-options="s.nombre for s in tiposSolicitud" ng-change="controller.tipoSolicitudChanged(solicitud.tipo)" id="tipo">
                         </ons-select>									
                         <p ng-show="solicitudForm.tipo.$invalid && !solicitudForm.tipo.$pristine" class="help-block">Proporciona el tipo de solicitud.</p>
                     </div>
                 </div>
                 <div class="form-group" ng-show="tiposGestion.length !== 0">
-                    <label for="tipoGestion" class="col-sm-3">
+                    <label for="tipoGestion" class="col-xs-12 col-sm-3">
                         Tipo de gestión:
                     </label>
-                    <div class="col-sm-4">
+                    <div class="col-xs-12 col-sm-5">
                         <ons-select class="topcoat-text-input form-control" ng-model="solicitud.tipoGestion" id="tipoGestion" ng-options="t.tipo for t in tiposGestion">  
                         </ons-select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="descripcion" class="col-sm-3 required">
+                    <label for="descripcion" class="col-xs-12 col-sm-3 required">
                         Descripción de la solicitud:
                     </label>
-                    <div class="col-sm-4">						
+                    <div class="col-xs-12 col-sm-5">						
                         <ons-text-area name="descripcion" required ng-model="solicitud.descripcion" id="descripcion" class="topcoat-text-input form-control"></ons-text-area>
                         <p ng-show="solicitudForm.descripcion.$invalid && !solicitudForm.descripcion.$pristine" class="help-block">Proporciona la descripción.</p>
                     </div>
                 </div>																		
                 <div class="form-group">
-                    <label for="tipoSujeto" class="col-sm-3 required">
+                    <label for="tipoSujeto" class="col-xs-12 col-sm-3 required">
                         Tipo de sujeto obligado:
                     </label>
-                    <div class="col-sm-4">						
+                    <div class="col-xs-12 col-sm-5">						
                         <ons-select name="tipoSujeto" class="form-control" required ng-model="solicitud.tipoSujeto" id="tipoSujeto" ng-options="s.tipoSujeto for s in tiposSujetosObligados" ng-change="controller.tipoSujetoChanged(solicitud.tipoSujeto)">
                         </ons-select>
                         <p ng-show="solicitudForm.tipoSujeto.$invalid && !solicitudForm.tipoSujeto.$pristine" class="help-block">Proporciona el tipo de sujeto obligado.</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="sujetoObligado" class="col-sm-3 required">
+                    <label for="sujetoObligado" class="col-xs-12 col-sm-3 required">
                         Sujeto obligado:
                     </label>
-                    <div class="col-sm-4">						
+                    <div class="col-xs-12 col-sm-5">						
                         <ons-select class="form-control" required ng-model="solicitud.sujetoObligado" id="sujetoObligado" name="sujetoObligado" ng-options="o.sujeto for o in sujetosObligados">
                         </ons-select>
                         <p ng-show="solicitudForm.sujetoObligado.$invalid && !solicitudForm.sujetoObligado.$pristine" class="help-block">Proporciona el sujeto obligado.</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 required">
+                    <label class="col-xs-12 col-sm-3 required">
                         Forma de notificación:
                     </label>
-                    <div class="col-sm-4">						
-                        <ons-radio-button required ng-repeat="f in formasNotificacion" ng-model="solicitud.formaNotificacion" value="{{f.medio}}" right-label="{{f.medio}}" name="formaNotificacion"></ons-radio-button>
+                    <div class="col-xs-12 col-sm-5">						
+                        <ons-radio-button required id="radio-forma" ng-repeat="f in formasNotificacion" ng-model="solicitud.formaNotificacion" value="{{f.medio}}" right-label="{{f.medio}}" name="formaNotificacion"></ons-radio-button>
                         <ons-text-input ng-show="solicitud.formaNotificacion === 'Otro medio'" ng-model="otraFormaNotificacion" class="topcoat-text-input form-control" placeholder="Escribe medio"></ons-text-input>
                         <p ng-show="solicitudForm.formaNotificacion.$invalid && !solicitudForm.formaNotificacion.$pristine" class="help-block">Proporciona el medio de notificación.</p>
                     </div>

@@ -2,8 +2,8 @@
 
 return mysqli_connect(
         "localhost", 
-        "root", 
-        "e18barney", 
+        "blanca", 
+        "blanca123", 
         "inver");
 
 ?>
