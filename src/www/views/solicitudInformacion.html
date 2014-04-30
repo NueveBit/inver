@@ -1,3 +1,4 @@
+<ons-page>
 <ons-navigator-toolbar     
 	title="Solicitud de información">      
 </ons-navigator-toolbar>
@@ -32,7 +33,7 @@
 						Descripción de la solicitud:
 					</label>
 					<div class="col-sm-4">						
-						<ons-text-area required ng-model="solicitud.descripcion" id="descripcion" class="topcoat-text-input form-control"></ons-text-input>
+						<ons-text-area required ng-model="solicitud.descripcion" id="descripcion" class="topcoat-text-input form-control"></ons-text-area>
 					</div>
 				</div>																		
 				<div class="form-group">
@@ -41,7 +42,7 @@
 					</label>
 					<div class="col-sm-4">						
 						<ons-select class="topcoat-text-input form-control"  ng-model="solicitud.tipoSujeto" id="tipoSujeto" ng-options="s.tipoSujeto for s in tiposSujetosObligados" ng-change="tipoSujetoChanged(solicitud)">
-						</select>		
+						</ons-select>		
 					</div>
 				</div>
 				<div class="form-group">
@@ -49,10 +50,11 @@
 						Sujeto obligado:
 					</label>
 					<div class="col-sm-4">						
-						<select class="topcoat-text-input form-control" ng-model="solicitud.sujetoObligado" id="sujetoObligado" ng-options="o.sujeto for o in sujetosObligados">
-						</select>
+						<ons-select class="topcoat-text-input form-control" ng-model="solicitud.sujetoObligado" id="sujetoObligado" ng-options="o.sujeto for o in sujetosObligados">
+						</ons-select>
 					</div>
 				</div>
+				<div>
 				<div class="form-group">
 					<label class="col-sm-3 required">
 						Forma de notificación:
@@ -66,18 +68,24 @@
 						</ons-radio-button>
 						<ons-radio-button ng-model="solicitud.formaNotificacion" value="Copia simple - Con costo" right-label="Copia simple - Con costo" name="solicitud.formaNotificacion">
 						</ons-radio-button>
+					</div>					
+				</div>
+				
+				<div class="col-sm-3 ">
+					</div>
+					<div class="col-sm-4">						
 						<ons-radio-button ng-model="solicitud.otraFormaNotificacion" value="Otro medio" right-label="Otro medio" name="solicitud.formaNotificacion">
 						</ons-radio-button>		
 						<ons-text-input ng-show="solicitud.otraFormaNotificacion" id="formaNotificacion" ng-model="solicitud.formaNotificacion" class="topcoat-text-input form-control" placeholder="Otro medio"></ons-text-input>
 					</div>
-
 				</div>
-				<div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
-				<div>
+			</fieldset>
+			<div>
+					<div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
 					<ons-button type="submit" ng-click="enviarSolicitud(solicitud)" class="topcoat-button boton">Enviar solicitud</ons-button>
 					<ons-button ng-click="ons.navigator.resetToPage('views/contenedor.html')" class="topcoat-button--quiet">Cancelar</ons-button>
 				</div>
-			</fieldset>
 		</form>
 	</div>
 </ons-scroller>
+</ons-page>

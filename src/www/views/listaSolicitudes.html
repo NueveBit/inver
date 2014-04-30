@@ -7,41 +7,31 @@ title="Lista solicitudes">
 		<form class="form-horizontal">
 			<fieldset>
 				<legend>Buscar solicitud</legend>
-				<div class="form-group">
-					<label for="fecha" class="col-sm-3">
-						Fecha de inicio
-					</label>
-				</div>
 				<div class="form-group">					
-					<label for="fecha" class="col-sm-3">						
-						Del:
+					<label for="fecha" class="col-xs-2 col-sm-3 col-md-3">						
+						Fecha:
 					</label>
-					<div class="col-sm-4">						
-						<ons-text-input type="date" ng-model="dato.fechaRangoInicio" id="fecha" ng-change="buscar(dato)" class="topcoat-text-input form-control"></ons-text-input>
+					<div class="col-xs-5 col-sm-3 col-md-2">						
+						<ons-text-input type="date" ng-model="dato.fechaRangoInicio" id="fecha" ng-change="buscar(dato)" class="topcoat-text-input form-control" placeholder="inicio"></ons-text-input>
+					</div>
+					<div class="col-xs-5 col-sm-3 col-md-2">						
+						<ons-text-input type="date" ng-model="dato.fechaRangoFin" id="fecha" ng-change="buscar(dato)" class="topcoat-text-input form-control" placeholder="fin"></ons-text-input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="fecha" class="col-sm-3">
-						Al:
-					</label>
-					<div class="col-sm-4">						
-						<ons-text-input type="date" ng-model="dato.fechaRangoFin" id="fecha" ng-change="buscar(dato)" class="topcoat-text-input form-control"></ons-text-input>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="estado" class="col-sm-3">
+					<label for="estado" class="col-lg-3">
 						Estado de la solicitud:
 					</label>
-					<div class="col-sm-4">						
+					<div class="col-lg-6">						
 						<ons-select class="topcoat-text-input form-control" ng-model="dato.estado" id="estado" ng-options="e for e in tiposEstados" ng-change="buscar(dato)">
 					</ons-select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="tipo" class="col-sm-3">
+				<label for="tipo" class="col-lg-3">
 					Tipo de solicitud:
 				</label>
-				<div class="col-sm-4">						
+				<div class="col-lg-6">						
 					<ons-select class="topcoat-text-input form-control" ng-model="dato.tipo" id="tipo" ng-options="t.tipo for t in tiposSolicitud" ng-change="buscar(dato)">
 				</ons-select>
 			</div>
