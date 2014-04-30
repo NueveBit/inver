@@ -28,10 +28,12 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
      */
     controllers.LoginController = function(
             $scope,
+            $location,
             services,
             localStorageService) {
 
         this.scope = $scope;
+        this.location = $location;
         this.services = services;
         this.localStorageService = localStorageService;
     };
@@ -47,7 +49,8 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
             }, angular.bind(this, function(data) {
                 if (data.loggedIn) {
                     this.localStorageService.add("token", data.token);
-                    scope.ons.navigator.resetToPage('views/contenedor.html');
+                    this.location.path("/contenedor");
+                    //scope.ons.navigator.resetToPage('views/contenedor.html');
                 } else {
                     scope.mensaje = "Nombre de usuario o contraseña incorrecto";
                 }
