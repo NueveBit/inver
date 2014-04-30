@@ -48,7 +48,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
                     $scope.tipoSujeto = data[1];
 
                     var Sujeto = services.Sujeto;
-                    $scope.sujetosObligados = Sujeto.get({tipoId: $scope.tipoSujeto.id});
+                    $scope.sujetosObligados = Sujeto.query({tipoId: $scope.tipoSujeto.id});
 
                     // retrasa hasta este punto la carga de indicadores para
                     // mostrar sólo las estadísticas de 1 tipo de indicador a la vez
@@ -84,6 +84,10 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
             Indicador.query(params, function(data) {
                 var labels = [];
                 var values = [];
+
+                if (!data.length) {
+                    // handle errors!
+                }
 
                 var indicadores = data[0]["indicadores"];
                 angular.forEach(indicadores, function(indicador) {

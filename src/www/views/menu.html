@@ -8,4 +8,14 @@
 			{{ page.nombre }} 
 		</ons-list-item>
 	</ons-list>
+<ons-page ng-controller="nuevebit.inver.controllers.MenuController as controller">
+    <ul class="topcoat-list">
+        <li ng-repeat="page in pages"
+            class="topcoat-list__item--tappable topcoat-list__item__line-height"
+            ng-class="{ 'selected': $index == selectedIndex }"
+            ng-click="controller.itemClicked($index)"> 
+            <i class="fa fa-{{page.icon}} fa-lg" style="color: #666"></i> &nbsp;
+            {{ page.nombre}} 
+        </li>
+    </ul>
 </ons-page>

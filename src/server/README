@@ -1,18 +1,19 @@
-** Simulación plataforma infoMEX
+** Simulación plataforma infoMEX (referencia sistema infoVER)
 
-En este apartado se encuentra una implementación simulada
-del sistema infoMEX, a través del cual se conectara nuestra
+En este apartado se encuentra una implementación de referencia
+del sistema infoMEX propuesto, a través del cual se conectara nuestra
 aplicación móvil para obtener la información que necesite
 sobre las solicitudes de información y sujetos obligados.
 
 Se realizó un esquema de BD para organizar la información que
-se encuentra en los datasets disponibles en la página del
-IVAI. A través de un script, se automatizó la captura de
+se encuentra en los datasets disponibles en la página de la TecnoCopa
+IVAI (http://www.ivai.org.mx/tecnocopa/datasets/). 
+A través de un script, se automatizó la captura de
 los datos de indicadores que se encontraba en formato
 excel para almacenarlos en la base de datos y contar con
 información precargada para realizar pruebas.
 
-Para utilizar la plataforma, se necesita lo siguiente:
+Para instalar la plataforma, se necesita lo siguiente:
 MySQL 5+ (importar db.sql y especificar los datos de conexión en db.php)
 PHP 5+
     Módulos PHP: mysqli
@@ -41,4 +42,9 @@ La configuración anterior es necesaria para que pueda utilizarse la API REST
 adecuadamente, ya que es necesario mod_rewrite para utilizar "pretty urls",
 además de eliminar la dependencia a PHP, ya que así se puede utilizar con
 cualquier plataforma de backend siempre y cuando los recursos (urls) se
-encuentren en el formato esperado (e.g. /solicitudes/pendientes).
+encuentren en el formato esperado (e.g. /solicitudes/tipos).
+
+NOTA DE IMPLEMENTACIÓN: Por ser una implementación de referencia, únicamente
+se tomaron las medidas de seguridad necesarias para evitar ataques de inyección
+de SQL, pero no se sanitizan ni realizan muchas validaciones sobre los datos
+recibidos. En una implementación real, esto debe ser tomado en cuenta.

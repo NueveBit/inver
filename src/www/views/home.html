@@ -4,6 +4,6 @@
 		left-button-icon="fa fa-bars" 
 		on-left-button-click="ons.splitView.toggle()">		   
   	</ons-navigator-toolbar>
-  	<ons-button ng-controller="loginController" ng-click="logout()" type="quiet">Cerrar sesión</ons-button>
+  	<ons-button ng-controller="nuevebit.inver.controllers.LoginController as controller" ng-click="controller.logout()" type="quiet">Cerrar sesión</ons-button>
   	<div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
 </ons-page>

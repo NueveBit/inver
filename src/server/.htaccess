@@ -1,4 +1,6 @@
-Header add Access-Control-Allow-Origin: *
+# Header necesario para CORS
+Header add Access-Control-Allow-Origin: http://localhost:4000
+Header add Access-Control-Allow-Credentials: true
 
 RewriteEngine On
 RewriteBase /
@@ -6,9 +8,30 @@ RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
+#############################################################
+# API REST inVer                                            #
+#############################################################
+
+# recurso login
+RewriteRule ^login/?$ login.php [QSA,L]
+
+# recursos sujetos obligados
 RewriteRule ^sujetos/tipos/?$ solicitud.php?tiposSujetos=true [QSA,L]
 RewriteRule ^sujetos/([0-9]+)/?$ solicitud.php?idTipoSujeto=$1 [QSA,L]
+RewriteRule ^sujetos/?$ solicitud.php [QSA,L]
+
+# recursos indicadores
 RewriteRule ^indicadores/tipos/?$ estadisticas.php?tiposIndicadores=true [QSA,L]
 RewriteRule ^indicadores/?$ estadisticas.php [QSA,L]
+
+# recursos solicitudes
 RewriteRule ^solicitudes/([0-9]+)/?$ solicitud.php?idSolicitud=$1 [QSA,L]
 RewriteRule ^solicitudes/?$ solicitud.php [QSA,L]
+RewriteRule ^solicitudes/tipos/?$ solicitud.php?tiposSolicitudes=true [QSA,L]
+
+# recursos usuarios
+RewriteRule ^usuarios/([0-9]+)/?$ usuario.php?idUsuario=$1 [QSA,L]
+RewriteRule ^usuarios/?$ usuario.php [QSA,L]
+
+## ESTO NO ES PARTE DE LA API, PERO SE PONE AQUÍ PARA SIMPLIFICAR LAS URLS
+RewriteRule ^solicitud/completar/?$ solicitud.php?completar=true [QSA,L]

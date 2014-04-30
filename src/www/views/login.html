@@ -1,32 +1,34 @@
 <ons-page>
-  <ons-navigator-toolbar     
-    title="inVer">      
-  </ons-navigator-toolbar>
-  <ons-scroller>
-    <div class="container"  ng-controller="loginController">
-      <form class="form-horizontal" name="loginForm">
-        <div class="form-group ">
-          <div class="col-lg-6 col-lg-offset-3">
-            <ons-text-input placeholder="Nombre de usuario" id="nombreUsuario" ng-model="usuario.nombreUsuario" class="form-control"></ons-text-input>
-          </div>
+    <ons-navigator-toolbar     
+        title="inVer">      
+    </ons-navigator-toolbar>
+    <ons-scroller>
+        <div class="container"  ng-controller="nuevebit.inver.controllers.LoginController as controller">
+            <form class="form-horizontal" ng-submit="controller.login(loginForm.$valid, usuario)" name="loginForm">
+                <div class="form-group ">
+                    <div class="col-md-6 col-md-offset-3">
+                        <ons-text-input required placeholder="Nombre de usuario" id="nombreUsuario" nombre="username" ng-model="usuario.nombreUsuario" class="topcoat-text-input form-control"></ons-text-input>
+                        <p ng-show="loginForm.username.$invalid && !loginForm.username.$pristine" class="help-block">Proporciona tu nombre de usuario.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <ons-text-input required name="password" type="password" placeholder="Contraseña" id="password" ng-model="usuario.password" class="topcoat-text-input form-control "></ons-text-input>
+                        <p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="help-block">Proporciona tu contraseña.</p>
+                    </div>
+                </div>
+                <div class="form-group center">
+                    <button type="submit" class="topcoat-button boton" ng-disabled="loginForm.$invalid">Iniciar sesión</button>
+                </div>
+                <div class="form-group center">
+                    <ons-button ng-click="ons.navigator.pushPage('views/registro.html')" class="topcoat-button--quiet">Regístrate en inVer </ons-button>
+                </div>
+                <div id="mensaje" class="alert alert-success" ng-show="mensaje" ng-model="mensaje"></div>
+            </form>
         </div>
-        <div class="form-group">
-          <div class="col-lg-6 col-lg-offset-3">
-            <ons-text-input  type="password" placeholder="Contraseña" id="password" class="form-control" ng-model="usuario.password" ></ons-text-input>
-           </div>
-         </div>
-         <div class="form-group center">
-          <button type="submit" ng-click="iniciarSesion(usuario)" class="topcoat-button boton">Iniciar sesión</button>
-        </div>
-        <div class="form-group center">
-          <ons-button ng-click="ons.navigator.pushPage('views/registro.html')" class="topcoat-button--quiet">Regístrate en inVer </ons-button>
-        </div>
-        <div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
-      </form>
-    </div>
-    <div>Pruebas</div>
-    <ons-button ng-click="ons.navigator.pushPage('views/solicitudInformacion.html')" class="topcoat-button--quiet">Prueba Solicitud de Información</ons-button>
-    <ons-button ng-click="ons.navigator.pushPage('views/listaSolicitudes.html')" class="topcoat-button--quiet">Prueba ver solicitudes</ons-button>
-    <ons-button ng-click="ons.navigator.pushPage('views/estadisticas.html')" class="topcoat-button--quiet">Estadísticas</ons-button>
-  </ons-scroller>
+        <div>Pruebas</div>
+        <ons-button ng-click="ons.navigator.pushPage('views/solicitudInformacion.html')" class="topcoat-button--quiet">Prueba Solicitud de Información</ons-button>
+        <ons-button ng-click="ons.navigator.pushPage('views/listaSolicitudes.html')" class="topcoat-button--quiet">Prueba ver solicitudes</ons-button>
+        <ons-button ng-click="ons.navigator.pushPage('views/estadisticas.html')" class="topcoat-button--quiet">Estadísticas</ons-button>
+    </ons-scroller>
 </ons-page>

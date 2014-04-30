@@ -11,6 +11,10 @@
     "js/application.js",
     "js/services/estadisticas.js",
     "js/services.js",
+    "js/controllers/login.js",
+    "js/controllers/menu.js",
+    "js/controllers/perfil.js",
+    "js/controllers/solicitudes.js",
     "js/controllers/estadisticas.js",
     "js/controllers.js",
     "js/directives/chart/chart.js"

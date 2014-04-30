@@ -5,6 +5,12 @@ create table TipoSujeto (
     primary key(id)
 ) engine=INNODB collate utf8_unicode_ci;
 
+create table TipoSolicitud (
+    id smallint not null auto_increment,
+    nombre varchar(255) not null,
+    primary key(id)
+) engine=INNODB collate utf8_unicode_ci;
+
 create table SujetoObligado (
     id bigint(20) not null auto_increment,
     nombre varchar(255) not null,
@@ -75,7 +81,7 @@ create table Usuario(
 
 create table SolicitudInformacion(
     id bigint(20) not null auto_increment,
-    tipo varchar (255) not null,
+    tipoId smallint not null,
     tipoGestion varchar (255) null,
     descripcion blob not null,
     status varchar(255) not null,
@@ -92,6 +98,10 @@ create table SolicitudInformacion(
     constraint fk_SolicitudInformacion_idUsuario foreign key (idUsuario)
         references Usuario(id)
         ON DELETE CASCADE,
+
+    constraint fk_SolicitudInformacion_tipoId foreign key (tipoId)
+        references TipoSolicitud(id)
+        on delete cascade;
     primary key(id)
 ) engine=INNODB collate utf8_unicode_ci;
 
