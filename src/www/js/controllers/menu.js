@@ -30,7 +30,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
             {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""}
         ]
 
-        $scope.selectedIndex = 0;
+        $scope.selectedIndex = -1;
     };
 
     controllers.MenuController.prototype = {

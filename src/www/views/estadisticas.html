@@ -3,18 +3,20 @@
     left-button-icon="fa fa-bars" 
     on-left-button-click="ons.splitView.toggle()">
     <ons-page>
-        <div class="container"  >
-            <ons-tabbar>
-                <ons-tabbar-item 
-                    icon="tasks"
-                    label="Resumen"
-                    page="views/estadisticas/resumen.html"
-                    active="true"></ons-tabbar-item> 
-                <ons-tabbar-item 
-                    icon="bar-chart-o"
-                    label="Indicadores"      
-                    page="views/estadisticas/indicadores.html"></ons-tabbar-item> 
-            </ons-tabbar>
-        </div>
+        <ons-scroller>
+            <div class="container"  >
+                <ons-tabbar>
+                    <ons-tabbar-item 
+                        icon="tasks"
+                        label="Resumen"
+                        page="views/estadisticas/resumen.html"
+                        active="true"></ons-tabbar-item> 
+                    <ons-tabbar-item 
+                        icon="bar-chart-o"
+                        label="Indicadores"      
+                        page="views/estadisticas/indicadores.html"></ons-tabbar-item> 
+                </ons-tabbar>
+            </div>
+        </ons-scroller>
     </ons-page>
 </ons-navigator>

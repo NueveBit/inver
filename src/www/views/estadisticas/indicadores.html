@@ -6,24 +6,24 @@
     </ons-navigator-toolbar>
     <div class="container" ng-controller="nuevebit.inver.controllers.IndicadoresEstadisticasController as controller" >
 
-        <form class="form-inline">
+        <form class="form-horizontal">
             <div class="form-group nullable">
-                <label for="tipo">Tipo sujeto:</label>
-                <div class="">						
+                <label for="tipo" class="col-xs-12 col-sm-3">Tipo sujeto:</label>
+                <div class="col-xs-12 col-sm-5">						
                     <ons-select id="tipo" class="topcoat-text-input form-control" ng-model="tipoSujeto" ng-options="s.tipoSujeto for s in tiposSujetos" ng-change="controller.tipoSujetoChanged(tipoSujeto)">
                     </ons-select>									
                 </div>
             </div>
             <div class="form-group nullable">
-                <label for="tipo">Sujeto obligado:</label>
-                <div class="">						
+                <label for="tipo" class="col-xs-12 col-sm-3">Sujeto obligado:</label>
+                <div class="col-xs-12 col-sm-5">						
                     <ons-select id="tipo" class="topcoat-text-input form-control" ng-model="sujetoObligado" ng-options="o.sujeto for o in sujetosObligados" ng-change="controller.updateChart()">
                     </ons-select>									
                 </div>
             </div>
             <div class="form-group nullable">
-                <label for="tipo">Tipo indicador:</label>
-                <div class="">						
+                <label for="tipo" class="col-xs-12 col-sm-3">Tipo indicador:</label>
+                <div class="col-xs-12 col-sm-3">						
                     <ons-select id="tipo" class="topcoat-text-input form-control" ng-model="indicador" ng-options="t.nombre for t in tiposIndicadores" ng-change="controller.updateChart()">
                     </ons-select>									
                 </div>
