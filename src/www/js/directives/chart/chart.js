@@ -25,13 +25,13 @@ nuevebit.inver.directives = nuevebit.inver.directives || {};
     directives.Chart.prototype = {
         _createChart: function() {
             var r = Raphael(this.id);
-            var pie = r.piechart(150, 150, 100, this.values, {
+            var pie = r.piechart(100, 150, 100, this.values, {
                 legend: this.labels,
                 legendpos: "east"
             });
 
             if (this.title) {
-                r.text(340, 10, this.title).attr({font: "20px sans-serif"});
+                r.text(100, 10, this.title).attr({font: "20px sans-serif"});
             }
             pie.hover(function() {
                 this.sector.stop();

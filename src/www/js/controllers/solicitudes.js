@@ -68,7 +68,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
                 if (data.error) {
                     scope.mensaje = data.error;
                 } else {
-                    scope.ons.navigator.resetToPage('views/contenedor.html');
+                    scope.ons.navigator.popPage();
                 }
             });
         }
