@@ -1,200 +1,210 @@
 <ons-page>
-	<ons-navigator-toolbar     
-		title="Registro">      
-	</ons-navigator-toolbar>
-	<ons-scroller>
-		<div class="container" ng-controller="registroController">
-			<div>
-				<small class="required">Indica que el campo es obligatorio.</small>		
-			</div>
-			<form class="form-horizontal">
-				<fieldset>
-					<legend>Información de cuenta</legend>
-					<div class="form-group">
-						<label for="nombreUsuario" class="col-xs-12 col-sm-3 required"> Nombre de usuario:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input required ng-model="usuario.nombreUsuario" id="nombreUsuario" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="password" class="col-xs-12 col-sm-3 required">
-							Contraseña:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input required type="password" ng-model="usuario.password" id="password" class="topcoat-text-input form-control"></ons-text-input>
-						</div>						
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-3 col-xs-12 col-sm-5">						
-							<ons-text-input required type="password" ng-model="usuario.passwordConfirmada" class="topcoat-text-input form-control" placeholder="Confirmar contraseña"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="preguntaSecreta" class="col-xs-12 col-sm-3 required">
-							Pregunta secreta:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-select class="topcoat-text-input form-control" required ng-model="usuario.pregunta" id="preguntaSecreta" selected="selected">    
-								<option value="" disabled>Seleccionar pregunta secreta</option>
-								<option value="¿Lugar de nacimiento de mi Mamá?">¿Lugar de nacimiento de mi Mamá?</option>
-								<option value="¿Mi mejor amigo de la infancia?">¿Mi mejor amigo de la infancia?</option>
-								<option value="¿Nombre de mi mascota?">¿Nombre de mi mascota?</option>
-								<option value="¿Profesor favorito?">¿Profesor favorito?</option>
-								<option value="¿Personaje histórico favorito?">¿Personaje histórico favorito?</option>
-								<option value="¿Ocupación de mi abuelo?">¿Ocupación de mi abuelo?</option>
-							</ons-select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="respuestaSecreta" class="col-xs-12 col-sm-3 required">
-							Respuesta a pregunta secreta:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input type="password" ng-model="usuario.respuestaSecreta" id="respuestaSecreta" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-				</fieldset>
-				<fieldset>
-					<legend>Información personal</legend>
-					<div class="form-group">
-						<label for="personalidadJuridica" class="col-xs-12 col-sm-3 required">
-							Personalidad jurídica:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-select class="topcoat-text-input form-control" ng-model="usuario.personalidadJuridica" id="personalidadJuridica">    
-								<option value="" disabled>Seleccionar personalidad jurídica</option>
-								<option value="Física">Física</option>
-								<option value="Moral">Moral</option>
-							</ons-select>
-						</div>
-
-					</div>
-					<div class="form-group">
-						<label for="nombre" class="col-xs-12 col-sm-3 required">
-							Nombre (s):
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.nombre" id="nombre" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="apellidoPaterno" class="col-xs-12 col-sm-3 required">
-							Apellido paterno:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.apellidoPaterno" id="apellidoPaterno" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="apellidoMaterno" class="col-xs-12 col-sm-3 required">
-							Apellido Materno:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.apellidoMaterno" id="apellidoMaterno" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="fechaNacimiento" class="col-xs-12 col-sm-3">
-							Fecha de nacimiento:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input type="date" ng-model="usuario.fechaNacimiento" id="fechaNacimiento" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="email" class="col-xs-12 col-sm-3 required">
-							Correo electrónico:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input type="email" ng-model="usuario.email" id="email" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="estado" class="col-xs-12 col-sm-3 required">
-							Estado:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-select class="topcoat-text-input form-control" ng-model="usuario.estado" id="estado">    
-								<option value="" disabled>Seleccionar estado</option>
-								<option value="Veracruz">Veracruz</option>
-							</ons-select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="municipio" class="col-xs-12 col-sm-3 required">
-							Municipio:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-select class="topcoat-text-input form-control" ng-model="usuario.municipio" id="municipio" selected="{{usuario.municipio}}" >    
-								<option value="" disabled>Seleccionar municipio</option>
-								<option value="Xalapa">Xalapa</option>
-							</ons-select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="codigoPostal" class="col-xs-12 col-sm-3 required">
-							Código postal:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.codigoPostal" id="codigoPostal" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="colonia" class="col-xs-12 col-sm-3 required">
-							Colonia:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.colonia" id="colonia" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="calle" class="col-xs-12 col-sm-3 required">
-							Calle:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.calle" id="calle" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="numeroExterior" class="col-xs-12 col-sm-3 required">
-							Numero exterior:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.numeroExterior" id="numeroExterior" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="numeroInterior" class="col-xs-12 col-sm-3">
-							Número interior:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.numeroInterior" id="numeroInterior" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="telefono" class="col-xs-12 col-sm-3">
-							Teléfono:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.telefono" id="telefono" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="fax" class="col-xs-12 col-sm-3">
-							Fax:
-						</label>
-						<div class="col-xs-12 col-sm-5">						
-							<ons-text-input ng-model="usuario.fax" id="fax" class="topcoat-text-input form-control"></ons-text-input>
-						</div>
-					</div>
-					<div>
-						<ons-button type="submit" ng-click="crearCuenta(usuario)" class="topcoat-button boton">Crear cuenta</ons-button>
-						<ons-button ng-click="ons.navigator.popPage()" class="topcoat-button--quiet">Cancelar</ons-button>
-						<div id="mensaje" class="alert alert-success" data-ng-show="mensaje" data-ng-bind="mensaje"></div>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-	</ons-scroller>
+    <ons-navigator-toolbar
+        title="Registro">
+    </ons-navigator-toolbar>
+    <ons-scroller>
+        <div class="container" ng-controller="nuevebit.inver.controllers.RegistroController as controller">
+            <div>
+                <small class="required">Indica que el campo es obligatorio.</small>		
+            </div>
+            <form name="registroForm" class="form-horizontal" >
+                <fieldset>
+                    <legend>Información de cuenta</legend>
+                    <div class="form-group">
+                        <label for="nombreUsuario" name="username" class="col-xs-12 col-sm-3 required"> Nombre de usuario:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input required ng-model="usuario.username" id="nombreUsuario" name="username" ng-minlength="5" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.username.$invalid && !registroForm.username.$pristine" class="help-block">Proporciona un nombre de usuario.</p>
+                            <p ng-show="registroForm.username.$error.minlength" class="help-block">El nombre de usuario es muy corto.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-xs-12 col-sm-3">
+                            Contraseña:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input type="password" ng-minlength="8" ng-model="usuario.password" id="password" name="password" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.password.$error.minlength" class="help-block">La contraseña es muy corta.</p>
+                        </div>                      
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-xs-12 col-sm-5">                        
+                            <ons-text-input type="password" ng-model="passwordConfirmacion" class="topcoat-text-input form-control" placeholder="Confirmar contraseña"></ons-text-input>
+                            <p ng-show="usuario.password !== passwordConfirmacion && !registroForm.password.$pristine" class="help-block">Las contraseñas no coinciden.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="preguntaSecreta" class="col-xs-12 col-sm-3 required">
+                            Pregunta secreta:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-select class="form-control"  ng-model="usuario.preguntaSecreta" id="preguntaSecreta" name="preguntaSecreta" selected="{{usuario.preguntaSecreta}}" required >    
+                                <option value="¿Lugar de nacimiento de mi Mamá?">¿Lugar de nacimiento de mi Mamá?</option>
+                                <option value="¿Mi mejor amigo de la infancia?">¿Mi mejor amigo de la infancia?</option>
+                                <option value="¿Nombre de mi mascota?">¿Nombre de mi mascota?</option>
+                                <option value="¿Profesor favorito?">¿Profesor favorito?</option>
+                                <option value="¿Personaje histórico favorito?">¿Personaje histórico favorito?</option>
+                                <option value="¿Ocupación de mi abuelo?">¿Ocupación de mi abuelo?</option>
+                            </ons-select>
+                            <p ng-show="registroForm.preguntaSecreta.$invalid && !registroForm.preguntaSecreta.$pristine" class="help-block">Proporciona una pregunta secreta.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="respuestaSecreta" class="col-xs-12 col-sm-3 required">
+                            Respuesta a pregunta secreta:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input required ng-model="usuario.respuestaSecreta" id="respuestaSecreta" name="respuestaSecreta" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.respuestaSecreta.$invalid && !registroForm.respuestaSecreta.$pristine" class="help-block">Proporciona la respuesta a la pregunta secreta.</p>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Información personal</legend>
+                    <div class="form-group">
+                        <label for="personalidadJuridica" class="col-xs-12 col-sm-3 required">
+                            Personalidad jurídica:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-select class="form-control" required ng-model="usuario.personalidadJuridica" id="personalidadJuridica" name="personalidadJuridica" selected="{{usuario.personalidadJuridica}}">    
+                                <option value="Física">Física</option>
+                                <option value="Moral">Moral</option>
+                            </ons-select>
+                            <p ng-show="registroForm.personalidadJuridica.$invalid && !registroForm.personalidadJuridica.$pristine" class="help-block">Proporciona la personalidad jurídica.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre" class="col-xs-12 col-sm-3 required">
+                            Nombre(s):
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input required ng-model="usuario.nombre" id="nombre" name="nombre" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.nombre.$invalid && !registroForm.nombre.$pristine" class="help-block">Proporciona tu nombre.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidoPaterno" class="col-xs-12 col-sm-3 required">
+                            Apellido paterno:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input required ng-model="usuario.apellidoPaterno" id="apellidoPaterno" name="apellidoPaterno" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.apellidoPaterno.$invalid && !registroForm.apellidoPaterno.$pristine" class="help-block">Proporciona tu apellido paterno.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidoMaterno" class="col-xs-12 col-sm-3 required">
+                            Apellido Materno:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input required ng-model="usuario.apellidoMaterno" id="apellidoMaterno" name="apellidoMaterno" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.apellidoMaterno.$invalid && !registroForm.apellidoMaterno.$pristine" class="help-block">Proporciona tu apellido materno.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaNacimiento" class="col-xs-12 col-sm-3">
+                            Fecha de nacimiento:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input type="date" ng-model="usuario.fechaNacimiento" id="fechaNacimiento" name="fechaNacimiento" class="form-control"></ons-text-input>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-xs-12 col-sm-3 required">
+                            Correo electrónico:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input type="email" required ng-model="usuario.email" id="email" name="email" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.email.$invalid && !registroForm.email.$pristine" class="help-block">Proporciona tu correo electrónico.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="estado" class="col-xs-12 col-sm-3 required">
+                            Estado:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-select required class="form-control"  ng-model="usuario.estado" id="estado" name="estado" selected="{{usuario.estado}}">    
+                                <option value="Veracruz">Veracruz</option>
+                            </ons-select>
+                            <p ng-show="registroForm.estado.$invalid && !registroForm.estado.$pristine" class="help-block">Proporciona el estado donde vives.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="municipio" class="col-xs-12 col-sm-3 required">
+                            Municipio:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-select required class="form-control" ng-model="usuario.municipio" id="municipio" name="municipio" selected="{{usuario.municipio}}">    
+                                <option value="Xalapa">Xalapa</option>
+                            </ons-select>
+                            <p ng-show="registroForm.municipio.$invalid && !registroForm.municipio.$pristine" class="help-block">Proporciona tu municipio.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="codigoPostal" class="col-xs-12 col-sm-3 required">
+                            Código postal:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input ng-model="usuario.codigoPostal" id="codigoPostal" name="codigoPostal" class="form-control" required></ons-text-input>
+                            <p ng-show="registroForm.codigoPostal.$invalid && !registroForm.codigoPostal.$pristine" class="help-block">Proporciona tu código postal.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="colonia" class="col-xs-12 col-sm-3 required">
+                            Colonia:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input required ng-model="usuario.colonia" id="colonia" name="colonia" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.colonia.$invalid && !registroForm.colonia.$pristine" class="help-block">Proporciona tu colonia.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="calle" class="col-xs-12 col-sm-3 required">
+                            Calle:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input required ng-model="usuario.calle" id="calle" nombre="calle" class="form-control"></ons-text-input>
+                        </div>
+                        <p ng-show="registroForm.calle.$invalid && !registroForm.calle.$pristine" class="help-block">Proporciona tu calle.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="numeroExterior" class="col-xs-12 col-sm-3 required">
+                            Numero exterior:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input required ng-model="usuario.numeroExterior" id="numeroExterior" name="numeroExterior" class="form-control"></ons-text-input>
+                            <p ng-show="registroForm.numeroExterior.$invalid && !registroForm.numeroExterior.$pristine" class="help-block">Proporciona el número exterior de tu domicilio.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="numeroInterior" class="col-xs-12 col-sm-3">
+                            Número interior:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input ng-model="usuario.numeroInterior" id="numeroInterior" class="form-control"></ons-text-input>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono" class="col-xs-12 col-sm-3">
+                            Teléfono:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input ng-model="usuario.telefono" id="telefono" class="form-control"></ons-text-input>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fax" class="col-xs-12 col-sm-3">
+                            Fax:
+                        </label>
+                        <div class="col-xs-12 col-sm-5">                        
+                            <ons-text-input ng-model="usuario.fax" id="fax" class="topcoat-text-input form-control"></ons-text-input>
+                        </div>
+                    </div>
+                    <div>
+                        <ons-button ng-click="controller.guardar(usuario)" type="submit" disabled="{{registroForm.$invalid}}" class="">Guardar</ons-button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </ons-scroller>
 </ons-page>

@@ -21,21 +21,24 @@ nuevebit.inver = nuevebit.inver || {};
 nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
 (function(controllers) {
-    controllers.PerfilController = function(
+    controllers.RegistroController = function(
             $scope,
-            services,
-            localStorageService) {
+            services) {
 
         this.scope = $scope;
         this.services = services;
-        $scope.usuario = services.Usuario.get({usuarioId: localStorageService.get("token")});
+        $scope.usuario = {};
     };
 
-    controllers.PerfilController.prototype = {
+    controllers.RegistroController.prototype = {
         guardar: function(usuario) {
             var scope = this.scope;
-            usuario.$save(function() {
-                //scope.ons.navigator.resetToPage('views/contenedor.html');
+            this.services.Usuario.save(usuario, function(data) {
+                if (!data.error) {
+                    scope.ons.navigator.popPage();
+                } else {
+                    alert(data.error);
+                }
             });
         }
     };

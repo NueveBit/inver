@@ -14,7 +14,6 @@ nuevebit.inver.Application = {
         this._angularApp = angular.module("inverApp", [
             "ngRoute",
             'ngResource',
-            "inverControllers",
             "inverServices",
             "nuevebit.directives",
             "onsen.directives",
@@ -42,8 +41,7 @@ nuevebit.inver.Application = {
                     templateUrl: 'views/home.html',
                 }).
                 when('/perfil', {
-                    templateUrl: 'views/perfil.html',
-                    controller: 'PerfilController'
+                    templateUrl: 'views/perfil.html'
                 })                
                 .otherwise({
                     redirectTo: '/login'

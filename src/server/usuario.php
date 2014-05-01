@@ -66,10 +66,22 @@ function saveUsuario($db, $usuario) {
     $types = "";
 
     if (!isset($usuario ["id"])) { // nuevo usuario
+        $sql = "select count(*) from Usuario where username = ? or email = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("ss", $usuario["username"], $usuario["email"]);
+        $stmt->execute();
+
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        if ($count > 0) {
+            return array("error" => "El nombre de usuario o correo electrónico no está disponible.");
+        }
+        
         $sql = "insert into Usuario (" . implode(", ", $cols) . ") values (";
         foreach ($cols as $col) {
             $types .= "s";
-            $params[] = &$solicitud[$col];
+            $params[] = &$usuario[$col];
             $sql .= "?,";
         }
 

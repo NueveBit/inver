@@ -1,7 +1,7 @@
 <ons-navigator
     title="Perfil"
     left-button-icon="fa fa-bars" 
-    on-left-button-click="ons.splitView.toggle()">		   
+    on-left-button-click="ons.spliView.toggle()">		   
     <ons-page>
         <ons-scroller>
             <div class="container" ng-controller="nuevebit.inver.controllers.PerfilController as controller">
@@ -203,7 +203,6 @@
                         </div>
                         <div>
                             <ons-button type="submit" disabled="{{perfilForm.$invalid}}" class="">Guardar</ons-button>
-                            <ons-button type="quiet" ng-click="ons.navigator.resetToPage('views/contenedor.html')" >Cancelar</ons-button>
                         </div>
                     </fieldset>
                 </form>

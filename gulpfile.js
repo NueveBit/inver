@@ -19,7 +19,7 @@ var CSS_SOURCES = [
     "src/www/bower_components/onsenui/build/css/font_awesome/**/*.css",
     "src/www/bower_components/onsenui/build/css/polyfill/**/*.css",
     "src/www/bower_components/onsenui/build/css/onsenui.css",
-    "src/www/bower_components/onsenui/build/css/topcoat-mobile-onsen-blue.css",
+    //"src/www/bower_components/onsenui/build/css/topcoat-mobile-onsen-blue.css",
     "src/www/css/**/*.css"
 ];
 
@@ -135,13 +135,16 @@ gulp.task("copy:web-resources", ["build:scripts", "build:style"],
                     gulp.src("**", {cwd: "src/www/img/"})
                     .pipe(gulp.dest("dist/www/img/")),
                     // angular templates
-                    gulp.src("**", {cwd: "src/www/partials"})
-                    .pipe(gulp.dest("dist/www/partials")),
+                    gulp.src("**", {cwd: "src/www/views"})
+                    .pipe(gulp.dest("dist/www/views")),
                     // onsenui resources 
                     gulp.src("**", {cwd: "src/www/bower_components/onsenui/build/css/font_awesome/fonts"})
                     .pipe(gulp.dest("dist/www/fonts")),
                     gulp.src("**", {cwd: "src/www/bower_components/onsenui/build/img"})
-                    .pipe(gulp.dest("dist/www/img"))
+                    .pipe(gulp.dest("dist/www/img")),
+                    // env_prod script
+                    gulp.src("env_prod.js", {cwd: "src/www/js"})
+                    .pipe(gulp.dest("dist/www/js"))
                     );
 
         });
@@ -326,7 +329,7 @@ gulp.task("serve", function() {
 gulp.task("default", ["build:less"], function() {
     // genera el index.html para desarrollo
     gulp.start("build:template-dev");
-    
+
     // inicializa el servidor web y el servidor livereload
     server.livestart();
 

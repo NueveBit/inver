@@ -106,8 +106,6 @@ angular.module("nuevebit.directives").directive("nuevebitChart",
                         chart.destroy();
                     });
                 },
-                templateUrl: currentScriptPath.substring(
-                        0, currentScriptPath.lastIndexOf('/') + 1)
-                        + "chart.html"
+                template: "<div></div>"
             };
         });

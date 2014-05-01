@@ -1,5 +1,5 @@
 # Header necesario para CORS
-Header add Access-Control-Allow-Origin: http://localhost:4000
+Header add Access-Control-Allow-Origin: *
 Header add Access-Control-Allow-Credentials: true
 
 RewriteEngine On
