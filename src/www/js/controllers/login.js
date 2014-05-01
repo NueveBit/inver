@@ -40,6 +40,10 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
     controllers.LoginController.prototype = {
         login: function(valid, usuario) {
+            if (!usuario) { // no se han escrito datos en los text fields
+                return;
+            }
+            
             var AuthManager = this.services.AuthManager;
             var scope = this.scope;
 

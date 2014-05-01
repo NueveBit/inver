@@ -1,39 +1,40 @@
+* {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 100%;
+}
+
 .form-control {
-	&:focus{
-		.box-shadow(none) !important;
-	}
-	.transition(none);
-	border: 1px solid #504041; // #CCCCCC;
+    &:focus{
+        .box-shadow(none) !important;
+    }
+    .transition(none);
+    border: 1px solid @cafe; // #CCCCCC;
 }
 .boton{
-	margin:5px;
+    margin:5px;
 }
 .required:before{
-	content: '* ';
-	//color: red;
-	position: relative;	
+    content: '* ';
+    //color: red;
+    position: relative;	
 }
 
 .menu-inver & .selected{
-	color: #504041 !important;//#25B5C2;
+    color: @cafe !important;//#25B5C2;
 }
 
-.container{
-	padding: 10px;
+.container-fluid{
+    padding: 20px;
 }
 
 //Para que el radio button con opcion 
 //otro no se junte con el anterior en 
 //la misma linea
 #radio-forma{
-	display: block;
+    display: block;
 }
 
 .titulo{
-	-moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
     border-image: none;
     border-style: none none solid;
     display: block;
@@ -42,12 +43,54 @@
     margin-bottom: 20px;
     padding: 0;
     width: 100%;
-	border-width: 0 0 2px;
-	border-color: -moz-use-text-color -moz-use-text-color #504041;
-	color: #504041;
-	text-transform: uppercase;
-	font-weight: bold;
-	letter-spacing: 2px;
+    border-width: 0 0 2px;
+    border-color: -moz-use-text-color -moz-use-text-color #504041;
+    color: @cafe;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-top: 25px;
 }
 
+small{
+    font-size: 12px;
+    text-transform: uppercase;
+    color: @amarillo;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+legend {
+    border-width: 0 0 2px;
+    border-color: -moz-use-text-color -moz-use-text-color @cafe;
+    color: @cafe;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-top: 25px;
+}
+label{
+    color: @cafe;
+    font-weight: normal;
+}
+
+img{
+    max-width: 100%;
+    height: auto;
+    padding: 10px;
+}
+p{
+    text-align: justify;
+}
+
+.topcoat-navigation-bar__title{
+    letter-spacing:2px;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.onsen_navigator-back-label{
+    text-transform: uppercase;
+}
 

@@ -1,10 +1,11 @@
 <ons-navigator
     title="Login" 
-    right-button-icon="fa fa-bars">		   
-    <ons-page>
+    right-button-icon="mini-logo">		   
+    <ons-page class="center">
         <ons-scroller>
-            <div class="container"  ng-controller="nuevebit.inver.controllers.LoginController as controller">
-                <div id="mensaje" class="alert alert-danger" ng-show="mensaje" ng-model="mensaje">{{mensaje}}</div>
+            <div class="container-fluid"  ng-controller="nuevebit.inver.controllers.LoginController as controller">
+                <img class="logo" src="../img/INVER2.png" alt="INVER">
+                <div id="mensaje" class="alert alert-danger col-md-6 col-md-offset-3" ng-show="mensaje" ng-model="mensaje">{{mensaje}}</div>
                 <form class="form-horizontal" ng-submit="" name="loginForm">
                     <div class="form-group ">
                         <div class="col-md-6 col-md-offset-3">
@@ -26,10 +27,6 @@
                     </div>
                 </form>
             </div>
-            <div>Pruebas</div>
-            <ons-button ng-click="ons.navigator.pushPage('views/solicitudInformacion.html')" class="topcoat-button--quiet">Prueba Solicitud de Información</ons-button>
-            <ons-button ng-click="ons.navigator.pushPage('views/listaSolicitudes.html')" class="topcoat-button--quiet">Prueba ver solicitudes</ons-button>
-            <ons-button ng-click="ons.navigator.pushPage('views/estadisticas.html')" class="topcoat-button--quiet">Estadísticas</ons-button>
         </ons-scroller>
     </ons-page>
 </ons-navigator>

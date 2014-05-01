@@ -7,35 +7,35 @@
     on-left-button-click="ons.splitView.toggle()">		   
     <ons-page>
         <ons-scroller>
-        <div class="container" >
+        <div class="container-fluid" >
             <form class="form-horizontal">
                 <fieldset>
                     <legend>Busca tu solicitud</legend>
                     <div class="form-group">					
-                        <label for="fecha" class="col-xs-2 col-sm-3 col-md-3">						
+                        <label for="fecha" class="col-xs-12 col-sm-4 col-md-3">						
                             Fecha:
                         </label>
-                        <div class="col-xs-5 col-sm-3 col-md-2">						
+                        <div class="col-xs-6 col-sm-3 col-md-2">						
                             <ons-text-input type="date" ng-model="criteria.fechaInicio" id="fechaInicio" ng-change="controller.buscar(criteria)" class="form-control" placeholder="inicio"></ons-text-input>
                         </div>
-                        <div class="col-xs-5 col-sm-3 col-md-2">						
+                        <div class="col-xs-6 col-sm-3 col-md-2">						
                             <ons-text-input type="date" ng-model="criteria.fechaFin" id="fechaFin" ng-change="controller.buscar(criteria)" class="form-control" placeholder="fin"></ons-text-input>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="estado" class="col-xs-2 col-sm-3 col-md-3">
+                        <label for="estado" class="col-xs-12 col-sm-4 col-md-3">
                             Estado de la solicitud:
                         </label>
-                        <div class="col-xs-5 col-sm-3 col-md-2">						
+                        <div class="col-xs-12 col-sm-6 col-md-5">						
                             <ons-select class="form-control" ng-model="criteria.status" id="estado" ng-options="e for e in tiposEstados" ng-change="controller.buscar(criteria)">
                             </ons-select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="tipo" class="col-xs-2 col-sm-3 col-md-3">
+                        <label for="tipo" class="col-xs-12 col-sm-4 col-md-3">
                             Tipo de solicitud:
                         </label>
-                        <div class="col-xs-5 col-sm-3 col-md-2">						
+                        <div class="col-xs-12 col-sm-6 col-md-5">						
                             <ons-select class="form-control" ng-model="criteria.tipo" id="tipo" ng-options="t.nombre for t in tiposSolicitud" ng-change="controller.buscar(criteria)">
                             </ons-select>
                         </div>
@@ -47,10 +47,10 @@
                 <ul class="topcoat-list">
                     <ons-list-item ng-repeat="solicitud in solicitudes"
                      ng-click="controller.verDetalle(solicitud)" class="lista-solicitud"> 
-                     <div> {{solicitud.id}}</div>
+                     <div> #{{solicitud.id}}</div>
                     <div> {{solicitud.fechaInicio}} </div>
-                     <div>{{solicitud.tipo}}</div>
-                     <div>{{solicitud.status}}</div>
+                     <div class="tipo">{{solicitud.tipo}}</div>
+                     <div class="status" ng-class="{'completado': solicitud.status === 'Completado'}">{{solicitud.status}}</div>
                      
                  </ons-list-item>
              </ul>

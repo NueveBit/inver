@@ -4,9 +4,11 @@
         left-button-icon="fa fa-bars" 
         on-left-button-click="ons.splitView.toggle()">		   
     </ons-navigator-toolbar>
-    <div class="container"  ng-controller="nuevebit.inver.controllers.ResumenEstadisticasController as controller">
-        <nuevebit-chart id="holder" title="Resumen indicadores" values="values" labels="labels">
-            
-        </nuevebit-chart>
-    </div>
+    <ons-scroller>
+        <div class="container-fluid"  ng-controller="nuevebit.inver.controllers.ResumenEstadisticasController as controller">
+            <nuevebit-chart id="holder" title="Resumen indicadores" values="values" labels="labels">
+
+            </nuevebit-chart>
+        </div>
+    </ons-scroller>
 </ons-page>
