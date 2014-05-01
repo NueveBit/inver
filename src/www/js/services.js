@@ -2,6 +2,8 @@ var nuevebit = nuevebit || {};
 nuevebit.inver = nuevebit.inver || {};
 nuevebit.inver.services = nuevebit.inver.services || {};
 
+var inverServices = angular.module("inverServices");
+
 /**
  * Creamos un factory que contendrá un singleton con todos los servicios
  * que se utilizan como atributos del singleton. De esta manera, se simplifica
