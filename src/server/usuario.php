@@ -115,7 +115,7 @@ function saveUsuario($db, $usuario) {
         $params = array_merge(array($types), $params);
         call_user_func_array(array($stmt, "bind_param"), $params);
         $stmt->execute();
-        delete($usuario["password"]);
+        unset($usuario["password"]);
         return $usuario;
     }
 
