@@ -20,7 +20,8 @@ var CSS_SOURCES = [
     "src/www/bower_components/onsenui/build/css/polyfill/**/*.css",
     "src/www/bower_components/onsenui/build/css/onsenui.css",
     //"src/www/bower_components/onsenui/build/css/topcoat-mobile-onsen-blue.css",
-    "src/www/css/**/*.css"
+    "src/www/css/topcoat-mobile-onsen-inver.css",
+    "src/www/css/main.css"
 ];
 
 // sys deps
