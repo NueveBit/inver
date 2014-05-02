@@ -1,6 +1,7 @@
 <?php
 
 $db = include(dirname(__FILE__) . "/db.php");
+mysqli_set_charset($db, 'utf8');
 
 if (isset($_GET["resumenIndicadores"])) {
     echo json_encode(findResumenIndicadores($db));
