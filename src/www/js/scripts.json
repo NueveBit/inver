@@ -9,7 +9,6 @@
     "js/vendor/g.raphael-master/min/g.raphael-min.js",
     "js/vendor/g.raphael-master/min/g.pie-min.js",
     "js/application.js",
-    "js/services/estadisticas.js",
     "js/services.js",
     "js/controllers/login.js",
     "js/controllers/registro.js",
