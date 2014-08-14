@@ -76,11 +76,11 @@ if (isset($_GET["completar"])) {
     }
 
     echo json_encode(find($db, $searchCriteria));
-} else if (isset($_GET["seguir"])){
-    if (isset($_GET["solicitudId"]) && isset($_GET["token"])) {
-    $resultado = getRelacion($db, $_GET["solicitudId"], $_GET["token"]);
-    echo json_encode($resultado);
-}
+} else if (isset($_REQUEST["seguir"]) && isset($_REQUEST["token"])) {
+    if (isset($_REQUEST["idSolicitud"])) {
+        $resultado = seguirPublicacion($db, $_REQUEST["idSolicitud"], $_REQUEST["token"]);
+        echo json_encode($resultado);
+    }
 }
 
 function find($db, $searchCriteria) {
@@ -165,7 +165,6 @@ function getSujetosObligados($db, $idTipoSujeto) {
 
 // TODO: Soportar actualización de solicitudes
 function saveSolicitud($db, $solicitud) {
-
     $solicitud["idSujetoObligado"] = $solicitud["sujetoObligado"]["id"];
     $solicitud["tipoId"] = $solicitud["tipo"]["id"];
     $solicitud["fechaInicio"] = date('Y-m-j');
@@ -211,8 +210,6 @@ function saveSolicitud($db, $solicitud) {
         $sql = "insert into Seguidor (idSolicitudInformacion, idUsuario, propietario, fecha) values (?, ?, ?, ?)";
         $stmt = $db->prepare($sql);
         $stmt->bind_param("ddds", $id, $usuarioId, $propietario, $fecha);
-
-        /* cAMBIAR LA LOGICA DEL TOKEN PARA QUE ME DE EL ID DEL USUARIO ACTUAL */
         $usuarioId = $_REQUEST["token"];
         $fecha = date('Y-m-j');
         $propietario = 1;
@@ -281,28 +278,37 @@ function getPropiedad($db, $solicitudId, $token) {
     if ($token == $idUsuario) {
         $resultado["ispropietario"] = true;
     } else {
-        $resultado["ispropietario"] = false;               
+        $resultado["ispropietario"] = false;
     }
     return $resultado;
 }
 
-function getRelacion ($db, $solicitudId, $token){
+function seguirPublicacion($db, $idSolicitud, $token) {
     $resutado = array();
     $sql = "select fecha from Seguidor where Seguidor.idSolicitudInformacion=? and Seguidor.idUsuario = ?";
     $stmt = $db->prepare($sql);
-    $stmt->bind_param("dd", $solicitudId, $token);
+    $stmt->bind_param("dd", $idSolicitud, $token);
     $stmt->execute();
     $stmt->bind_result($fecha);
     $stmt->fetch();
     if (!$fecha) {
         $resultado["relacion"] = false;
+        $sql = "insert into Seguidor (idSolicitudInformacion, idUsuario, propietario, fecha) values (?, ?, ?, ?)";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("ddds", $idSolicitud, $token, $propietario, $fecha);
+        $fecha = date('Y-m-j');
+        $propietario = 0;
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $idSeguidor = $stmt->insert_id;
+            $siguiendo = true; 
+        } else {
+            $siguiendo = false; 
+        }
     } else {
-        $resultado["relacion"] = true;   
-        
+        $resultado["relacion"] = true;
     }
-    return $resultado;
+    return array("siguiendo" => $siguiendo, "idSeguidor" => $idSeguidor);
 }
-
-
 
 ?>

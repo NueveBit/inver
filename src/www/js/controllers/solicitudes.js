@@ -160,13 +160,27 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         var solicitudId = $scope.ons.navigator.getCurrentPage().options.id;
 
         $scope.solicitud = services.Solicitud.get({solicitudId: solicitudId});
-        $scope.habilitar = true;
-        this.seguir({solicitudId: solicitudId});
 
+        this.scope = $scope;
+        this.services = services;
     };
 
     controllers.DetallesSolicitudController.prototype = {
-       
+        seguir: function(idSolicitud) {
+            var Social = this.services.Solicitud;
+            var scope = this.scope;
+
+            Social.seguir({
+                idSolicitud: idSolicitud
+            }, angular.bind(this, function(data) {
+                console.log(data);
+                if (data.siguiendo) {
+                    scope.mensaje = "Ahora sigues esta publicación";
+                } else {
+                    scope.mensaje = "Error";
+                }
+            }));
+        }
     };
 })(nuevebit.inver.controllers);
 
