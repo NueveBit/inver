@@ -1,5 +1,5 @@
 inVer
-v0.1
+v0.3
 
 Esta aplicación ha sido desarrollada para el concurso TecnoCopa IVAI 2014.
 
@@ -23,7 +23,7 @@ de ejecutarse, ejecuta automáticamente 'bower install'):
 
 Una vez que se tengan las dependencias instaladas, es necesario
 ejecutar el siguiente comando UNA ÚNICA VEZ para instalar las plataformas
-y plugins de cordova que declaremos en gruntfile.js (también creará el archivo
+y plugins de cordova que declaremos en gulpfile.js (también creará el archivo
 index.html para desarrollo):
 
     gulp init
@@ -39,3 +39,5 @@ Si se necesita una nueva dependencia js front-end, utilizar el siguiente comando
     bower -S install <nombre-paquete>
     
 Una vez agregada, es necesario agregar la ruta en src/www/js/scripts.json.
+
+Para más información sobre las tareas disponibles, ver el archivo gulpfile.js.

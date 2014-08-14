@@ -35,6 +35,9 @@ inverServices.factory("services", [
         var postHeaders = {
             "Content-Type": "application/x-www-form-urlencoded"
         };
+        var getToken = function() {
+            return localStorageService.get("token");
+        };
 
         return {
             /**
@@ -62,7 +65,7 @@ inverServices.factory("services", [
              */
             Solicitud: $resource(URL_SERVICE + "/solicitudes/:solicitudId", {}, {
                 search: {method: "GET", params: {search: true}, isArray: true},
-                save: {method: "POST", headers: postHeaders, params: {token:localStorageService.get("token"), save: true}}
+                save: {method: "POST", headers: postHeaders, params: {token:getToken, save: true}}
             }),
             
             /**
@@ -78,7 +81,12 @@ inverServices.factory("services", [
             AuthManager: $resource(URL_SERVICE + "/login", {}, {
                 login: {method: "POST", params: {login: true}, headers: postHeaders},
                 logout: {method: "POST", params: {logout: true}, headers: postHeaders}
-            })
+            }),
+            Auth: {
+                logout: function() {
+                    localStorageService.remove("token");
+                }
+            }
         };
     }
 ]);

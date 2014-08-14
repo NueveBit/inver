@@ -40,7 +40,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
         $scope.tiposGestion = [];
         $scope.sujetosObligados = [];
-    }
+    };
 
     controllers.SolicitudInformacionController.prototype = {
         tipoSujetoChanged: function(tipoSujeto) {

@@ -52,7 +52,7 @@ if (isset($_GET["completar"])) {
 
     $searchCriteria = array();
     if (!isset($_GET["usuarioId"])) { // usuario id necesario (token)
-    //die("Not authorized");
+        //die("Not authorized");
     } else {
         $searchCriteria["idUsuario"] = intval($_GET["usuarioId"]);
     }
@@ -94,7 +94,7 @@ function find($db, $searchCriteria) {
         if (!$criteria) {
             continue;
         }
-        $sql .= "and g.". $key . "=? ";
+        $sql .= "and g." . $key . "=? ";
         $types .= "s";
         $params[] = &$searchCriteria[$key];
     }
@@ -106,8 +106,10 @@ function find($db, $searchCriteria) {
         $types .= "ss";
     }
     $stmt = $db->prepare($sql);
-    $params = array_merge(array($types), $params);
-    call_user_func_array(array($stmt, "bind_param"), $params);
+    if ($params) {
+        $params = array_merge(array($types), $params);
+        call_user_func_array(array($stmt, "bind_param"), $params);
+    }
     $stmt->execute();
 
     $stmt->bind_result($id, $tipo, $fechaInicio, $status);
@@ -118,6 +120,7 @@ function find($db, $searchCriteria) {
     return $solicitudes;
 }
 
+// cierra la conexión a la DB.
 mysqli_close($db);
 
 function getTiposSolicitudes($db) {

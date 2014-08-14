@@ -10,7 +10,7 @@ nuevebit.inver.Application = {
     _init: function() {
         angular.module("inverServices", ["ngResource"]);
         angular.module("nuevebit.directives", []); // TODO: Debería estar en otro script
-        
+
         this._angularApp = angular.module("inverApp", [
             "ngRoute",
             'ngResource',
@@ -28,31 +28,25 @@ nuevebit.inver.Application = {
     _mount: function() {
         this._angularApp.config(['$routeProvider',
             function($routeProvider) {
-                $routeProvider.                        
-                when('/login', {
-                    templateUrl: 'views/login.html',
-                    //controller: 'MainController'
-                }).
-                when('/contenedor', {
-                    templateUrl: 'views/contenedor.html',
-                    //controller: 'MainController'
-                    }).
-                when('/home', {
-                    templateUrl: 'views/home.html',
-                }).
-                when('/perfil', {
-                    templateUrl: 'views/perfil.html'
-                })                
-                .otherwise({
-                    redirectTo: '/login'
-                });
+                $routeProvider.
+                        when('/login', {
+                            templateUrl: 'views/login.html',
+                            //controller: 'MainController'
+                        }).
+                        when('/contenedor', {
+                            templateUrl: 'views/contenedor.html',
+                            //controller: 'MainController'
+                        }).
+                        when('/home', {
+                            templateUrl: 'views/home.html',
+                        }).
+                        when('/perfil', {
+                            templateUrl: 'views/perfil.html'
+                        })
+                        .otherwise({
+                            redirectTo: '/login'
+                        });
             }]);
-},
-_addControllers: function() {
-    var controllers = nuevebit.inver.controllers;
-
-        this._angularApp.controller("MainController", ["$scope",
-            controllers.MainController]);
     },
     start: function() {
         this._init();
