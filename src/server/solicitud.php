@@ -76,6 +76,11 @@ if (isset($_GET["completar"])) {
     }
 
     echo json_encode(find($db, $searchCriteria));
+} else if (isset($_GET["seguir"])){
+    if (isset($_GET["solicitudId"]) && isset($_GET["token"])) {
+    $resultado = getRelacion($db, $_GET["solicitudId"], $_GET["token"]);
+    echo json_encode($resultado);
+}
 }
 
 function find($db, $searchCriteria) {
@@ -263,5 +268,41 @@ function completarSolicitud($db, $folio) {
 
     echo "Completada solicitud: " . $folio;
 }
+
+function getPropiedad($db, $solicitudId, $token) {
+    $resutado = array();
+    $sql = "select Seguidor.idUsuario from Seguidor where Seguidor.propietario=true and Seguidor.idSolicitudInformacion=?";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("s", $solicitudId);
+    $stmt->execute();
+    $stmt->bind_result($idUsuario);
+    $stmt->fetch();
+
+    if ($token == $idUsuario) {
+        $resultado["ispropietario"] = true;
+    } else {
+        $resultado["ispropietario"] = false;               
+    }
+    return $resultado;
+}
+
+function getRelacion ($db, $solicitudId, $token){
+    $resutado = array();
+    $sql = "select fecha from Seguidor where Seguidor.idSolicitudInformacion=? and Seguidor.idUsuario = ?";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("dd", $solicitudId, $token);
+    $stmt->execute();
+    $stmt->bind_result($fecha);
+    $stmt->fetch();
+    if (!$fecha) {
+        $resultado["relacion"] = false;
+    } else {
+        $resultado["relacion"] = true;   
+        
+    }
+    return $resultado;
+}
+
+
 
 ?>

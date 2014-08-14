@@ -65,7 +65,8 @@ inverServices.factory("services", [
              */
             Solicitud: $resource(URL_SERVICE + "/solicitudes/:solicitudId", {}, {
                 search: {method: "GET", params: {search: true}, isArray: true},
-                save: {method: "POST", headers: postHeaders, params: {token:getToken, save: true}}
+                save: {method: "POST", headers: postHeaders, params: {token:getToken, save: true}},
+                seguir: {method: "GET", params: {seguir: true}, isArray: true}
             }),
             
             /**

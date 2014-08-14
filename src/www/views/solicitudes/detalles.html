@@ -1,24 +1,25 @@
 <ons-navigator-toolbar     
-title="Detalles solicitud">      
+    title="Detalles solicitud">      
 </ons-navigator-toolbar>
 <ons-scroller>
-<div class="container-fluid" ng-controller="nuevebit.inver.controllers.DetallesSolicitudController as controller">
-    <p>Folio: {{ solicitud.id}}</p>
-    <p>Tipo: {{solicitud.tipo}}</p> 
-    <p ng-show="solicitud.tipoGestion">TipoGestion: {{solicitud.tipoGestion}}</p>
-    <p>SujetoObligado: {{solicitud.sujetoObligado}}</p>
-    <p>Descripcion: {{solicitud.descripcion}}</p>
-    <p>Estado: {{solicitud.estado}}</p>
-    <p>Forma de Notificación: {{solicitud.formaNotificacion}}</p>
-    <p>Fecha inicio: {{solicitud.fechaInicio}}</p>
-    <p>Fecha límite: {{solicitud.fechaLimite}}</p>
-    <p>Fecha notificación: {{solicitud.fechaNotificacionn}}</p>
-    <p>Fecha completado: {{solicitud.fechaCompletado}}</p>
-</div>
-<div>
-    <ons-button type="submit" disabled="" class="">Seguir solicitud</ons-button>
-</div>
-    <div>
-    <ons-button type="submit" disabled="" class="">Compartir en facebook</ons-button>
-</div>
+    <div class="container-fluid" ng-controller="nuevebit.inver.controllers.DetallesSolicitudController as controller">
+        <p>Folio: {{ solicitud.id}}</p>
+        <p>Tipo: {{solicitud.tipo}}</p> 
+        <p ng-show="solicitud.tipoGestion">TipoGestion: {{solicitud.tipoGestion}}</p>
+        <p>SujetoObligado: {{solicitud.sujetoObligado}}</p>
+        <p>Descripcion: {{solicitud.descripcion}}</p>
+        <p>Estado: {{solicitud.estado}}</p>
+        <p>Forma de Notificación: {{solicitud.formaNotificacion}}</p>
+        <p>Fecha inicio: {{solicitud.fechaInicio}}</p>
+        <p>Fecha límite: {{solicitud.fechaLimite}}</p>
+        <p>Fecha notificación: {{solicitud.fechaNotificacionn}}</p>
+        <p>Fecha completado: {{solicitud.fechaCompletado}}</p>
+        <div >
+            <ons-button type="submit" class="" ng-click="controller.seguir(solicitud.id)">Seguir solicitud</ons-button>
+    </div>
+    </div>
+    
+    <!--div>
+        <ons-button type="submit" disabled="" class="">Compartir en facebook</ons-button>
+    </div-->
 </ons-scroller>

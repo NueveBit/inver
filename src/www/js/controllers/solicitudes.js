@@ -155,16 +155,18 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
      */
     controllers.DetallesSolicitudController = function(
             $scope,
-            services,
-            localStorageService) {
+            services) {
 
         var solicitudId = $scope.ons.navigator.getCurrentPage().options.id;
 
         $scope.solicitud = services.Solicitud.get({solicitudId: solicitudId});
-        var token = localStorageService.get("token");
+        $scope.habilitar = true;
+        this.seguir({solicitudId: solicitudId});
+
     };
 
     controllers.DetallesSolicitudController.prototype = {
+       
     };
 })(nuevebit.inver.controllers);
 
