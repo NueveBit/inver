@@ -20,9 +20,9 @@ if (isset($_GET["completar"])) {
         array("medio" => "Otro medio")
     ));
 } else if (isset($_GET["tiposGestion"])) {
-    // Sólo la solicitud de información requiere este dato, pero no
-    // está relacionado con ninguna otra entidad, por eso simplemente
-    // devolvemos valores estáticos.
+// Sólo la solicitud de información requiere este dato, pero no
+// está relacionado con ninguna otra entidad, por eso simplemente
+// devolvemos valores estáticos.
     echo json_encode(array(
         array("tipo" => "Acceso"),
         array("tipo" => "Actualización"),
@@ -43,20 +43,22 @@ if (isset($_GET["completar"])) {
         die("Not authorized");
     }
 
-    // $data == solicitud en json, si no tiene id, es nueva solicitud   
+// $data == solicitud en json, si no tiene id, es nueva solicitud   
     echo json_encode(saveSolicitud($db, $data));
 } elseif (isset($_GET["idSolicitud"])) {
     $resultado = getDetalleSolicitud($db, $_GET["idSolicitud"]);
     echo json_encode($resultado);
 } else if (isset($_GET["search"])) {
 
+    $searchCriteria = array();
     if (!isset($_GET["usuarioId"])) { // usuario id necesario (token)
-        die("Not authorized");
+    //die("Not authorized");
+    } else {
+        $searchCriteria["idUsuario"] = intval($_GET["usuarioId"]);
     }
 
-    $searchCriteria = array("idUsuario" => intval($_GET["usuarioId"]));
     $dateRange = array();
-    
+
     if (isset($_GET["fechaInicio"])) {
         $dateRange["fechaInicio"] = $_GET["fechaInicio"];
     }
@@ -77,30 +79,37 @@ if (isset($_GET["completar"])) {
 }
 
 function find($db, $searchCriteria) {
-    $sql = "select s.id, t.nombre, s.fechaInicio, s.status from SolicitudInformacion as s, Usuario as u, TipoSolicitud as t where s.idUsuario = u.id and s.tipoId = t.id ";
+    $sql = "select s.id, t.nombre, s.fechaInicio, s.status from SolicitudInformacion as s, TipoSolicitud as t ";
+
+    if (isset($searchCriteria["idUsuario"])) {
+        $sql .= ", Usuario as u, Seguidor as g where g.idUsuario = u.id and s.tipoId = t.id and g.idSolicitudInformacion = s.id ";
+    } else {
+        $sql .= "where s.tipoId = t.id ";
+    }
+
     $types = "";
+    $params = array();
 
     foreach ($searchCriteria as $key => $criteria) {
         if (!$criteria) {
             continue;
         }
-        $sql .= "and s." . $key . "=? ";
+        $sql .= "and g.". $key . "=? ";
         $types .= "s";
         $params[] = &$searchCriteria[$key];
     }
 
     if (isset($dateRange["fechaInicio"]) && isset($dateRange["fechaFin"])) {
         $sql .= "and (s.fechaInicio between ? and ? )";
-        $params[] =&$dateRange["fechaInicio"];
-        $params[] =&$dateRange["fechaFin"];
+        $params[] = &$dateRange["fechaInicio"];
+        $params[] = &$dateRange["fechaFin"];
         $types .= "ss";
-    } 
-
+    }
     $stmt = $db->prepare($sql);
     $params = array_merge(array($types), $params);
     call_user_func_array(array($stmt, "bind_param"), $params);
     $stmt->execute();
-    
+
     $stmt->bind_result($id, $tipo, $fechaInicio, $status);
     $solicitudes = array();
     while ($stmt->fetch()) {
@@ -148,11 +157,9 @@ function getSujetosObligados($db, $idTipoSujeto) {
 
 // TODO: Soportar actualización de solicitudes
 function saveSolicitud($db, $solicitud) {
-    $usuarioId = $_REQUEST["token"];
 
     $solicitud["idSujetoObligado"] = $solicitud["sujetoObligado"]["id"];
     $solicitud["tipoId"] = $solicitud["tipo"]["id"];
-    $solicitud["idUsuario"] = $usuarioId;
     $solicitud["fechaInicio"] = date('Y-m-j');
     $solicitud["fechaLimite"] = date('Y-m-j', strtotime('+10 day'));
     $solicitud["status"] = "En proceso";
@@ -167,8 +174,7 @@ function saveSolicitud($db, $solicitud) {
         "formaNotificacion",
         "fechaInicio",
         "fechaLimite",
-        "idSujetoObligado",
-        "idUsuario"
+        "idSujetoObligado"
     );
 
     $sql = "insert into SolicitudInformacion (" . implode(",", $cols) . ") values (";
@@ -193,13 +199,25 @@ function saveSolicitud($db, $solicitud) {
     $stmt->execute();
     if ($stmt->affected_rows > 0) {
         $id = $stmt->insert_id;
-        $estado = array("id" => $id);
+
+        $sql = "insert into Seguidor (idSolicitudInformacion, idUsuario, propietario, fecha) values (?, ?, ?, ?)";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("ddds", $id, $usuarioId, $propietario, $fecha);
+
+        /* cAMBIAR LA LOGICA DEL TOKEN PARA QUE ME DE EL ID DEL USUARIO ACTUAL */
+        $usuarioId = $_REQUEST["token"];
+        $fecha = date('Y-m-j');
+        $propietario = 1;
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $idSeguidor = $stmt->insert_id;
+            $estado = array("id" => $id, "idSeguidor" => $idSeguidor);
+        }
     } else {
         $estado = array("error" => "Ocurrió un error al guardar la solicitud, inténtalo de nuevo.");
     }
     return $estado;
 }
-
 
 function getDetalleSolicitud($db, $idSolicitud) {
     $sujetosObligados = array();

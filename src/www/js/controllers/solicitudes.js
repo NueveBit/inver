@@ -111,6 +111,42 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         }
     };
 
+
+    /**
+     * 
+     * @param {!angular.scope} $scope
+     */
+    controllers.ListaCompletaSolicitudesController = function(
+            $scope,
+            services) {
+
+        this.scope = $scope;
+        this.services = services;
+
+        $scope.tiposEstados = ["En proceso", "Completado"];
+        $scope.tiposSolicitud = services.TipoSolicitud.query();
+        $scope.criteria = {};
+        this.buscar({});
+
+    };
+
+    controllers.ListaCompletaSolicitudesController.prototype = {
+        nuevaSolicitud: function() {
+            this.scope.ons.navigator.pushPage("views/solicitudes/nueva.html");
+        },
+        buscar: function(criteria) {
+            if (criteria.tipo) {
+                criteria.tipoId = criteria.tipo.id;
+            }
+
+            var Solicitud = this.services.Solicitud;
+            this.scope.solicitudes = Solicitud.search(criteria);
+        },
+        verDetalle: function(solicitud) {
+            this.scope.ons.navigator.pushPage("views/solicitudes/detalles.html", {id: solicitud.id});
+        }
+    };
+
     /**
      * 
      * @param {!angular.scope} $scope
@@ -119,13 +155,16 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
      */
     controllers.DetallesSolicitudController = function(
             $scope,
-            services) {
+            services,
+            localStorageService) {
 
         var solicitudId = $scope.ons.navigator.getCurrentPage().options.id;
 
         $scope.solicitud = services.Solicitud.get({solicitudId: solicitudId});
+        var token = localStorageService.get("token");
     };
 
     controllers.DetallesSolicitudController.prototype = {
     };
 })(nuevebit.inver.controllers);
+

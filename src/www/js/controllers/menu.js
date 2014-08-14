@@ -26,8 +26,9 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         
         $scope.pages = [
             {nombre: "Perfil", url: "views/perfil.html", "icon": "gear", "isSelected": ""},
-            {nombre: "Solicitudes de información", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
-            {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""}
+            {nombre: "Mis solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
+            {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""},
+            {nombre: "Buscar solicitudes", url: "views/listaCompletaSolicitudes.html", "icon": "bars", "isSelected": ""}
         ]
 
         $scope.selectedIndex = -1;

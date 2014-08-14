@@ -1,6 +1,6 @@
 <ons-navigator 
-    ng-controller="nuevebit.inver.controllers.ListaSolicitudesController as controller"
-    title="Mis solicitudes de información"
+    ng-controller="nuevebit.inver.controllers.ListaCompletaSolicitudesController as controller"
+    title="Solicitudes de información"
     left-button-icon="fa fa-bars" 
     right-button-icon="fa fa-plus"
     on-right-button-click="controller.nuevaSolicitud()"
@@ -50,8 +50,7 @@
                      <div> #{{solicitud.id}}</div>
                     <div> {{solicitud.fechaInicio}} </div>
                      <div class="tipo">{{solicitud.tipo}}</div>
-                     <div class="status" ng-class="{'completado': solicitud.status === 'Completado'}">{{solicitud.status}}</div>
-                     
+                     <div class="status" ng-class="{'completado': solicitud.status === 'Completado'}">{{solicitud.status}}</div>                
                  </ons-list-item>
              </ul>
          </div>
