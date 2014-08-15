@@ -108,5 +108,3 @@ function findIndicadores($db, $searchCriteria) {
 
     return array_values($indicadores);
 }
-
-?>

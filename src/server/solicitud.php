@@ -86,7 +86,7 @@ if (isset($_GET["completar"])) {
         $resultado = seguirSolicitud($db, $solicitudId, $token);
         echo json_encode($resultado);
     }
-} 
+}
 
 function find($db, $searchCriteria) {
     $sql = "select s.id, t.nombre, s.fechaInicio, s.status from SolicitudInformacion as s, TipoSolicitud as t ";
@@ -104,7 +104,11 @@ function find($db, $searchCriteria) {
         if (!$criteria) {
             continue;
         }
-        $sql .= "and g." . $key . "=? ";
+        if ($key == "idUsuario") {
+            $sql .= "and g.idUsuario=? ";
+        } else {
+            $sql .= "and s." . $key . "=? ";
+        }
         $types .= "s";
         $params[] = &$searchCriteria[$key];
     }
@@ -316,11 +320,11 @@ function seguirSolicitud($db, $idSolicitud, $token) {
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
             $idSeguidor = $stmt->insert_id;
-            $siguiendo = true; 
+            $siguiendo = true;
         } else {
-            $siguiendo = false; 
+            $siguiendo = false;
             $idSeguidor = -1;
         }
-    } 
+    }
     return array("siguiendo" => $siguiendo, "seguidores" => getSeguidores($db, $idSolicitud));
 }
