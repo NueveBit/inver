@@ -21,42 +21,19 @@ nuevebit.inver = nuevebit.inver || {};
 nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
 (function(controllers) {
-    controllers.MenuController = function($scope, $location, services) {
+    controllers.MainController = function($scope) {
         this.scope = $scope;
-        this.services = services;
-        this.location = $location;
-        
-        $scope.pages = [
-            {nombre: "Perfil", url: "views/perfil.html", "icon": "gear", "isSelected": ""},
-            {nombre: "Mis solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": "", options: {global: false}},
-            {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""},
-            {nombre: "Buscar solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": "", options: {global: true}},
-            {nombre: "Cerrar sesión", action: "logout", "icon": "power-off", "isSelected": ""}
-        ];
 
-        $scope.selectedIndex = -1;
+        var solicitudId = this._getSolicitudId();
+        if (solicitudId) {
+            $scope.ons.navigator.pushPage("views/solicitudes/detalles.html", {id: solicitudId});
+        }
     };
 
-    controllers.MenuController.prototype = {
-        itemClicked: function(index) {
-            this.scope.selectedIndex = index;
-
-            var page = this.scope.pages[index];
-            this.scope.ons.splitView.toggle()
-            
-            // maneja logout
-            if (page.url) {
-                if (page.options) {
-                    this.services.global.options = page.options;
-                } else {
-                    this.services.global.options = {};
-                }
-                
-                this.scope.ons.splitView.setMainPage(page.url);
-            } else if (page.action && page.action === "logout") {
-                this.services.Auth.logout();
-                this.location.path("/login");
-            }
+    controllers.MainController.prototype = {
+        _getSolicitudId: function() {
+            var parts = window.location.hash.split("=");
+            return (parts.length > 1) ? parts[1] : -1;
         }
     };
 })(nuevebit.inver.controllers);

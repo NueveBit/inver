@@ -54,8 +54,23 @@ nuevebit.inver.Application = {
         // cordova requiere la variable global 'app', aquí inicializamos
         if (typeof app !== "undefined") {
             app.initialize();
+        } else {
+            //handleOpenURL("inver://solicitud=1");
         }
-    }
+    },
 };
+
+function handleOpenURL(url) {
+    setTimeout(function() {
+        window.location = "#/contenedor?solicitud=" + getIdFromSchemeURL(url);
+    }, 0);
+}
+
+function  getIdFromSchemeURL(url) {
+    // en ocasiones, la URL contiene parámetros adicionales, el scheme está
+    // antes de esos parámetros
+    var scheme = url.split("&")[0];
+    return scheme.split("=")[1];
+}
 
 nuevebit.inver.Application.start();

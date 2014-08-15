@@ -155,10 +155,6 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
                 }
             }));
         },
-        compartir: function(solicitud) {
-            var url = URL_SERVICE + "/solicitud/" + solicitud.id;
-            console.log(url);
-        },
         isSeguidor: function() {
             var ret = false;
             var scope = this.scope;
@@ -175,6 +171,29 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
                 }
             }
             return ret;
+        },
+        /**
+         * Comparte una solicitud de información, para que otros puedan
+         * seguirla también.
+         * 
+         * La URL que se comparte apunta a un recurso HTML que implementa
+         * AppLinks, por lo que cualquier aplicación que soporte esta 
+         * funcionalidad, podrá acceder a la solicitud directamente desde
+         * la aplicación de inVer. En caso que el usuario no la tenga 
+         * instalada en su dispositivo, será enviado al iStore o Play Store
+         * para descargarla.
+         * 
+         * http://www.applinks.org
+         * 
+         * @param {type} solicitud
+         * @returns {undefined}
+         */
+        compartir: function(solicitud) {
+            var url = URL_SERVICE + "/solicitud/" + solicitud.id;
+            var mensaje = "Sigue y comparte mi solicitud de información";
+
+            // abrir diálogo del sistema para compartir el applink
+            window.plugins.socialsharing.share(mensaje, null, null, url);
         }
 
     };
