@@ -51,7 +51,11 @@ var config = {
         "android"
     ],
     plugins: [
-        'https://github.com/phonegap-build/PushPlugin.git'
+        'https://github.com/phonegap-build/PushPlugin.git',
+        'https://github.com/EddyVerbruggen/LaunchMyApp-PhoneGap-Plugin.git',
+        'https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git',
+        '--variable',
+        'URL_SCHEME=inver'
     ],
     getJsFiles: function() {
         return JSON.parse(fs.readFileSync("src/www/js/scripts.json"));
@@ -129,9 +133,6 @@ gulp.task("clean:all", ["clean", "clean:init", "clean:bower"], function() {
 gulp.task("copy:web-resources", ["build:scripts", "build:style"],
         function() {
             return es.merge(
-                    // copia configuración de cordova
-                    gulp.src("config.xml", {cwd: "src/"})
-                    .pipe(gulp.dest("dist/")),
                     // copia recursos estáticos
                     gulp.src("**", {cwd: "src/www/img/"})
                     .pipe(gulp.dest("dist/www/img/")),
@@ -153,27 +154,44 @@ gulp.task("copy:web-resources", ["build:scripts", "build:style"],
         });
 
 gulp.task("copy:cordova-resources", [
-    "copy:cordova-platforms", "copy:cordova-plugins"
-], function() {
+    "copy:cordova-platforms"
+], function(cb) {
+    process.env["PWD"] = config.distDir;
+    cordova.raw.platform("add", config.supportedPlatforms).then(function() {
+        cordova.raw.plugin("add", config.plugins).then(function() {
+            cordova.raw.prepare().then(function() {
+                cb();
+            });
+        }); // agregar plugins después
+    });
 });
 
 // Aquí se definen la tareas que se deben llevar a cabo para copiar los plugins 
 // a dist.
 gulp.task("copy:cordova-plugins", ["build:structure"], function() {
-    return es.merge(
-            // copia todos los plugins a dist/
-            gulp.src("**", {cwd: "src/plugins"})
-            .pipe(gulp.dest("dist/plugins")),
-            // PushNotification plugin
-            gulp.src("PushNotification.js",
-                    {cwd: "src/plugins/com.phonegap.plugins.PushPlugin/www"})
-            .pipe(gulp.dest("dist/www/js"))
-            );
+    /*
+     return es.merge(
+     // copia todos los plugins a dist/
+     gulp.src("**", {cwd: "src/plugins"})
+     .pipe(gulp.dest("dist/plugins")),
+     // PushNotification plugin
+     gulp.src("PushNotification.js",
+     {cwd: "src/plugins/com.phonegap.plugins.PushPlugin/www"})
+     .pipe(gulp.dest("dist/www/js"))
+     );
+     */
+
+    // agrega los plugins en dist también
 });
 
-gulp.task("copy:cordova-platforms", ["build:structure"], function() {
-    return gulp.src("**", {cwd: "src/platforms"})
-            .pipe(gulp.dest("dist/platforms"));
+gulp.task("copy:cordova-platforms", ["build:structure", "copy:web-resources"], function() {
+    /*
+     return gulp.src("**", {cwd: "src/platforms"})
+     .pipe(gulp.dest("dist/platforms"));
+     */
+    // copia configuración de cordova
+    return gulp.src("config.xml", {cwd: "src/"}).pipe(gulp.dest("dist/"));
+
 });
 
 
@@ -291,11 +309,11 @@ gulp.task("run", function() {
  * a algún plugin externo.
  */
 gulp.task("init", ["build:template-dev", "build:init-structure"], function() {
-    process.env["PWD"] = config.srcDir;
+    //process.env["PWD"] = config.srcDir;
 
-    cordova.raw.platform("add", config.supportedPlatforms).then(function() {
-        cordova.plugin("add", config.plugins); // agregar plugins después
-    });
+    //cordova.raw.platform("add", config.supportedPlatforms).then(function() {
+    //cordova.plugin("add", config.plugins); // agregar plugins después
+    //});
 });
 
 /**
