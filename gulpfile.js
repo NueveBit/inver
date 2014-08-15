@@ -136,8 +136,8 @@ gulp.task("copy:web-resources", ["build:scripts", "build:style"],
                     // copia recursos estáticos
                     gulp.src("**", {cwd: "src/www/img/"})
                     .pipe(gulp.dest("dist/www/img/")),
-                    gulp.src("**", {cwd: "src/www/res/"})
-                    .pipe(gulp.dest("dist/www/res/")),
+                    gulp.src("**", {cwd: "src/res/"})
+                    .pipe(gulp.dest("dist/res/")),
                     // angular templates
                     gulp.src("**", {cwd: "src/www/views"})
                     .pipe(gulp.dest("dist/www/views")),
