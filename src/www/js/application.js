@@ -57,19 +57,31 @@ nuevebit.inver.Application = {
         } else {
             //handleOpenURL("inver://solicitud=1");
         }
-    },
+    }
 };
+
+// por el momento deshabilitamos el soporte para el botón "atrás" del dispositivo
+document.addEventListener("backbutton", onBackKeyDown, false);
+function onBackKeyDown(e) {
+    e.preventDefault();
+}
 
 function handleOpenURL(url) {
     setTimeout(function() {
-        window.location = "#/contenedor?solicitud=" + getIdFromSchemeURL(url);
+        // cada vez que se cambia window.location, la última dirección que
+        // se haya establecido permanecerá ahí, esto tiene el problema
+        // de evitar que se muestre una solicitud si previamente ya se
+        // ha mostrado, por lo tanto necesitamos agregar un parámetro
+        // adicional que siempre cambie, para evitar esto.
+        window.location = "#/contenedor?solicitud=" + getIdFromSchemeURL(url)
+                + "&date=" + new Date().getTime();
     }, 0);
 }
 
 function  getIdFromSchemeURL(url) {
     // en ocasiones, la URL contiene parámetros adicionales, el scheme está
     // antes de esos parámetros
-    var scheme = url.split("&")[0];
+    var scheme = url.split("?")[0];
     return scheme.split("=")[1];
 }
 

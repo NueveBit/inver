@@ -25,15 +25,15 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         this.scope = $scope;
 
         var solicitudId = this._getSolicitudId();
-        if (solicitudId) {
-            $scope.ons.navigator.pushPage("views/solicitudes/detalles.html", {id: solicitudId});
+        if (solicitudId > 0) {
+            $scope.ons.navigator.resetToPage("views/solicitudes/detalles.html", {id: solicitudId});
         }
     };
 
     controllers.MainController.prototype = {
         _getSolicitudId: function() {
-            var parts = window.location.hash.split("=");
-            return (parts.length > 1) ? parts[1] : -1;
+            var scheme = window.location.hash.split("&");
+            return (scheme.length > 1) ? scheme[0].split("=")[1] : -1;
         }
     };
 })(nuevebit.inver.controllers);
