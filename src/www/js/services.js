@@ -41,6 +41,13 @@ inverServices.factory("services", [
 
         return {
             /**
+             * Utilizado para almacenar información global (e.g. entre páginas).
+             * La versión actual de onsen ui (1.1.1) ya soporta paso de opciones
+             * con SplitView, pero la versión actual que utilizamos (1.0.4)
+             * aún no lo implementa.
+             */
+            global: {},
+            /**
              * Servicio para tipos de sujetos obligados.
              */
             TipoSujeto: $resource(URL_SERVICE + "/sujetos/tipos/:tipoId"),
@@ -66,9 +73,9 @@ inverServices.factory("services", [
             Solicitud: $resource(URL_SERVICE + "/solicitudes/:solicitudId", {}, {
                 search: {method: "GET", params: {search: true}, isArray: true},
                 save: {method: "POST", headers: postHeaders, params: {token:getToken, save: true}},
-                seguir: {method: "POST", headers: postHeaders, params: {seguir: true, token:getToken}}
+                follow: {method: "POST", headers: postHeaders, params: {seguir: true, token:getToken}}
             }),
-            
+
             /**
              * Servicio para usuarios del inVer.
              */
@@ -84,6 +91,9 @@ inverServices.factory("services", [
                 logout: {method: "POST", params: {logout: true}, headers: postHeaders}
             }),
             Auth: {
+                token: function() {
+                    return parseInt(localStorageService.get("token"));
+                },
                 logout: function() {
                     localStorageService.remove("token");
                 }

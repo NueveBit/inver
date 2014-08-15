@@ -28,9 +28,9 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         
         $scope.pages = [
             {nombre: "Perfil", url: "views/perfil.html", "icon": "gear", "isSelected": ""},
-            {nombre: "Mis solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
+            {nombre: "Mis solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": "", options: {global: false}},
             {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""},
-            {nombre: "Buscar solicitudes", url: "views/listaCompletaSolicitudes.html", "icon": "bars", "isSelected": ""},
+            {nombre: "Buscar solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": "", options: {global: true}},
             {nombre: "Cerrar sesión", action: "logout", "icon": "power-off", "isSelected": ""}
         ];
 
@@ -43,7 +43,15 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
             var page = this.scope.pages[index];
             this.scope.ons.splitView.toggle()
+            
+            // maneja logout
             if (page.url) {
+                if (page.options) {
+                    this.services.global.options = page.options;
+                } else {
+                    this.services.global.options = {};
+                }
+                
                 this.scope.ons.splitView.setMainPage(page.url);
             } else if (page.action && page.action === "logout") {
                 this.services.Auth.logout();

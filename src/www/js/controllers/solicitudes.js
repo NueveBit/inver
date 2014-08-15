@@ -90,8 +90,13 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         $scope.tiposEstados = ["En proceso", "Completado"];
         $scope.tiposSolicitud = services.TipoSolicitud.query();
 
-        $scope.criteria = {usuarioId: token};
-        this.buscar({usuarioId: token});
+        $scope.criteria = {};
+        var options = services.global.options;
+        if (options && !options.global) {
+            $scope.criteria.usuarioId = token;
+        }
+
+        this.buscar($scope.criteria);
     };
 
     controllers.ListaSolicitudesController.prototype = {
@@ -115,41 +120,6 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
     /**
      * 
      * @param {!angular.scope} $scope
-     */
-    controllers.ListaCompletaSolicitudesController = function(
-            $scope,
-            services) {
-
-        this.scope = $scope;
-        this.services = services;
-
-        $scope.tiposEstados = ["En proceso", "Completado"];
-        $scope.tiposSolicitud = services.TipoSolicitud.query();
-        $scope.criteria = {};
-        this.buscar({});
-
-    };
-
-    controllers.ListaCompletaSolicitudesController.prototype = {
-        nuevaSolicitud: function() {
-            this.scope.ons.navigator.pushPage("views/solicitudes/nueva.html");
-        },
-        buscar: function(criteria) {
-            if (criteria.tipo) {
-                criteria.tipoId = criteria.tipo.id;
-            }
-
-            var Solicitud = this.services.Solicitud;
-            this.scope.solicitudes = Solicitud.search(criteria);
-        },
-        verDetalle: function(solicitud) {
-            this.scope.ons.navigator.pushPage("views/solicitudes/detalles.html", {id: solicitud.id});
-        }
-    };
-
-    /**
-     * 
-     * @param {!angular.scope} $scope
      * @param {type} services
      * @param {type} localStorageService
      */
@@ -161,26 +131,52 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
         $scope.solicitud = services.Solicitud.get({solicitudId: solicitudId});
 
+        // obtener los seguidores de esta solicitud y agregarlos al scope
+        $scope.seguidores = services.Solicitud.query({seguidores: true, solicitudId: solicitudId});
+
         this.scope = $scope;
         this.services = services;
     };
 
     controllers.DetallesSolicitudController.prototype = {
-        seguir: function(idSolicitud) {
-            var Social = this.services.Solicitud;
+        seguir: function(solicitud) {
+            var Solicitud = this.services.Solicitud;
             var scope = this.scope;
 
-            Social.seguir({
-                idSolicitud: idSolicitud
+            Solicitud.follow({
+                solicitudId: solicitud.id
             }, angular.bind(this, function(data) {
-                console.log(data);
                 if (data.siguiendo) {
-                    scope.mensaje = "Ahora sigues esta publicación";
+                    alert("Ahora sigues esta solicitud");
+                    // actualiza los seguidores en el scope
+                    scope.seguidores = data.seguidores;
                 } else {
-                    scope.mensaje = "Error";
+                    alert("Ocurrió un error al seguir la solicitud");
                 }
             }));
+        },
+        compartir: function(solicitud) {
+            var url = URL_SERVICE + "/solicitud/" + solicitud.id;
+            console.log(url);
+        },
+        isSeguidor: function() {
+            var ret = false;
+            var scope = this.scope;
+            var token = this.services.Auth.token();
+            
+            if (scope.seguidores.length > 0) {
+                for (var i in scope.seguidores) {
+                    var id = parseInt(scope.seguidores[i].id);
+                    
+                    if (token === id) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+            return ret;
         }
+
     };
 })(nuevebit.inver.controllers);
 

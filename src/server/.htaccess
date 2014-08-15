@@ -33,3 +33,6 @@ RewriteRule ^solicitudes/tipos/?$ solicitud.php?tiposSolicitudes=true [QSA,L]
 RewriteRule ^usuarios/([0-9]+)/?$ usuario.php?idUsuario=$1 [QSA,L]
 RewriteRule ^usuarios/?$ usuario.php [QSA,L]
 
+# RewriteRule para AppLinks
+RewriteRule ^solicitud/([0-9]+)/?$ applinks.php?solicitudId=$1 [QSA,L]
+

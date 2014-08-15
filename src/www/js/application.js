@@ -52,7 +52,7 @@ nuevebit.inver.Application = {
         this._init();
 
         // cordova requiere la variable global 'app', aquí inicializamos
-        if (typeof (app) !== "undefined") {
+        if (typeof app !== "undefined") {
             app.initialize();
         }
     }

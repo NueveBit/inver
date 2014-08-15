@@ -45,6 +45,9 @@ if (isset($_GET["completar"])) {
 
 // $data == solicitud en json, si no tiene id, es nueva solicitud   
     echo json_encode(saveSolicitud($db, $data));
+} elseif (isset($_REQUEST["seguidores"]) && isset($_REQUEST["idSolicitud"])) {
+    $seguidores = getSeguidores($db, $_REQUEST["idSolicitud"]);
+    echo json_encode($seguidores);
 } elseif (isset($_GET["idSolicitud"])) {
     $resultado = getDetalleSolicitud($db, $_GET["idSolicitud"]);
     echo json_encode($resultado);
@@ -77,11 +80,13 @@ if (isset($_GET["completar"])) {
 
     echo json_encode(find($db, $searchCriteria));
 } else if (isset($_REQUEST["seguir"]) && isset($_REQUEST["token"])) {
-    if (isset($_REQUEST["idSolicitud"])) {
-        $resultado = seguirPublicacion($db, $_REQUEST["idSolicitud"], $_REQUEST["token"]);
+    if (isset($data["solicitudId"])) {
+        $solicitudId = filter_var($data["solicitudId"], FILTER_SANITIZE_NUMBER_INT);
+        $token = filter_var($_REQUEST["token"], FILTER_SANITIZE_NUMBER_INT);
+        $resultado = seguirSolicitud($db, $solicitudId, $token);
         echo json_encode($resultado);
     }
-}
+} 
 
 function find($db, $searchCriteria) {
     $sql = "select s.id, t.nombre, s.fechaInicio, s.status from SolicitudInformacion as s, TipoSolicitud as t ";
@@ -225,7 +230,6 @@ function saveSolicitud($db, $solicitud) {
 }
 
 function getDetalleSolicitud($db, $idSolicitud) {
-    $sujetosObligados = array();
     $sql = "select s.id as id, 
 	t.nombre as tipo, 
 	s.tipoGestion as tipoGestion, 
@@ -253,6 +257,21 @@ function getDetalleSolicitud($db, $idSolicitud) {
             "sujetoObligado" => $sujetoObligado);
     }
     return $detalle;
+}
+
+// devuelve una lista de ids de usuarios que siguen la $solicitudId dada
+function getSeguidores($db, $solicitudId) {
+    $sql = "select idUsuario from Seguidor as s where s.idSolicitudInformacion = ?";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("d", $solicitudId);
+    $stmt->execute();
+    $stmt->bind_result($id);
+    $seguidores = array();
+    while ($stmt->fetch()) {
+        $seguidores[] = array("id" => $id);
+    }
+
+    return $seguidores;
 }
 
 function completarSolicitud($db, $folio) {
@@ -283,32 +302,25 @@ function getPropiedad($db, $solicitudId, $token) {
     return $resultado;
 }
 
-function seguirPublicacion($db, $idSolicitud, $token) {
-    $resutado = array();
-    $sql = "select fecha from Seguidor where Seguidor.idSolicitudInformacion=? and Seguidor.idUsuario = ?";
+function seguirSolicitud($db, $idSolicitud, $token) {
+    $sql = "select fecha from Seguidor as s where s.idSolicitudInformacion=? and s.idUsuario = ?";
     $stmt = $db->prepare($sql);
     $stmt->bind_param("dd", $idSolicitud, $token);
     $stmt->execute();
     $stmt->bind_result($fecha);
     $stmt->fetch();
     if (!$fecha) {
-        $resultado["relacion"] = false;
-        $sql = "insert into Seguidor (idSolicitudInformacion, idUsuario, propietario, fecha) values (?, ?, ?, ?)";
+        $sql = "insert into Seguidor (idSolicitudInformacion, idUsuario, propietario, fecha) values (?, ?, 0, NOW())";
         $stmt = $db->prepare($sql);
-        $stmt->bind_param("ddds", $idSolicitud, $token, $propietario, $fecha);
-        $fecha = date('Y-m-j');
-        $propietario = 0;
+        $stmt->bind_param("dd", $idSolicitud, $token);
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
             $idSeguidor = $stmt->insert_id;
             $siguiendo = true; 
         } else {
             $siguiendo = false; 
+            $idSeguidor = -1;
         }
-    } else {
-        $resultado["relacion"] = true;
-    }
-    return array("siguiendo" => $siguiendo, "idSeguidor" => $idSeguidor);
+    } 
+    return array("siguiendo" => $siguiendo, "seguidores" => getSeguidores($db, $idSolicitud));
 }
-
-?>
