@@ -284,13 +284,15 @@ gulp.task("build:cordova", function() {
     cordova.build(device);
 });
 
-gulp.task("emulate", function() {
+gulp.task("emulate", ["build:web"], function() {
     process.env["PWD"] = config.distDir;
+    cordova.prepare();
     cordova.emulate(device);
 });
 
-gulp.task("run", function() {
+gulp.task("run", ["build:web"], function() {
     process.env["PWD"] = config.distDir;
+    cordova.prepare();
     cordova.run(device);
 });
 
