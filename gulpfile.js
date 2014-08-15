@@ -136,8 +136,8 @@ gulp.task("copy:web-resources", ["build:scripts", "build:style"],
                     // copia recursos estáticos
                     gulp.src("**", {cwd: "src/www/img/"})
                     .pipe(gulp.dest("dist/www/img/")),
-                    gulp.src("**", {cwd: "src/www/img/"})
-                    .pipe(gulp.dest("dist/img/")),
+                    gulp.src("**", {cwd: "src/www/res/"})
+                    .pipe(gulp.dest("dist/www/res/")),
                     // angular templates
                     gulp.src("**", {cwd: "src/www/views"})
                     .pipe(gulp.dest("dist/www/views")),
@@ -154,7 +154,7 @@ gulp.task("copy:web-resources", ["build:scripts", "build:style"],
         });
 
 gulp.task("copy:cordova-resources", [
-    "copy:cordova-platforms"
+    "copy:cordova-config"
 ], function(cb) {
     process.env["PWD"] = config.distDir;
     cordova.raw.platform("add", config.supportedPlatforms).then(function() {
@@ -184,7 +184,7 @@ gulp.task("copy:cordova-plugins", ["build:structure"], function() {
     // agrega los plugins en dist también
 });
 
-gulp.task("copy:cordova-platforms", ["build:structure", "copy:web-resources"], function() {
+gulp.task("copy:cordova-config", ["build:structure", "copy:web-resources"], function() {
     /*
      return gulp.src("**", {cwd: "src/platforms"})
      .pipe(gulp.dest("dist/platforms"));
@@ -213,7 +213,7 @@ gulp.task("build:scripts", function() {
 gulp.task("build:style", ["build:less"], function() {
     gulp.src(CSS_SOURCES)
             .pipe(concat("inver.css"))
-            .pipe(minifycss())
+            //.pipe(minifycss())
             .pipe(gulp.dest("dist/www/css"));
 });
 
@@ -284,13 +284,13 @@ gulp.task("build:cordova", function() {
     cordova.build(device);
 });
 
-gulp.task("emulate", ["build:web"], function() {
+gulp.task("emulate", ["copy:cordova-config", "build:web"], function() {
     process.env["PWD"] = config.distDir;
     cordova.prepare();
     cordova.emulate(device);
 });
 
-gulp.task("run", ["build:web"], function() {
+gulp.task("run", ["copy:cordova-config", "build:web"], function() {
     process.env["PWD"] = config.distDir;
     cordova.prepare();
     cordova.run(device);
