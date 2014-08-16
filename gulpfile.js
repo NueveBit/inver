@@ -166,24 +166,6 @@ gulp.task("copy:cordova-resources", [
     });
 });
 
-// Aquí se definen la tareas que se deben llevar a cabo para copiar los plugins 
-// a dist.
-gulp.task("copy:cordova-plugins", ["build:structure"], function() {
-    /*
-     return es.merge(
-     // copia todos los plugins a dist/
-     gulp.src("**", {cwd: "src/plugins"})
-     .pipe(gulp.dest("dist/plugins")),
-     // PushNotification plugin
-     gulp.src("PushNotification.js",
-     {cwd: "src/plugins/com.phonegap.plugins.PushPlugin/www"})
-     .pipe(gulp.dest("dist/www/js"))
-     );
-     */
-
-    // agrega los plugins en dist también
-});
-
 gulp.task("copy:cordova-config", ["build:structure", "copy:web-resources"], function() {
     /*
      return gulp.src("**", {cwd: "src/platforms"})
