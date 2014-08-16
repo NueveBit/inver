@@ -2,8 +2,8 @@
 
 return mysqli_connect(
         "localhost", 
-        "user", 
-        "password", 
+        "blanca", 
+        "blanca123", 
         "inver");
 
 ?>

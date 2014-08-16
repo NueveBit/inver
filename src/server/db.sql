@@ -92,13 +92,10 @@ CREATE TABLE `SolicitudInformacion` (
   `fechaLimite` date NOT NULL,
   `fechaCompletado` date DEFAULT NULL,
   `idSujetoObligado` bigint(20) NOT NULL,
-  `idUsuario` bigint(20) NOT NULL,
   `tipoId` smallint(6) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_SolicitudInformacion_idSujetoObligado` (`idSujetoObligado`),
-  KEY `fk_SolicitudInformacion_idUsuario` (`idUsuario`),
-  CONSTRAINT `fk_SolicitudInformacion_idSujetoObligado` FOREIGN KEY (`idSujetoObligado`) REFERENCES `SujetoObligado` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_SolicitudInformacion_idUsuario` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario` (`id`) ON DELETE CASCADE
+  CONSTRAINT `fk_SolicitudInformacion_idSujetoObligado` FOREIGN KEY (`idSujetoObligado`) REFERENCES `SujetoObligado` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -108,7 +105,7 @@ CREATE TABLE `SolicitudInformacion` (
 
 LOCK TABLES `SolicitudInformacion` WRITE;
 /*!40000 ALTER TABLE `SolicitudInformacion` DISABLE KEYS */;
-INSERT INTO `SolicitudInformacion` VALUES (1,'Información Pública',NULL,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et condimentum leo. Pellentesque faucibus sem sit amet porta pellentesque. Fusce dolor orci, ullamcorper non pulvinar ullamcorper, porta vitae nulla. Integer sed ligula tellus. Morbi vitae pellentesque leo. Mauris sit amet interdum nisi. Nam et facilisis ipsum. Sed molestie est lacinia orci malesuada commodo. Quisque consectetur felis et urna vulputate, et laoreet nulla sodales. Aenean blandit iaculis volutpat. Mauris luctus neque vitae mi egestas tempus. Aenean erat quam, vehicula id tincidunt eget, semper id ante. Pellentesque fringilla ultricies quam, ac tempor ante sodales a. ','En proceso','Consulta vía Infomex - Sin costo','2014-04-24',NULL,'2014-05-04',NULL,1,1,1),(2,'Datos Personales','Actualización','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et condimentum leo. Pellentesque faucibus sem sit amet porta pellentesque. Fusce dolor orci, ullamcorper non pulvinar ullamcorper, porta vitae nulla. Integer sed ligula tellus. Morbi vitae pellentesque leo. Mauris sit amet interdum nisi. Nam et facilisis ipsum. Sed molestie est lacinia orci malesuada commodo. Quisque consectetur felis et urna vulputate, et laoreet nulla sodales. Aenean blandit iaculis volutpat. Mauris luctus neque vitae mi egestas tempus. Aenean erat quam, vehicula id tincidunt eget, semper id ante. Pellentesque fringilla ultricies quam, ac tempor ante sodales a. ','Completado','Consulta física o directamente - Sin costo','2014-04-14',NULL,'2014-04-24','2014-04-21',92,1,2),(7,'','Rectificación','adf','En proceso','Consulta física o directamente - Sin costo','2014-04-30',NULL,'2014-05-10',NULL,153,1,2),(8,'',NULL,'adsffd','En proceso','Copia certificada - Con costo','2014-04-30',NULL,'2014-05-10',NULL,153,1,1),(9,'','Actualización','adfs','Completado','dfsadf','2014-04-30',NULL,'2014-05-10','2014-04-30',153,1,2);
+INSERT INTO `SolicitudInformacion` VALUES (1,'Información Pública',NULL,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et condimentum leo. Pellentesque faucibus sem sit amet porta pellentesque. Fusce dolor orci, ullamcorper non pulvinar ullamcorper, porta vitae nulla. Integer sed ligula tellus. Morbi vitae pellentesque leo. Mauris sit amet interdum nisi. Nam et facilisis ipsum. Sed molestie est lacinia orci malesuada commodo. Quisque consectetur felis et urna vulputate, et laoreet nulla sodales. Aenean blandit iaculis volutpat. Mauris luctus neque vitae mi egestas tempus. Aenean erat quam, vehicula id tincidunt eget, semper id ante. Pellentesque fringilla ultricies quam, ac tempor ante sodales a. ','En proceso','Consulta vía Infomex - Sin costo','2014-04-24',NULL,'2014-05-04',NULL,1,1),(2,'Datos Personales','Actualización','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et condimentum leo. Pellentesque faucibus sem sit amet porta pellentesque. Fusce dolor orci, ullamcorper non pulvinar ullamcorper, porta vitae nulla. Integer sed ligula tellus. Morbi vitae pellentesque leo. Mauris sit amet interdum nisi. Nam et facilisis ipsum. Sed molestie est lacinia orci malesuada commodo. Quisque consectetur felis et urna vulputate, et laoreet nulla sodales. Aenean blandit iaculis volutpat. Mauris luctus neque vitae mi egestas tempus. Aenean erat quam, vehicula id tincidunt eget, semper id ante. Pellentesque fringilla ultricies quam, ac tempor ante sodales a. ','Completado','Consulta física o directamente - Sin costo','2014-04-14',NULL,'2014-04-24','2014-04-21',92,2),(7,'','Rectificación','adf','En proceso','Consulta física o directamente - Sin costo','2014-04-30',NULL,'2014-05-10',NULL,153,2),(8,'',NULL,'adsffd','En proceso','Copia certificada - Con costo','2014-04-30',NULL,'2014-05-10',NULL,153,1),(9,'','Actualización','adfs','Completado','dfsadf','2014-04-30',NULL,'2014-05-10','2014-04-30',153,2);
 /*!40000 ALTER TABLE `SolicitudInformacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,6 +277,27 @@ LOCK TABLES `Usuario` WRITE;
 INSERT INTO `Usuario` VALUES (1,'sagiblank','jbna','¿Nombre de mi mascota?','Loky1','Física','Blanca','Díaz','Contreras','1990-09-16','sagiblank@gmail.com','Veracruz','Xalapa','91119','La Lagunilla','Priv. Unión','111',NULL,'2288249356',NULL);
 /*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `Seguidor`
+--
+DROP TABLE IF EXISTS `Seguidor`;
+
+create table Seguidor (
+    id smallint not null auto_increment,
+    idSolicitudInformacion bigint(20) not null,
+    idUsuario bigint(20) not null,
+    propietario boolean not null,
+    fecha date null,
+    
+    constraint fk_Seguidor_idSolicitudInformacion foreign key (idSolicitudInformacion)
+        references SolicitudInformacion(id)
+        ON DELETE CASCADE,
+    constraint fk_Seguidor_idUsuario foreign key (idUsuario)
+        references Usuario(id)
+        ON DELETE CASCADE,
+    primary key(id)
+) engine=INNODB collate utf8_unicode_ci;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

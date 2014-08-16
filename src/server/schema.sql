@@ -90,18 +90,13 @@ create table SolicitudInformacion(
     fechaNotificacion date null,
     fechaLimite date not null,
     idSujetoObligado bigint(20) not null,
-    idUsuario bigint(20) not null,
 
     constraint fk_SolicitudInformacion_idSujetoObligado foreign key (idSujetoObligado)
         references SujetoObligado(id)
         ON DELETE CASCADE,
-    constraint fk_SolicitudInformacion_idUsuario foreign key (idUsuario)
-        references Usuario(id)
-        ON DELETE CASCADE,
-
     constraint fk_SolicitudInformacion_tipoId foreign key (tipoId)
         references TipoSolicitud(id)
-        on delete cascade;
+        on delete cascade,
     primary key(id)
 ) engine=INNODB collate utf8_unicode_ci;
 
@@ -119,5 +114,21 @@ create table RecursoRevision(
 create table TipoIndicador (
     id smallint not null,
     nombre varchar(255) not null,
+    primary key(id)
+) engine=INNODB collate utf8_unicode_ci;
+
+create table Seguidor (
+    id smallint not null auto_increment,
+    idSolicitudInformacion bigint(20) not null,
+    idUsuario bigint(20) not null,
+    propietario boolean not null,
+    fecha date null,
+    
+    constraint fk_Seguidor_idSolicitudInformacion foreign key (idSolicitudInformacion)
+        references SolicitudInformacion(id)
+        ON DELETE CASCADE,
+    constraint fk_Seguidor_idUsuario foreign key (idUsuario)
+        references Usuario(id)
+        ON DELETE CASCADE,
     primary key(id)
 ) engine=INNODB collate utf8_unicode_ci;
