@@ -40,7 +40,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
         $scope.tiposGestion = [];
         $scope.sujetosObligados = [];
-    }
+    };
 
     controllers.SolicitudInformacionController.prototype = {
         tipoSujetoChanged: function(tipoSujeto) {
@@ -90,8 +90,13 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         $scope.tiposEstados = ["En proceso", "Completado"];
         $scope.tiposSolicitud = services.TipoSolicitud.query();
 
-        $scope.criteria = {usuarioId: token};
-        this.buscar({usuarioId: token});
+        $scope.criteria = {};
+        var options = services.global.options;
+        if (options && !options.global) {
+            $scope.criteria.usuarioId = token;
+        }
+
+        this.buscar($scope.criteria);
     };
 
     controllers.ListaSolicitudesController.prototype = {
@@ -111,6 +116,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         }
     };
 
+
     /**
      * 
      * @param {!angular.scope} $scope
@@ -124,8 +130,72 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
         var solicitudId = $scope.ons.navigator.getCurrentPage().options.id;
 
         $scope.solicitud = services.Solicitud.get({solicitudId: solicitudId});
+
+        // obtener los seguidores de esta solicitud y agregarlos al scope
+        $scope.seguidores = services.Solicitud.query({seguidores: true, solicitudId: solicitudId});
+
+        this.scope = $scope;
+        this.services = services;
     };
 
     controllers.DetallesSolicitudController.prototype = {
+        seguir: function(solicitud) {
+            var Solicitud = this.services.Solicitud;
+            var scope = this.scope;
+
+            Solicitud.follow({
+                solicitudId: solicitud.id
+            }, angular.bind(this, function(data) {
+                if (data.siguiendo) {
+                    alert("Ahora sigues esta solicitud");
+                    // actualiza los seguidores en el scope
+                    scope.seguidores = data.seguidores;
+                } else {
+                    alert("Ocurrió un error al seguir la solicitud");
+                }
+            }));
+        },
+        isSeguidor: function() {
+            var ret = false;
+            var scope = this.scope;
+            var token = this.services.Auth.token();
+            
+            if (scope.seguidores.length > 0) {
+                for (var i in scope.seguidores) {
+                    var id = parseInt(scope.seguidores[i].id);
+                    
+                    if (token === id) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+            return ret;
+        },
+        /**
+         * Comparte una solicitud de información, para que otros puedan
+         * seguirla también.
+         * 
+         * La URL que se comparte apunta a un recurso HTML que implementa
+         * AppLinks, por lo que cualquier aplicación que soporte esta 
+         * funcionalidad, podrá acceder a la solicitud directamente desde
+         * la aplicación de inVer. En caso que el usuario no la tenga 
+         * instalada en su dispositivo, será enviado al iStore o Play Store
+         * para descargarla.
+         * 
+         * http://www.applinks.org
+         * 
+         * @param {type} solicitud
+         * @returns {undefined}
+         */
+        compartir: function(solicitud) {
+            var url = URL_SERVICE + "/solicitud/" + solicitud.id;
+            var mensaje = "Sigue y comparte mi solicitud de información";
+
+            // abrir diálogo del sistema para compartir el applink
+            window.plugins.socialsharing.share(mensaje, null, null, url);
+        }
+
     };
 })(nuevebit.inver.controllers);
+

@@ -8,6 +8,7 @@
     "bower_components/raphael/raphael-min.js",
     "js/vendor/g.raphael-master/min/g.raphael-min.js",
     "js/vendor/g.raphael-master/min/g.pie-min.js",
+    "js/controllers/main.js",
     "js/application.js",
     "js/services.js",
     "js/controllers/login.js",

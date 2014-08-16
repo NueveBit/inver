@@ -52,7 +52,7 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
                 password: usuario.password
             }, angular.bind(this, function(data) {
                 if (data.loggedIn) {
-                    this.localStorageService.add("token", data.token);
+                    this.localStorageService.set("token", data.token);
                     this.location.path("/contenedor");
                     //scope.ons.navigator.resetToPage('views/contenedor.html');
                 } else {

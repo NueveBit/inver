@@ -21,14 +21,18 @@ nuevebit.inver = nuevebit.inver || {};
 nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
 (function(controllers) {
-    controllers.MenuController = function($scope) {
+    controllers.MenuController = function($scope, $location, services) {
         this.scope = $scope;
+        this.services = services;
+        this.location = $location;
         
         $scope.pages = [
             {nombre: "Perfil", url: "views/perfil.html", "icon": "gear", "isSelected": ""},
-            {nombre: "Solicitudes de información", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": ""},
-            {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""}
-        ]
+            {nombre: "Mis solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": "", options: {global: false}},
+            {nombre: "Estadísticas", url: "views/estadisticas.html", "icon": "book", "isSelected": ""},
+            {nombre: "Buscar solicitudes", url: "views/listaSolicitudes.html", "icon": "bars", "isSelected": "", options: {global: true}},
+            {nombre: "Cerrar sesión", action: "logout", "icon": "power-off", "isSelected": ""}
+        ];
 
         $scope.selectedIndex = -1;
     };
@@ -39,7 +43,20 @@ nuevebit.inver.controllers = nuevebit.inver.controllers || {};
 
             var page = this.scope.pages[index];
             this.scope.ons.splitView.toggle()
-            this.scope.ons.splitView.setMainPage(page.url);
+            
+            // maneja logout
+            if (page.url) {
+                if (page.options) {
+                    this.services.global.options = page.options;
+                } else {
+                    this.services.global.options = {};
+                }
+                
+                this.scope.ons.splitView.setMainPage(page.url);
+            } else if (page.action && page.action === "logout") {
+                this.services.Auth.logout();
+                this.location.path("/login");
+            }
         }
     };
 })(nuevebit.inver.controllers);

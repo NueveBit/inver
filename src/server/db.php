@@ -3,7 +3,7 @@
 return mysqli_connect(
         "localhost", 
         "user", 
-        "password", 
+        "pass", 
         "inver");
 
 ?>

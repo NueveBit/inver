@@ -6,7 +6,7 @@
         <p>Folio: {{ solicitud.id}}</p>
         <p>Tipo: {{solicitud.tipo}}</p> 
         <p ng-show="solicitud.tipoGestion">TipoGestion: {{solicitud.tipoGestion}}</p>
-        <p>SujetoObligado: {{solicitud.sujetoObligado}}</p>
+        <p>Sujeto obligado: {{solicitud.sujetoObligado}}</p>
         <p>Descripcion: {{solicitud.descripcion}}</p>
         <p>Estado: {{solicitud.estado}}</p>
         <p>Forma de Notificación: {{solicitud.formaNotificacion}}</p>
@@ -14,5 +14,12 @@
         <p>Fecha límite: {{solicitud.fechaLimite}}</p>
         <p>Fecha notificación: {{solicitud.fechaNotificacionn}}</p>
         <p>Fecha completado: {{solicitud.fechaCompletado}}</p>
+        <div >
+            <ons-button type="submit" class="" ng-click="controller.seguir(solicitud)" disabled="{{controller.isSeguidor()}}">Seguir</ons-button>
+            <ons-button type="submit" class="" ng-click="controller.compartir(solicitud)" disabled="{{!controller.isSeguidor()}}">Compartir</ons-button>
     </div>
+    </div>    
+    <!--div>
+        <ons-button type="submit" disabled="" class="">Compartir en facebook</ons-button>
+    </div-->
 </ons-scroller>

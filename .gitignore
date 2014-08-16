@@ -18,5 +18,5 @@ src/www/css/main.css
 # log files
 *.log
 
-# configuración de netbeans privada
-/nbproject/private/
+# configuración de netbeans 
+/nbproject/

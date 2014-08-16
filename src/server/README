@@ -38,6 +38,10 @@ Apache Web Server que apunte a este directorio. Ejemplo de VirtualHost:
 Después de configurar el VirtualHost, agregar el dominio "inver.inet"
 al archivo hosts del sistema (e.g. /etc/hosts).
 
+En caso que sólo se quiera probar la app móvil, esta implementación está
+hospedada en nuestro servidor en la dirección http://inver.nuevebit.com (el
+APK actual está configurado para utilizar este dominio).
+
 La configuración anterior es necesaria para que pueda utilizarse la API REST
 adecuadamente, ya que es necesario mod_rewrite para utilizar "pretty urls",
 además de eliminar la dependencia a PHP, ya que así se puede utilizar con
@@ -50,4 +54,5 @@ de SQL, pero no se sanitizan ni realizan muchas validaciones sobre los datos
 recibidos. En una implementación real, esto debe ser tomado en cuenta. Además,
 la estructura actual del código de la implementación no es la adecuada, se optó
 por utilizar la API de mysqli en lugar de una abstracción como PDO por simplicidad,
-pero esto debería cambiarse para organizar mejor el código.
+pero esto debería cambiarse para organizar mejor el código (recomendaríamos
+utlizar la plataforma Java para toda la funcionalidad del lado del servidor).

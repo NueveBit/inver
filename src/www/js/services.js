@@ -35,8 +35,18 @@ inverServices.factory("services", [
         var postHeaders = {
             "Content-Type": "application/x-www-form-urlencoded"
         };
+        var getToken = function() {
+            return localStorageService.get("token");
+        };
 
         return {
+            /**
+             * Utilizado para almacenar información global (e.g. entre páginas).
+             * La versión actual de onsen ui (1.1.1) ya soporta paso de opciones
+             * con SplitView, pero la versión actual que utilizamos (1.0.4)
+             * aún no lo implementa.
+             */
+            global: {},
             /**
              * Servicio para tipos de sujetos obligados.
              */
@@ -62,8 +72,10 @@ inverServices.factory("services", [
              */
             Solicitud: $resource(URL_SERVICE + "/solicitudes/:solicitudId", {}, {
                 search: {method: "GET", params: {search: true}, isArray: true},
-                save: {method: "POST", headers: postHeaders, params: {token: localStorageService.get("token"), save: true}}
+                save: {method: "POST", headers: postHeaders, params: {token:getToken, save: true}},
+                follow: {method: "POST", headers: postHeaders, params: {seguir: true, token:getToken}}
             }),
+
             /**
              * Servicio para usuarios del inVer.
              */
@@ -77,7 +89,15 @@ inverServices.factory("services", [
             AuthManager: $resource(URL_SERVICE + "/login", {}, {
                 login: {method: "POST", params: {login: true}, headers: postHeaders},
                 logout: {method: "POST", params: {logout: true}, headers: postHeaders}
-            })
+            }),
+            Auth: {
+                token: function() {
+                    return parseInt(localStorageService.get("token"));
+                },
+                logout: function() {
+                    localStorageService.remove("token");
+                }
+            }
         };
     }
 ]);
