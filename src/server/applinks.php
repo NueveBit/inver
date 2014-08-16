@@ -18,18 +18,16 @@ $stmt->fetch();
 ?>
 <html>
     <head>
-        <title>Solicitud</title>
+        <title>Solicitud de información : INVER</title>
         <!-- applinks begin -->
         <meta property="al:android:url" content="inver://solicitud=<?= $solicitudId ?>"/>
         <meta property="al:android:app_name" content="inVer"/>
         <meta property="al:android:package" content="com.nuevebit.inver"/>
         <meta property="al:web:should_fallback" content="false" />
         <!-- applinks end -->
-
+        
+        <link rel="image_src" href="/img/inver.png" />
         <!-- fb og begin -->
-        <meta property="og:title" content="Solicitud de información : INVER" />
-        <meta property="og:image" content="/img/inver.png" />
-        <meta property="og:locale" content="es_MX" />
         <meta property="og:description" content="<?= $descripcion; ?>" />
         <!-- fb og end -->
     </head>
