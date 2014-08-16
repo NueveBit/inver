@@ -35,6 +35,6 @@ $stmt->fetch();
     </head>
     <body>
         Para ver esta solicitud, necesitas descargar la aplicación inVer en
-        tu dispositivo móvil. Descárgalo.
+        tu dispositivo móvil. <a href="http://www.nuevebit.com/inver.apk">Descárgalo aquí</a>.
     </body>
 </html>

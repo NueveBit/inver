@@ -5,7 +5,7 @@ Esta aplicación ha sido desarrollada para el concurso TecnoCopa IVAI 2014.
 
 Dependencias del sistema necesarias para el proyecto:
 
-    * Apache Cordova 3.4+: https://cordova.apache.org/ 
+    * Apache Cordova 3.5+: https://cordova.apache.org/ 
 
     * Android SDK: http://developer.android.com/sdk/index.html
 
@@ -21,23 +21,24 @@ de ejecutarse, ejecuta automáticamente 'bower install'):
 
     npm install
 
-Una vez que se tengan las dependencias instaladas, es necesario
-ejecutar el siguiente comando UNA ÚNICA VEZ para instalar las plataformas
-y plugins de cordova que declaremos en gulpfile.js (también creará el archivo
-index.html para desarrollo):
-
-    gulp init
-
 Para construir el proyecto y generar los paquetes para las plataformas soportadas,
 ejecutar el siguiente comando:
 
     gulp build
 
 
+SÓLO PARA DESARROLLADORES
 Si se necesita una nueva dependencia js front-end, utilizar el siguiente comando:
 
     bower -S install <nombre-paquete>
     
 Una vez agregada, es necesario agregar la ruta en src/www/js/scripts.json.
 
-Para más información sobre las tareas disponibles, ver el archivo gulpfile.js.
+Los desarrolladores que quieran trabajar en el proyecto
+inVer, deben ejecutar este comando UNA ÚNICA VEZ al clonar el repositorio, 
+con lo que se creará el archivo "index.html" para desarrollo:
+
+    gulp init
+
+Para más información sobre las tareas disponibles para desarrolladores, ver el 
+archivo gulpfile.js.
