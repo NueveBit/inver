@@ -1,7 +1,7 @@
 {
   "name": "inver",
   "description": "inVer: Aplicación desarrollada para el concurso TenoCopa IVAI 2014",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "devDependencies": {
     "connect-livereload": "^0.4.0",
     "cordova": "^3.5.0-0.2.7",
