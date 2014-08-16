@@ -28,7 +28,7 @@ $stmt->fetch();
 
         <!-- fb og begin -->
         <meta property="og:title" content="Solicitud de información : INVER" />
-        <meta property="og:image" content="img/INVER2.png" />
+        <meta property="og:image" content="/img/inver.png" />
         <meta property="og:locale" content="es_MX" />
         <meta property="og:description" content="<?= $descripcion; ?>" />
         <!-- fb og end -->
